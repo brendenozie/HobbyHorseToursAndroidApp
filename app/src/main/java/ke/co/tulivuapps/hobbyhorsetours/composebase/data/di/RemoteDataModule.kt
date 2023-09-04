@@ -42,7 +42,7 @@ object RemoteDataModule {
     }
 
     @Provides
-    fun provideHobbyHorseToursApiUrl(): String = Constants.BASE_URL
+    fun provideHobbyHorseToursApiUrl(): String = Constants.BASE_TEST_URL
 
     @Provides
     @Singleton

@@ -5,12 +5,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.CharacterDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.Constants
-import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.usecase.characters.GetCharactersFilterUseCase
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.usecase.favorite.UpdateFavoriteUseCase
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.viewstate.search.SearchViewState
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.usecase.characters.GetCharactersFilterUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject

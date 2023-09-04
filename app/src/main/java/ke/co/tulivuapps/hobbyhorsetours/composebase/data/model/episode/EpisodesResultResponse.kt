@@ -1,4 +1,4 @@
-package ke.co.tulivuapps.hobbyhorsetours.composebase.data.model
+package ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.episode
 
 import android.os.Parcelable
 import com.google.gson.Gson

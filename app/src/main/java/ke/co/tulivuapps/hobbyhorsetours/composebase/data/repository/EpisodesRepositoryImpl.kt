@@ -1,6 +1,6 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.data.repository
 
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.EpisodesResponse
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.episode.EpisodesResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.source.EpisodesRemoteDataSource
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.DataState
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository.EpisodesRepository

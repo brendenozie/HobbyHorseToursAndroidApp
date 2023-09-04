@@ -1,6 +1,7 @@
-package ke.co.tulivuapps.hobbyhorsetours.composebase.data.model
+package ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.episode
 
 import android.os.Parcelable
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.InfoResponse
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

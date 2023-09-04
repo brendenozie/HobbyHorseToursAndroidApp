@@ -1,6 +1,6 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.api
 
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.EpisodesResponse
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.episode.EpisodesResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.Constants
 import retrofit2.Response
 import retrofit2.http.GET

@@ -20,9 +20,9 @@ import androidx.navigation.navOptions
 import androidx.tracing.trace
 import ke.co.tulivuapps.hobbyhorsetours.composebase.R
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.navigation.BottomNav
-import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.characters.navigation.navigateCharacter
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.episodes.navigation.navigateToEpisodes
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.favorites.navigation.navigateToFavorites
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.home.navigation.navigateToHome
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.search.navigation.navigateToSearch
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.settings.navigation.navigateToSettings
 
@@ -102,7 +102,7 @@ fun navigateToBottomNavDestination(bottomNav: BottomNav, navController: NavContr
         }
 
         when (bottomNav) {
-            BottomNav.CHARACTERS -> navController.navigateCharacter(bottomNavOptions)
+            BottomNav.HOME -> navController.navigateToHome(bottomNavOptions)
             BottomNav.EPISODES -> navController.navigateToEpisodes(bottomNavOptions)
             BottomNav.FAVORITES -> navController.navigateToFavorites(bottomNavOptions)
             BottomNav.SEARCH -> navController.navigateToSearch(bottomNavOptions)

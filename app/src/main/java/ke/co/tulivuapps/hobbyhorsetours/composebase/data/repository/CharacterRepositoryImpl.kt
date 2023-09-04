@@ -1,8 +1,8 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.data.repository
 
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.FavoriteDao
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.CharacterInfoResponse
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.CharacterResponse
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.character.CharacterInfoResponse
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.character.CharacterResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.FavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.source.CharacterRemoteDataSource
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.DataState

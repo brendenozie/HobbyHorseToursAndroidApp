@@ -7,6 +7,8 @@ import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.CharacterDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.base.BaseUseCase
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.base.IParams
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository.CharacterRepository
+import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.usecase.hotels.GetHotelsUseCase
+import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.usecase.hotels.HotelPagingSource
 import kotlinx.coroutines.flow.Flow
 
 /**

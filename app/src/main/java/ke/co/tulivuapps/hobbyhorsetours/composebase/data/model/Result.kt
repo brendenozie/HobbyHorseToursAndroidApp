@@ -6,19 +6,22 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Result(
-    val created: String,
-    val episode: List<String>,
-    val gender: String,
-    val id: Int,
-    val image: String,
-    val location: LocationResponse,
-    val name: String,
-    val origin: OriginResponse,
-    val species: String,
-    val status: Status?,
-    val type: String,
-    val url: String
-) : Parcelable {
+    val localId: Int? =0,
+    val id: String,
+    val title: String,
+    val description: String,
+    val star: String,
+    val lat: String,
+    val location: String,
+    val long: String,
+    val price: String,
+    val offer: String,
+    val offerPrice: String,
+    val userEmail: String,
+    val cityId: String,
+    val createdAt: String,
+    val img: String
+    ) : Parcelable {
 
     companion object {
         fun create(jsonString: String): Result? {

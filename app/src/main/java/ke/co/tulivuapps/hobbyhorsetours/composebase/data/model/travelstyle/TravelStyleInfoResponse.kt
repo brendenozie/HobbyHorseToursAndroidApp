@@ -1,12 +1,14 @@
-package ke.co.tulivuapps.hobbyhorsetours.composebase.data.model
+package ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.travelstyle
 
-import androidx.compose.runtime.Stable
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.LocationResponse
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.OriginResponse
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Status
 
 /**
  * Created by brendenozie on 12.03.2023
  */
 
-data class CharacterInfoResponse(
+data class TravelStyleInfoResponse(
     val created: String?,
     val episode: List<String>?,
     val gender: String?,

@@ -8,27 +8,32 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.composable
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.CharacterDto
-import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.characters.CharactersScreen
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.DestinationDto
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.HotelDto
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.home.HomeScreen
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.home.navigation.homeNavigationRoute
 
 /**
  * Created by brendenozie on 23.01.2023
  */
 
-const val charactersNavigationRoute = "characters_route"
+const val homesNavigationRoute = "homes_route"
 
-fun NavController.navigateCharacter(
+fun NavController.navigateHome(
     navOptions: NavOptions? = null
 ) {
-    this.navigate(charactersNavigationRoute, navOptions)
+    this.navigate(homesNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.charactersScreen(navigateToDetail: (CharacterDto?) -> Unit) {
-    composable(charactersNavigationRoute) {
-        CharactersScreen(
+fun NavGraphBuilder.charactersScreen(navigateToDestination: (DestinationDto?)->Unit, navigateToHotel: (HotelDto?)->Unit) {
+    composable(homeNavigationRoute) {
+        HomeScreen(
             hiltViewModel(),
-            navigateToDetail = {
-                navigateToDetail.invoke(it)
+            navigateToDestination = {
+                navigateToDestination.invoke(it)
+            },
+            navigateToHotel = {
+                navigateToHotel.invoke(it)
             }
         )
     }

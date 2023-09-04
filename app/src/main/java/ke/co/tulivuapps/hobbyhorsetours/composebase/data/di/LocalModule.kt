@@ -10,6 +10,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.DestinationDao
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.HotelDao
 import javax.inject.Singleton
 
 /**
@@ -32,5 +34,17 @@ class LocalModule {
     @Singleton
     fun provideFavoriteDao(appDatabase: HobbyHorseToursDatabase): FavoriteDao {
         return appDatabase.favoriteDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHotelDao(appDatabase: HobbyHorseToursDatabase): HotelDao {
+        return appDatabase.hotelDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDestinationDao(appDatabase: HobbyHorseToursDatabase): DestinationDao {
+        return appDatabase.destinationDao()
     }
 }

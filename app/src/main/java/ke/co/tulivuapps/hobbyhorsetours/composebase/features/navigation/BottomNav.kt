@@ -3,7 +3,7 @@ package ke.co.tulivuapps.hobbyhorsetours.composebase.features.navigation
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import ke.co.tulivuapps.hobbyhorsetours.composebase.R
-import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.characters.navigation.charactersNavigationRoute
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.home.navigation.homeNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.episodes.navigation.episodesNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.favorites.navigation.favoritesNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.search.navigation.searchNavigationRoute
@@ -18,10 +18,10 @@ enum class BottomNav(
     @DrawableRes val iconId: Int,
     @StringRes val titleTextId: Int
 ) {
-    CHARACTERS(
-        charactersNavigationRoute,
+    HOME(
+        homeNavigationRoute,
         R.drawable.ic_outline_people,
-        R.string.characters_screen_title,
+        R.string.home_screen_title,
     ),
     EPISODES(
         episodesNavigationRoute,

@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">composebase</string>
+    <string name="app_name">HobbyHorseTours</string>
 
+    <string name="home_screen_title">Home</string>
     <string name="characters_screen_title">Characters</string>
     <string name="character_detail_screen_title">Detail</string>
     <string name="character_detail_card_name">Name</string>

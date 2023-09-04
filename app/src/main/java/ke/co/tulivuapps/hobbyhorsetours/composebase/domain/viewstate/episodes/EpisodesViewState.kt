@@ -1,7 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.domain.viewstate.episodes
 
 import androidx.compose.runtime.Stable
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.EpisodesResultResponse
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.episode.EpisodesResultResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.viewstate.IViewState
 
 /**

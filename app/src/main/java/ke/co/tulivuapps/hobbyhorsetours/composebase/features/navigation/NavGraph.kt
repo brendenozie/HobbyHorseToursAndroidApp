@@ -9,15 +9,18 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.HotelDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.component.HobbyHorseToursBottomAppBar
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.component.HobbyHorseToursFloatingActionBar
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.component.HobbyHorseToursScaffold
-import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.characters.navigation.charactersNavigationRoute
-import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.characters.navigation.charactersScreen
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.characters.navigation.homesNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.charactersdetail.navigation.charactersDetailScreen
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.charactersdetail.navigation.navigateCharactersDetail
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.destinationsdetail.navigation.navigateDestinationsDetail
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.episodes.navigation.episodesScreen
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.favorites.navigation.favoritesScreen
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.home.navigation.homesScreen
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.hotelsdetail.navigation.navigateHotelsDetail
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.search.navigation.searchScreen
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.settings.navigation.settingsScreen
 import ke.co.tulivuapps.hobbyhorsetours.composebase.utils.Utility.toJson
@@ -59,10 +62,10 @@ fun NavGraph() {
     ) { innerPadding ->
         AnimatedNavHost(
             navController = navController,
-            startDestination = charactersNavigationRoute,
+            startDestination = homesNavigationRoute,
             Modifier.padding(innerPadding)
         ) {
-            charactersScreen { navController.navigateCharactersDetail(it.toJson()) }
+            homesScreen(navController)
             charactersDetailScreen { navController.navigateUp() }
             episodesScreen()
             searchScreen { navController.navigateCharactersDetail(it.toJson()) }
@@ -71,3 +74,5 @@ fun NavGraph() {
         }
     }
 }
+
+

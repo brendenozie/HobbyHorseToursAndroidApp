@@ -16,8 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.component.*
 import ke.co.tulivuapps.hobbyhorsetours.composebase.R
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.EpisodesResultResponse
-import kotlinx.coroutines.flow.collect
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.episode.EpisodesResultResponse
 import kotlinx.coroutines.launch
 
 /**

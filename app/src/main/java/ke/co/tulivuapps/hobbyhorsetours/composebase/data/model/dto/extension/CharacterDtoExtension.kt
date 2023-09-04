@@ -2,13 +2,96 @@ package ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.extension
 
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.*
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.CharacterDto
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.DestinationDto
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.HotelDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.LocationDto
 
 /**
  * Created by brendenozie on 27.03.2023
  */
 
-fun Result.toCharacterDto() = CharacterDto(
+fun ResultHotel.toHotelDto() = HotelDto(
+    localId,
+    id,
+    title,
+    description,
+    star,
+    lat,
+    location,
+    long,
+    price,
+    offer,
+    offerPrice,
+    userEmail,
+    cityId,
+    createdAt,
+    travelStyleId,
+    img
+)
+
+fun HotelFavoriteEntity.toHotelDto() = HotelDto(
+    localId = localId ?: 0,
+    id = id.orEmpty(),
+    title = title.orEmpty(),
+    description = description.orEmpty(),
+    star = star.orEmpty(),
+    lat = lat.orEmpty(),
+    location = location.orEmpty(),
+    lang = lang.orEmpty(),
+    price = price.orEmpty(),
+    offer = offer.orEmpty(),
+    offerPrice = offerPrice.orEmpty(),
+    userEmail = userEmail.orEmpty(),
+    cityId = cityId.orEmpty(),
+    createdAt = createdAt.orEmpty(),
+    travelStyleId = travelStyleId.orEmpty(),
+    img = img.orEmpty()
+)
+
+fun List<ResultHotel>.toHotelDtoList() = map { it.toHotelDto() }
+
+fun List<HotelFavoriteEntity>.toHotelFavoriteDtoList() = map { it.toHotelDto() }
+fun Result.toDestinationDto() = DestinationDto(
+    localId,
+    id,
+    title,
+    description,
+    star,
+    lat,
+    location,
+    long,
+    price,
+    offer,
+    offerPrice,
+    userEmail,
+    cityId,
+    createdAt,
+    img
+)
+
+fun DestinationFavoriteEntity.toDestinationDto() = DestinationDto(
+    localId = localId ?: 0,
+    id = id.orEmpty(),
+    title = title.orEmpty(),
+    description = description.orEmpty(),
+    star = star.orEmpty(),
+    lat = lat.orEmpty(),
+    location = location.orEmpty(),
+    lang = lang.orEmpty(),
+    price = price.orEmpty(),
+    offer = offer.orEmpty(),
+    offerPrice = offerPrice.orEmpty(),
+    userEmail = userEmail.orEmpty(),
+    cityId = cityId.orEmpty(),
+    createdAt = createdAt.orEmpty(),
+    img = img.orEmpty()
+)
+
+fun List<Result>.toDestinationDtoList() = map { it.toDestinationDto() }
+
+fun List<DestinationFavoriteEntity>.toDestinationFavoriteDtoList() = map { it.toDestinationDto() }
+
+fun ResultCharacter.toCharacterDto() = CharacterDto(
     created,
     episode,
     gender,
@@ -23,7 +106,7 @@ fun Result.toCharacterDto() = CharacterDto(
     url
 )
 
-fun List<Result>.toCharacterDtoList() = map { it.toCharacterDto() }
+fun List<ResultCharacter>.toCharacterDtoList() = map { it.toCharacterDto() }
 
 fun FavoriteEntity.toCharacterDto() = CharacterDto(
     created,
@@ -81,4 +164,41 @@ fun CharacterDto.toFavoriteEntity() = FavoriteEntity(
     type = type.orEmpty(),
     url = url.orEmpty(),
     episode = episode.orEmpty()
+)
+
+fun DestinationDto.toDestinationFavoriteEntity() = DestinationFavoriteEntity(
+    localId = localId ?: 0,
+    id = id.orEmpty(),
+    title = title.orEmpty(),
+    description = description.orEmpty(),
+    star = star.orEmpty(),
+    lat = lat.orEmpty(),
+    location = location.orEmpty(),
+    lang = lang.orEmpty(),
+    price = price.orEmpty(),
+    offer = offer.orEmpty(),
+    offerPrice = offerPrice.orEmpty(),
+    userEmail = userEmail.orEmpty(),
+    cityId = cityId.orEmpty(),
+    createdAt = createdAt.orEmpty(),
+    img = img.orEmpty()
+)
+
+fun HotelDto.toHotelFavoriteEntity() = HotelFavoriteEntity(
+    localId = localId ?: 0,
+    id = id.orEmpty(),
+    title = title.orEmpty(),
+    description = description.orEmpty(),
+    star = star.orEmpty(),
+    lat = lat.orEmpty(),
+    location = location.orEmpty(),
+    lang = lang.orEmpty(),
+    price = price.orEmpty(),
+    offer = offer.orEmpty(),
+    offerPrice = offerPrice.orEmpty(),
+    userEmail = userEmail.orEmpty(),
+    cityId = cityId.orEmpty(),
+    createdAt = createdAt.orEmpty(),
+    travelStyleId = travelStyleId.orEmpty(),
+    img = img.orEmpty()
 )

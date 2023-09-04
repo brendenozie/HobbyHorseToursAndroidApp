@@ -3,10 +3,23 @@ package ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.charactersd
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Card
+import androidx.compose.material.Divider
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,13 +33,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ke.co.tulivuapps.hobbyhorsetours.composebase.R
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Result
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Status
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.component.HobbyHorseToursNetworkImage
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.component.HobbyHorseToursScaffold
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.component.HobbyHorseToursText
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.component.HobbyHorseToursTopBar
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.ui.theme.VeryDarkBlue
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -105,11 +116,11 @@ private fun CharacterImage(data: Result?) {
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(
             2.dp,
-            color = if (data?.status == Status.Alive) Color.Green else Color.Red
+            color = Color.Red //if (data?. == Status.Alive) Color.Green else Color.Red
         ),
     ) {
         HobbyHorseToursNetworkImage(
-            imageURL = data?.image,
+            imageURL = data?.img,
             modifier = Modifier
                 .fillMaxSize(),
             placeholder = R.drawable.ic_place_holder,
@@ -133,7 +144,7 @@ private fun CharacterInfoContainer(data: Result?) {
             CharacterInfoRow(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(id = R.string.character_detail_card_name),
-                value = data?.name.orEmpty()
+                value = data?.title.orEmpty()
             )
             Divider(thickness = 0.5.dp)
             CharacterInfoRow(
@@ -141,7 +152,7 @@ private fun CharacterInfoContainer(data: Result?) {
                     .fillMaxWidth()
                     .padding(top = 10.dp),
                 text = stringResource(id = R.string.character_detail_card_species),
-                value = data?.species.orEmpty()
+                value = data?.title.orEmpty()
             )
             Divider(thickness = 0.5.dp)
             CharacterInfoRow(
@@ -149,7 +160,7 @@ private fun CharacterInfoContainer(data: Result?) {
                     .fillMaxWidth()
                     .padding(top = 10.dp),
                 text = stringResource(id = R.string.character_detail_card_gender),
-                value = data?.gender.orEmpty()
+                value = data?.title.orEmpty()
             )
             Divider(thickness = 0.5.dp)
             CharacterInfoRow(
@@ -157,7 +168,7 @@ private fun CharacterInfoContainer(data: Result?) {
                     .fillMaxWidth()
                     .padding(top = 10.dp),
                 text = stringResource(id = R.string.character_detail_card_last_know_location),
-                value = data?.origin?.name.orEmpty()
+                value = data?.title.orEmpty()
             )
             Divider(thickness = 0.5.dp)
             CharacterInfoRow(
@@ -165,7 +176,7 @@ private fun CharacterInfoContainer(data: Result?) {
                     .fillMaxWidth()
                     .padding(top = 10.dp),
                 text = stringResource(id = R.string.character_detail_card_location),
-                value = data?.location?.name.orEmpty()
+                value = data?.location.orEmpty()
             )
             Divider(thickness = 0.5.dp)
         }

@@ -1,7 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.api
 
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.CharacterInfoResponse
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.CharacterResponse
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.character.CharacterInfoResponse
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.character.CharacterResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.Constants
 import retrofit2.Response
 import retrofit2.http.*
