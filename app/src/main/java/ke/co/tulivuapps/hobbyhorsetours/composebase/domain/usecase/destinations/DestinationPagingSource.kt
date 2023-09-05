@@ -28,23 +28,23 @@ class DestinationPagingSource(
         return try {
             val response = repository.getAllDestinations(page, options)
 
-            val characterList = if (response.isSuccessful) {
+            val destinationList = if (response.isSuccessful) {
                 response.body()?.results.orEmpty().toDestinationDtoList()
             } else {
                 emptyList()
             }
 
-            if (characterList.isNotEmpty()) {
-                characterList.map {
+            if (destinationList.isNotEmpty()) {
+                destinationList.map {
                     val characterFav = repository.getFavorite(it.localId ?: 0)
                     it.isFavorite = characterFav != null
                 }
             }
 
             LoadResult.Page(
-                data = characterList,
+                data = destinationList,
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (characterList.isEmpty()) null else page + 1
+                nextKey = if (destinationList.isEmpty()) null else page + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)

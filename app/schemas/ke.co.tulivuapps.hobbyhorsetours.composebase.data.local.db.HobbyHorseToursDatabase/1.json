@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e28b2b6b36e9a9e1fef5b3537065f607",
+    "identityHash": "c065dd9dbda00097761e525e84dacdab",
     "entities": [
       {
         "tableName": "favorite",
@@ -116,7 +116,7 @@
       },
       {
         "tableName": "destination",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER NOT NULL, `id` TEXT NOT NULL, `title` TEXT, `description` TEXT NOT NULL, `star` TEXT NOT NULL, `img` TEXT NOT NULL, `lat` TEXT NOT NULL, `location` TEXT NOT NULL, `lang` TEXT NOT NULL, `price` TEXT NOT NULL, `offer` TEXT NOT NULL, `offerPrice` TEXT NOT NULL, `userEmail` TEXT NOT NULL, `cityId` TEXT NOT NULL, `createdAt` TEXT NOT NULL, PRIMARY KEY(`localId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER NOT NULL, `id` TEXT NOT NULL, `title` TEXT, `description` TEXT NOT NULL, `star` TEXT NOT NULL, `img` TEXT, `lat` TEXT NOT NULL, `location` TEXT NOT NULL, `lang` TEXT NOT NULL, `price` TEXT NOT NULL, `offer` TEXT NOT NULL, `offerPrice` TEXT NOT NULL, `userEmail` TEXT NOT NULL, `cityId` TEXT NOT NULL, `createdAt` TEXT NOT NULL, PRIMARY KEY(`localId`))",
         "fields": [
           {
             "fieldPath": "localId",
@@ -152,7 +152,7 @@
             "fieldPath": "img",
             "columnName": "img",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "lat",
@@ -332,7 +332,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e28b2b6b36e9a9e1fef5b3537065f607')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c065dd9dbda00097761e525e84dacdab')"
     ]
   }
 }

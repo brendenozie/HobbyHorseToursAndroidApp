@@ -1,7 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto
 
 import android.os.Parcelable
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Status
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.img
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -24,26 +24,26 @@ data class DestinationDto(
     val userEmail: String?,
     val cityId: String?,
     val createdAt: String?,
-    val img: String?,
+    val img: List<img>?,
     var isFavorite: Boolean = false
 ) : Parcelable {
     companion object {
         fun init() = DestinationDto(
             localId = 1,
             id = null,
-            title = "",
-            description = "",
-            star = "",
-            lat = "",
-            location = "",
-            lang = "",
-            price = "",
-            offer = "",
-            offerPrice = "",
-            userEmail = "",
-            cityId = "",
-            createdAt = "",
-            img = "",
+            title = "Awesome Title",
+            description = null,
+            star = null,
+            lat = null,
+            location = null,
+            lang = null,
+            price = null,
+            offer = null,
+            offerPrice = null,
+            userEmail = null,
+            cityId = null,
+            createdAt = null,
+            img = null,
             isFavorite = false,
         )
     }

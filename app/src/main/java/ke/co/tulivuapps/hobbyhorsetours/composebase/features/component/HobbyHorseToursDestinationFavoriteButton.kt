@@ -1,18 +1,22 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.features.component
 
 import androidx.compose.foundation.layout.size
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Status
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.DestinationDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.ui.theme.Gray500
 import ke.co.tulivuapps.hobbyhorsetours.composebase.utils.Utility.getAnimateFloat
@@ -79,7 +83,7 @@ private fun BodyPreview() {
             userEmail= "testemail@gmail.com",
             cityId= "1",
             createdAt= "12.05pm 12/06/23",
-            img= "random image",
+            img= null,
             isFavorite= true,
         ),
         onTriggerEvent = {}

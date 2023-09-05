@@ -21,7 +21,7 @@ import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.Constants
 @Stable
 @Database(
     entities = [FavoriteEntity::class,DestinationFavoriteEntity::class,HotelFavoriteEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(EpisodeConverter::class)

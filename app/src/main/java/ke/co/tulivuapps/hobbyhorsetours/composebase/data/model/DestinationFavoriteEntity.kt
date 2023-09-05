@@ -2,7 +2,6 @@ package ke.co.tulivuapps.hobbyhorsetours.composebase.data.model
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.Constants
@@ -28,7 +27,7 @@ data class DestinationFavoriteEntity(
     @ColumnInfo(name = Constants.COLUMN_STAR)
     val star: String,
     @ColumnInfo(name = Constants.COLUMN_IMG)
-    val img: String,
+    val img: List<String>?,
     @ColumnInfo(name = Constants.COLUMN_LAT)
     val lat: String,
     @ColumnInfo(name = Constants.COLUMN_LOCATION)

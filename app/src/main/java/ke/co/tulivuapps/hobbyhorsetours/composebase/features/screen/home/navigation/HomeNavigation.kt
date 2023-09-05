@@ -9,12 +9,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.composable
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.DestinationDto
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.HotelDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.characters.navigation.homesNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.destinationsdetail.navigation.navigateDestinationsDetail
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.home.HomeScreen
-import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.hotelsdetail.navigation.navigateHotelsDetail
 import ke.co.tulivuapps.hobbyhorsetours.composebase.utils.Utility.toJson
 
 /**
@@ -30,16 +27,13 @@ fun NavController.navigateToHome(
 }
 
 
+@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.homesScreen(navController: NavHostController) {
     composable(homesNavigationRoute) {
         HomeScreen(
-            hiltViewModel(),
-            navigateToDestination = {
-                navController.navigateDestinationsDetail(it.toJson())
-            },
-            navigateToHotel = {
-                navController.navigateHotelsDetail(it.toJson())
-            }
-        )
+            hiltViewModel()
+        ) {
+            navController.navigateDestinationsDetail(it.toJson())
+        }
     }
 }

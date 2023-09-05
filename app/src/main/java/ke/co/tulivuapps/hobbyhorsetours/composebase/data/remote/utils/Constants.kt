@@ -5,7 +5,7 @@ package ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils
  */
 object Constants {
     const val BASE_URL = "https://HobbyHorseToursapi.com/api/"
-    const val BASE_TEST_URL = "http://192.168.110.118:3000/api/"
+    const val BASE_TEST_URL = "http://192.168.228.118:3000/api/"
     const val CHARACTER_LIST = "character"
     const val GET_CHARACTER = "character/{id}"
     const val CHARACTER_FILTER = "character/"
@@ -44,25 +44,11 @@ object Constants {
     const val COLUMN_EPISODE = "episode"
 
     const val HOTEL_TABLE_NAME = "hotel"
-//    const val COLUMN_ID = "id"
-//    const val COLUMN_TITLE = "title"
-//    const val COLUMN_DESCRIPTION = "description"
-//    const val COLUMN_STAR = "star"
-//    const val COLUMN_IMG = "img"
-//    const val COLUMN_LAT = "lat"
-//    const val COLUMN_LOCATION = "location"
-//    const val COLUMN_LONG = "long"
-//    const val COLUMN_PRICE = "price"
-//    const val COLUMN_OFFER = "offer"
-//    const val COLUMN_OFFER_PRICE = "offerPrice"
-//    const val COLUMN_USER_EMAIL = "userEmail"
-//    const val COLUMN_CITY_ID = "cityId"
-    //val user         : User    ,     @relation(fields: [userEmail], references: [email], onDelete: Cascade)
-//    const val COLUMN_CREATED_AT = "createdAt"
+
     const val COLUMN_TRAVEL_STYLE_ID = "travelStyleId"
-    //val TravelStyle  : TravelStyle  @relation(fields: [travelStyleId], references: [id], onDelete: Cascade)
 
     const val DESTINATION_TABLE_NAME = "destination"
+
     const val COLUMN_LOCAL_ID = "localId"
     const val COLUMN_TITLE = "title"
     const val COLUMN_DESCRIPTION = "description"

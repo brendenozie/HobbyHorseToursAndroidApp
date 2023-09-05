@@ -1,10 +1,20 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.extension
 
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.*
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.DestinationFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.FavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.HotelFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.LocationEntity
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.LocationResponse
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.OriginResponse
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Result
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.ResultCharacter
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.ResultHotel
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Status
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.CharacterDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.DestinationDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.HotelDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.LocationDto
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.img
 
 /**
  * Created by brendenozie on 27.03.2023
@@ -84,7 +94,7 @@ fun DestinationFavoriteEntity.toDestinationDto() = DestinationDto(
     userEmail = userEmail.orEmpty(),
     cityId = cityId.orEmpty(),
     createdAt = createdAt.orEmpty(),
-    img = img.orEmpty()
+    img = null
 )
 
 fun List<Result>.toDestinationDtoList() = map { it.toDestinationDto() }
@@ -181,7 +191,7 @@ fun DestinationDto.toDestinationFavoriteEntity() = DestinationFavoriteEntity(
     userEmail = userEmail.orEmpty(),
     cityId = cityId.orEmpty(),
     createdAt = createdAt.orEmpty(),
-    img = img.orEmpty()
+    img = null
 )
 
 fun HotelDto.toHotelFavoriteEntity() = HotelFavoriteEntity(
@@ -202,3 +212,11 @@ fun HotelDto.toHotelFavoriteEntity() = HotelFavoriteEntity(
     travelStyleId = travelStyleId.orEmpty(),
     img = img.orEmpty()
 )
+
+fun img.toImgDto() = img(
+    id = id ?: "0",
+    publicId = publicId,
+    url = url
+)
+
+fun List<img>.toImgDtoList() = map { it.toImgDto() }
