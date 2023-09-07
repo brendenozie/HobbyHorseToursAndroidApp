@@ -2,6 +2,7 @@ package ke.co.tulivuapps.hobbyhorsetours.composebase.features.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,7 +37,10 @@ fun RoundedCornerIconButton(modifier: Modifier, icon: Int) {
                 .padding(10.dp)
         ) {
             Row(modifier = Modifier.align(Alignment.Center)) {
-                Column(modifier = Modifier.weight(1f)) {
+                Column(modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                     Image(
                         bitmap = ImageBitmap.imageResource(id = icon),
                         contentDescription = "rounded_corner_icon_button"

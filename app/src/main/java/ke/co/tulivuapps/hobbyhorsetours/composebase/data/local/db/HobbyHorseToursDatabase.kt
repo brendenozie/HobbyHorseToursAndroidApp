@@ -10,6 +10,7 @@ import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.converter.Episode
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.DestinationDao
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.FavoriteDao
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.HotelDao
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.TravelStyleDao
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.DestinationFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.FavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.HotelFavoriteEntity
@@ -20,7 +21,7 @@ import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.Constants
  */
 @Stable
 @Database(
-    entities = [FavoriteEntity::class,DestinationFavoriteEntity::class,HotelFavoriteEntity::class],
+    entities = [FavoriteEntity::class,DestinationFavoriteEntity::class,HotelFavoriteEntity::class,CityFavoriteEntity::class,TravelStyleFavoriteEntity::class],
     version = 2,
     exportSchema = true
 )
@@ -29,6 +30,8 @@ abstract class HobbyHorseToursDatabase : RoomDatabase() {
     abstract fun favoriteDao(): FavoriteDao
     abstract fun destinationDao(): DestinationDao
     abstract fun hotelDao(): HotelDao
+    abstract fun travelStyleDao(): TravelStyleDao
+    abstract fun cityDao(): CityDao
 
     companion object {
         @Volatile

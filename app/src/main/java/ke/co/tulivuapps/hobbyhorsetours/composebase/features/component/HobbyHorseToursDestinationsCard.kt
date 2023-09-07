@@ -1,6 +1,5 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.features.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,16 +7,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -48,7 +45,7 @@ fun HobbyHorseToursDestinationsCard(
         elevation = 8.dp,
         modifier = Modifier
             .padding(10.dp)
-            .width(180.dp)
+            .width(160.dp)
             .clickable { detailClick() },
     ) {
         Column(
@@ -58,17 +55,17 @@ fun HobbyHorseToursDestinationsCard(
         ) {
 
             HobbyHorseToursNetworkImage(
-                    imageURL = R.drawable.ic_place_holder,//dto?.img,
+                    imageURL = dto?.img!![0].url ?: R.drawable.ic_place_holder,
                     modifier = Modifier
                         .fillMaxHeight()
-//                        .width(80.dp)
-                        .size(140.dp)
+                        .width(140.dp)
+                        .height(120.dp)
                         .clip(shape = RoundedCornerShape(15)),
                     placeholder = R.drawable.ic_place_holder,
                     contentScale = ContentScale.Crop,
                 )
-                Spacer(modifier = Modifier.width(10.dp))
-            Row(modifier = Modifier.padding(top = 20.dp)) {
+            Spacer(modifier = Modifier.width(2.dp))
+            Row(modifier = Modifier.padding(top = 5.dp)) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = dto?.title.orEmpty(),
@@ -85,19 +82,15 @@ fun HobbyHorseToursDestinationsCard(
                         )
                     )
                 }
-                Box(
-                    modifier = Modifier
-                        .background(
-                            color = Color.LightGray,
-                            shape = RoundedCornerShape(10.dp)
+                Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.CenterEnd) {
+                    dto?.let {
+                        HobbyHorseToursDestinationFavoriteButton(
+                            dto = it,
+                            onTriggerEvent = { dto ->
+                                onTriggerEvent.invoke(dto)
+                            }
                         )
-                ) {
-                    Icon(
-                        Icons.Default.Add,
-                        tint = Color.White,
-                        modifier = Modifier.padding(10.dp),
-                        contentDescription = "flower_card_icon"
-                    )
+                    }
                 }
             }
         }

@@ -8,8 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -111,16 +112,17 @@ private fun Content(data: Result?) {
 private fun CharacterImage(data: Result?) {
     Card(
         modifier = Modifier
-            .size(200.dp)
+            .width(350.dp)
+            .height(400.dp)
             .padding(top = 20.dp),
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(
-            2.dp,
-            color = Color.Red //if (data?.status == Status.Alive) Color.Green else Color.Red
+            1.dp,
+            color = Color.LightGray //if (data?.status == Status.Alive) Color.Green else Color.Red
         ),
     ) {
         HobbyHorseToursNetworkImage(
-            imageURL = data?.img,
+            imageURL = data?.img!![0].url,
             modifier = Modifier
                 .fillMaxSize(),
             placeholder = R.drawable.ic_place_holder,

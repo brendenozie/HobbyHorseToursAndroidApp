@@ -45,6 +45,13 @@ object Constants {
 
     const val HOTEL_TABLE_NAME = "hotel"
 
+    const val CITY_TABLE_NAME = "city"
+
+    const val TRAVEL_STYLE_TABLE_NAME = "travelstyle"
+
+    const val COLUMN_STYLE_NAME = "styleName"
+    const val COLUMN_PUBLIC_ID = "publicId"
+
     const val COLUMN_TRAVEL_STYLE_ID = "travelStyleId"
 
     const val DESTINATION_TABLE_NAME = "destination"
@@ -64,6 +71,14 @@ object Constants {
     const val COLUMN_CITY_ID = "cityId"
     const val COLUMN_CREATED_AT = "createdAt"
 
-
     const val CONTENT_LENGTH = 250_000L
 }
+
+//used
+//<a href="https://www.freepik.com/free-vector/summer-landscape-background-zoom_9263419.htm#from_view=detail_alsolike">Image by pikisuperstar</a> on Freepik
+//Image by <a href="https://www.freepik.com/free-vector/flat-design-no-photo-sign_22631620.htm#query=no%20photo&position=14&from_view=search&track=ais">Freepik</a>
+//<a href="https://www.flaticon.com/free-icons/google" title="google icons">Google icons created by Freepik - Flaticon</a>
+//<a href="https://www.flaticon.com/free-icons/facebook" title="facebook icons">Facebook icons created by Freepik - Flaticon</a>
+//<a href="https://www.flaticon.com/free-icons/eyelashes" title="eyelashes icons">Eyelashes icons created by Freepik - Flaticon</a>
+//<a href="https://www.flaticon.com/free-icons/smart-key" title="smart key icons">Smart key icons created by Freepik - Flaticon</a>
+//<a href="https://www.flaticon.com/free-icons/mail" title="mail icons">Mail icons created by Dave Gandy - Flaticon</a>
