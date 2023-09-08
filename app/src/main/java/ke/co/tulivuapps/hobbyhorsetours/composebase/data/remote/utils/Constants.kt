@@ -5,7 +5,7 @@ package ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils
  */
 object Constants {
     const val BASE_URL = "https://HobbyHorseToursapi.com/api/"
-    const val BASE_TEST_URL = "http://192.168.228.118:3000/api/"
+    const val BASE_TEST_URL = "http://192.168.21.118:3000/api/"
     const val CHARACTER_LIST = "character"
     const val GET_CHARACTER = "character/{id}"
     const val CHARACTER_FILTER = "character/"
@@ -19,6 +19,14 @@ object Constants {
     const val DESTINATION_LIST = "get-destinations"
     const val GET_DESTINATION = "get-destinations/{id}"
     const val DESTINATION_FILTER = "get-destinations/"
+
+    const val CITY_LIST = "get-city"
+    const val GET_CITY = "get-city/{id}"
+    const val CITY_FILTER = "get-city/"
+
+    const val TRAVEL_STYLE_LIST = "get-travel-style"
+    const val GET_TRAVEL_STYLE = "get-travel-style/{id}"
+    const val TRAVEL_STYLE_FILTER = "get-travel-style/"
 
     //Query Parameter
     const val PARAM_PAGE = "page"
@@ -46,6 +54,7 @@ object Constants {
     const val HOTEL_TABLE_NAME = "hotel"
 
     const val CITY_TABLE_NAME = "city"
+    const val COLUMN_CITY_NAME = "cityName"
 
     const val TRAVEL_STYLE_TABLE_NAME = "travelstyle"
 

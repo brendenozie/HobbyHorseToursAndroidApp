@@ -10,7 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.composable
-import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.destinationsdetail.DestinationsDetailScreen
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.destinationsdetail.DetailScreen
 
 /**
  * Created by brendenozie on 23.01.2023
@@ -29,7 +29,7 @@ fun NavGraphBuilder.destinationsDetailScreen(navigateToBack: () -> Unit) {
     composable(
         destinationsDetailNavigationRoute.plus("?destinationDetail={destinationDetail}"),
         content = {
-            DestinationsDetailScreen(
+            DetailScreen(
                 viewModel = hiltViewModel(),
                 navigateToBack = navigateToBack
             )

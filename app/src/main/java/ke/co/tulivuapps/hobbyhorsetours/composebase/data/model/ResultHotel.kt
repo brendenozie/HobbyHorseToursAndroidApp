@@ -21,7 +21,7 @@ data class ResultHotel(
     val cityId: String,
     val createdAt: String,
     val travelStyleId: String = "",
-    val img: String
+    val img: List<img>
     ) : Parcelable {
 
     companion object {

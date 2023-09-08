@@ -20,9 +20,9 @@ class DeleteCityFavoriteUseCase(
 
     override suspend fun invoke(param: Params): Flow<Unit> {
         param.cityId?.let {
-            repository.deleteFavoriteById(param.cityId)
+            repository.deleteFavoriteCityById(param.cityId)
         } ?: kotlin.run {
-            repository.deleteFavoriteList()
+            repository.deleteFavoriteCityList()
         }
         return flow { emit(Unit) }
     }

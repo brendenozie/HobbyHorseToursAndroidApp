@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.guru.composecookbook.onboarding.OnboardingPagerSlide
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.carousel.Pager
@@ -27,6 +28,7 @@ import ke.co.tulivuapps.hobbyhorsetours.composebase.features.carousel.PagerState
 
 @Composable
 fun OnBoardingScreen(onSkip: () -> Unit) {
+    val currContext = LocalContext.current.applicationContext
     val pagerState: PagerState = run {
         remember {
             PagerState(0, 0, onboardingList.size - 1)
@@ -68,8 +70,12 @@ fun OnBoardingScreen(onSkip: () -> Unit) {
             }
             Button(
                 onClick = {
-                    if (pagerState.currentPage != onboardingList.size - 1) pagerState.currentPage =
-                        pagerState.currentPage + 1
+                    if (pagerState.currentPage != onboardingList.size - 1) {
+                        pagerState.currentPage =
+                            pagerState.currentPage + 1
+                    }else{
+                        onSkip()
+                    }
                 },
                 modifier = Modifier
                     .animateContentSize()
@@ -92,18 +98,18 @@ data class Onboard(val title: String, val description: String, val lottieFile: S
 
 val onboardingList = listOf(
     Onboard(
-        "Team Collaborations",
-        "Our tools help your teams collaborate for the best output results",
+        "Explore a New World",
+        "Find a place for travel,campaign,hiking.\nRelax and enjoy your trip",
         "profile.json"
     ),
     Onboard(
-        "Improve Productivity",
-        "Our tools are designed to improve productivity by automating all the stuff for you",
+        "Explore a New World",
+        "Find a place for travel,campaign,hiking.\nRelax and enjoy your trip",
         "working.json"
     ),
     Onboard(
-        "Growth Tracking",
-        "We provide dashboard and charts to track your growth easily and suggestions.",
+        "Explore a New World",
+        "Find a place for travel,campaign,hiking.\nRelax and enjoy your trip",
         "food.json"
     )
 )

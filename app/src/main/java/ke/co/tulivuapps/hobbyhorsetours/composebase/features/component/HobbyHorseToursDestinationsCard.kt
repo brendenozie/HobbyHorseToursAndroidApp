@@ -42,30 +42,31 @@ fun HobbyHorseToursDestinationsCard(
     Card(
         shape = RoundedCornerShape(14.dp),
         backgroundColor = Color.White,
-        elevation = 8.dp,
+        elevation = 4.dp,
         modifier = Modifier
-            .padding(10.dp)
+            .padding(end = 5.dp)
             .width(160.dp)
             .clickable { detailClick() },
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp),
+                .padding(2.dp),
         ) {
 
             HobbyHorseToursNetworkImage(
                     imageURL = dto?.img!![0].url ?: R.drawable.ic_place_holder,
                     modifier = Modifier
-                        .fillMaxHeight()
-                        .width(140.dp)
+//                        .fillMaxHeight()
+                        .fillMaxWidth()
+//                        .width(140.dp)
                         .height(120.dp)
                         .clip(shape = RoundedCornerShape(15)),
                     placeholder = R.drawable.ic_place_holder,
                     contentScale = ContentScale.Crop,
                 )
             Spacer(modifier = Modifier.width(2.dp))
-            Row(modifier = Modifier.padding(top = 5.dp)) {
+            Row(modifier = Modifier.padding(top = 5.dp,end = 5.dp,start = 5.dp)) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = dto?.title.orEmpty(),

@@ -11,11 +11,12 @@ import kotlinx.parcelize.Parcelize
 data class TravelStyleDto(
     val localId: Int?,
     val id: String?,
-    val styleName : String,
-    val publicId : String,
-    val url      : String,
-    val status   : String,
-    val img: String,
+    val styleName : String?,
+    val publicId : String?,
+    val url      : String?,
+    val status   : String?,
+    val img: String?,
+    val createdAt: String?,
     var isFavorite: Boolean = false
 ) : Parcelable {
     companion object {
@@ -27,6 +28,7 @@ data class TravelStyleDto(
             url = "",
             status = "",
             img = "",
+            createdAt = "",
             isFavorite = false,
         )
     }

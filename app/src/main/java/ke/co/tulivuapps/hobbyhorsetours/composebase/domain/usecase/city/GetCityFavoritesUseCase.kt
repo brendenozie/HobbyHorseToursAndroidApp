@@ -16,7 +16,7 @@ class GetCityFavoritesUseCase(
 ) : BaseUseCase<IParams, List<CityDto>> {
 
     override suspend fun invoke(param: IParams) = flow {
-        val favorites = repository.getFavoriteList()
+        val favorites = repository.getCityFavoriteList()
         emit(favorites.toCityFavoriteDtoList())
     }
 }

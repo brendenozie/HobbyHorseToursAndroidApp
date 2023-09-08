@@ -26,7 +26,7 @@ class CityPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CityDto> {
         val page = params.key ?: 1
         return try {
-            val response = repository.getAllCitys(page, options)
+            val response = repository.getAllCities(page, options)
 
             val cityList = if (response.isSuccessful) {
                 response.body()?.results.orEmpty().toCityDtoList()
@@ -36,7 +36,7 @@ class CityPagingSource(
 
             if (cityList.isNotEmpty()) {
                 cityList.map {
-                    val cityFav = repository.getFavorite(it.localId ?: 0)
+                    val cityFav = repository.getFavoriteCity(it.localId ?: 0)
                     it.isFavorite = cityFav != null
                 }
             }

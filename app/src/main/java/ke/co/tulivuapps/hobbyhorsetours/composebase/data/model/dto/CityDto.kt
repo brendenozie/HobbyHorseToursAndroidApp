@@ -8,17 +8,17 @@ import kotlinx.parcelize.Parcelize
  */
 
 @Parcelize
-data class CitiesDto(
+data class CityDto(
     val localId: Int?,
     val id     :  String?,
     val cityName : String,
     val publicId : String,
     val url      : String,
     val status   : String,
-    val isFavorite   : Boolean = false
+    var isFavorite   : Boolean = false
 ) : Parcelable {
     companion object {
-        fun init() = CitiesDto(
+        fun init() = CityDto(
             localId = 1,
             id = null,
             cityName = "",

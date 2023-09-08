@@ -36,6 +36,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.DemoDataProvider
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Item
 
 @Composable
 fun CarouselLayout() {
@@ -53,7 +54,7 @@ fun CarouselLayout() {
 }
 
 @Composable
-fun CarouselItem(item: com.guru.composecookbook.data.model.Item) {
+fun CarouselItem(item: Item) {
     Box {
         Image(
             painter = painterResource(id = item.imageId),
@@ -77,7 +78,7 @@ fun CarouselItem(item: com.guru.composecookbook.data.model.Item) {
 }
 
 @Composable
-fun CarouselItemCircle(item: com.guru.composecookbook.data.model.Item) {
+fun CarouselItemCircle(item: Item) {
     Image(
         painter = painterResource(id = item.imageId),
         contentDescription = null,
@@ -90,7 +91,7 @@ fun CarouselItemCircle(item: com.guru.composecookbook.data.model.Item) {
 }
 
 @Composable
-fun CarouselItemCard(item: com.guru.composecookbook.data.model.Item, pagerState: PagerState, selectedPage: MutableState<Int>) {
+fun CarouselItemCard(item: Item, pagerState: PagerState, selectedPage: MutableState<Int>) {
     val isSelected = selectedPage.value == pagerState.currentPage
     val animateSize = if (isSelected) 320.dp else 180.dp
     val animateElevation = if (isSelected) 12.dp else 2.dp
@@ -129,7 +130,7 @@ fun CarouselItemCard(item: com.guru.composecookbook.data.model.Item, pagerState:
 @Composable
 private fun ColumnScope.PrepareFirstPager(
     pagerState: PagerState,
-    items: List<com.guru.composecookbook.data.model.Item>,
+    items: List<Item>,
     selectedPage: MutableState<Int>
 ) {
     Pager(
@@ -157,7 +158,7 @@ private fun ColumnScope.PrepareFirstPager(
 @Composable
 private fun ColumnScope.PrepareSecondPager(
     pagerState: PagerState,
-    items: List<com.guru.composecookbook.data.model.Item>,
+    items: List<Item>,
     selectedPage: MutableState<Int>
 ) {
     Pager(state = pagerState, modifier = Modifier.height(200.dp)) {
@@ -180,7 +181,7 @@ private fun ColumnScope.PrepareSecondPager(
 @Composable
 private fun ColumnScope.PrepareThirdPager(
     pagerState: PagerState,
-    items: List<com.guru.composecookbook.data.model.Item>,
+    items: List<Item>,
     selectedPage: MutableState<Int>
 ) {
     Pager(state = pagerState, modifier = Modifier.height(350.dp)) {

@@ -1,10 +1,10 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.domain.usecase.travelstyle
 
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.HotelDto
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.extension.toHotelFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.TravelStyleDto
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.extension.toTravelStyleFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.base.BaseUseCase
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.base.IParams
-import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository.HotelRepository
+import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository.TravelStyleRepository
 import kotlinx.coroutines.flow.flow
 
 /**
@@ -12,20 +12,20 @@ import kotlinx.coroutines.flow.flow
  */
 
 class UpdateTravelStyleFavoriteUseCase(
-    internal val repository: HotelRepository
+    internal val repository: TravelStyleRepository
 ) : BaseUseCase<UpdateTravelStyleFavoriteUseCase.Params, Unit> {
 
     data class Params(
-        val travelStyle: HotelDto
+        val travelStyle: TravelStyleDto
     ) : IParams
 
     override suspend fun invoke(param: Params) = flow<Unit> {
         val dto = param.travelStyle
-        val travelStyle = repository.getFavorite(dto.localId ?: 0)
+        val travelStyle = repository.getFavoriteTravelStyle(dto.localId ?: 0)
         if (travelStyle == null) {
-            repository.saveFavorite(dto.toHotelFavoriteEntity())
+            repository.saveFavoriteTravelStyle(dto.toTravelStyleFavoriteEntity())
         } else {
-            repository.deleteFavoriteById(dto.localId ?: 0)
+            repository.deleteFavoriteTravelStyleById(dto.localId ?: 0)
         }
         emit(Unit)
     }

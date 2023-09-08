@@ -12,13 +12,15 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.component.HobbyHorseToursBottomAppBar
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.component.HobbyHorseToursFloatingActionBar
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.component.HobbyHorseToursScaffold
-import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.characters.navigation.homesNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.charactersdetail.navigation.charactersDetailScreen
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.charactersdetail.navigation.navigateCharactersDetail
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.destinationsdetail.navigation.destinationsDetailScreen
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.episodes.navigation.episodesScreen
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.favorites.navigation.favoritesScreen
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.home.navigation.homesScreen
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.hotelsdetail.navigation.hotelsDetailScreen
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.onboarding.navigation.onboardingNavigationRoute
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.onboarding.navigation.onbooardingScreen
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.search.navigation.searchScreen
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.settings.navigation.settingsScreen
 import ke.co.tulivuapps.hobbyhorsetours.composebase.utils.Utility.toJson
@@ -60,11 +62,13 @@ fun NavGraph() {
     ) { innerPadding ->
         AnimatedNavHost(
             navController = navController,
-            startDestination = homesNavigationRoute,
+            startDestination = onboardingNavigationRoute,
             Modifier.padding(innerPadding)
         ) {
+            onbooardingScreen(navController)
             homesScreen(navController)
             destinationsDetailScreen { navController.navigateUp() }
+            hotelsDetailScreen{ navController.navigateUp() }
             charactersDetailScreen { navController.navigateUp() }
             episodesScreen()
             searchScreen { navController.navigateCharactersDetail(it.toJson()) }

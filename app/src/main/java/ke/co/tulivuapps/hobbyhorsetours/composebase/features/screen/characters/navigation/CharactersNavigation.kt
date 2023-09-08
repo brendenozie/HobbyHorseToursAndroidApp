@@ -27,7 +27,10 @@ fun NavController.navigateHome(
 fun NavGraphBuilder.charactersScreen(navigateToDestination: (DestinationDto?)->Unit) {
     composable(homeNavigationRoute) {
         HomeScreen(
-            hiltViewModel()
+                    destinationsViewModel =hiltViewModel(),
+                    travelstyleviewModel =hiltViewModel(),
+                    cityviewModel =hiltViewModel(),
+                    hotelsviewModel =hiltViewModel()
         ) {
             navigateToDestination.invoke(it)
         }

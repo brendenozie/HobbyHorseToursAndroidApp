@@ -21,11 +21,11 @@ class UpdateCityFavoriteUseCase(
 
     override suspend fun invoke(param: Params) = flow<Unit> {
         val dto = param.character
-        val character = repository.getFavorite(dto.localId ?: 0)
+        val character = repository.getFavoriteCity(dto.localId ?: 0)
         if (character == null) {
-            repository.saveFavorite(dto.toCityFavoriteEntity())
+            repository.saveFavoriteCity(dto.toCityFavoriteEntity())
         } else {
-            repository.deleteFavoriteById(dto.localId ?: 0)
+            repository.deleteFavoriteCityById(dto.localId ?: 0)
         }
         emit(Unit)
     }

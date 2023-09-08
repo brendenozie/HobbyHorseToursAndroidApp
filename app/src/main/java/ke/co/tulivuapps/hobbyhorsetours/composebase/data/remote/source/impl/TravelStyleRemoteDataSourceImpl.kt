@@ -1,9 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.source.impl
 
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.FavoriteDao
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.FavoriteEntity
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.travelStyle.TravelStyleInfoResponse
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.travelStyle.TravelStyleResponse
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.TravelStyleDao
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.TravelStyleFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.travelstyle.TravelStyleInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.travelstyle.TravelStyleResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.api.TravelStyleService
@@ -18,18 +16,18 @@ import javax.inject.Inject
  */
 class TravelStyleRemoteDataSourceImpl @Inject constructor(
     private val travelStyleService: TravelStyleService,
-    private val dao: FavoriteDao
+    private val dao: TravelStyleDao
 ) :
     BaseRemoteDataSource(), TravelStyleRemoteDataSource {
 
-    override suspend fun getFavorite(favoriteId: Int): FavoriteEntity? = dao.getFavorite(favoriteId)
+    override suspend fun getFavorite(favoriteId: Int): TravelStyleFavoriteEntity? = dao.getFavorite(favoriteId)
 
-    override suspend fun getAllTravelStyles(
+    override suspend fun getAllTravelStyle(
         page: Int,
         options: Map<String, String>
     ): Response<TravelStyleResponse> = travelStyleService.getAllTravelStyles(page, options)
 
-    override suspend fun getFilterTravelStyles(
+    override suspend fun getFilterTravelStyle(
         page: Int, options: Map<String, String>
     ): Response<TravelStyleResponse> = travelStyleService.getFilterTravelStyle(page, options)
 
@@ -42,14 +40,14 @@ class TravelStyleRemoteDataSourceImpl @Inject constructor(
         }
 
 
-    override suspend fun getFavoriteList(): List<FavoriteEntity> = dao.getFavoriteList()
+    override suspend fun getFavoriteList(): List<TravelStyleFavoriteEntity> = dao.getFavoriteList()
 
     override suspend fun deleteFavoriteById(favoriteId: Int) = dao.deleteFavoriteById(favoriteId)
 
     override suspend fun deleteFavoriteList() = dao.deleteFavoriteList()
 
-    override suspend fun saveFavorite(entity: FavoriteEntity) = dao.insert(entity)
+    override suspend fun saveFavorite(entity: TravelStyleFavoriteEntity) = dao.insert(entity)
 
-    override suspend fun saveFavoriteList(entityList: List<FavoriteEntity>) = dao.insert(entityList)
+    override suspend fun saveFavoriteList(entityList: List<TravelStyleFavoriteEntity>) = dao.insert(entityList)
 
 }

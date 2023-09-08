@@ -2,9 +2,9 @@ package ke.co.tulivuapps.hobbyhorsetours.composebase.domain.usecase.travelstyle
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.HotelDto
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.extension.toHotelDtoList
-import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository.HotelRepository
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.TravelStyleDto
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.extension.toTravelStyleDtoList
+import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository.TravelStyleRepository
 import java.io.IOException
 
 /**
@@ -12,31 +12,31 @@ import java.io.IOException
  */
 
 class TravelStylePagingSource(
-    internal val repository: HotelRepository,
+    internal val repository: TravelStyleRepository,
     private val options: Map<String, String>
-) : PagingSource<Int, HotelDto>() {
+) : PagingSource<Int, TravelStyleDto>() {
 
-    override fun getRefreshKey(state: PagingState<Int, HotelDto>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, TravelStyleDto>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, HotelDto> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TravelStyleDto> {
         val page = params.key ?: 1
         return try {
-            val response = repository.getAllHotels(page, options)
+            val response = repository.getAllTravelStyles(page, options)
 
             val travelStyleList = if (response.isSuccessful) {
-                response.body()?.results.orEmpty().toHotelDtoList()
+                response.body()?.results.orEmpty().toTravelStyleDtoList()
             } else {
                 emptyList()
             }
 
             if (travelStyleList.isNotEmpty()) {
                 travelStyleList.map {
-                    val travelStyleFav = repository.getFavorite(it.localId ?: 0)
+                    val travelStyleFav = repository.getFavoriteTravelStyle(it.localId ?: 0)
                     it.isFavorite = travelStyleFav != null
                 }
             }

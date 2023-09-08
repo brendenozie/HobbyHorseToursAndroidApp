@@ -5,7 +5,10 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.TravelStyleDto
+import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.usecase.travelstyle.GetTravelStyleUseCase
+import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.usecase.travelstyle.UpdateTravelStyleFavoriteUseCase
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.viewstate.IViewEvent
+import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.viewstate.travelstyle.TravelStyleViewState
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.base.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

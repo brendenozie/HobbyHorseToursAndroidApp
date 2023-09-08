@@ -17,6 +17,7 @@ import ke.co.tulivuapps.hobbyhorsetours.composebase.features.lottie.LottieLoadin
 
 @Composable
 fun OnboardingPagerItem(item: Onboard) {
+//    val composition by rememberLottieComposition(LottieCompositionSpec.Asset(file))
     Column(
         modifier = Modifier.padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally

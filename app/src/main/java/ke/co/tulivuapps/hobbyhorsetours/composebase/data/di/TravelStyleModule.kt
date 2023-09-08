@@ -6,6 +6,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.TravelStyleDao
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.api.TravelStyleService
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.source.TravelStyleRemoteDataSource
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.source.impl.TravelStyleRemoteDataSourceImpl
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.repository.TravelStyleRepositoryImpl
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository.TravelStyleRepository
 import retrofit2.Retrofit
 

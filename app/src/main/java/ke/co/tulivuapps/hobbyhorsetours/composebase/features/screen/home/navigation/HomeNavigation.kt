@@ -12,6 +12,7 @@ import com.google.accompanist.navigation.animation.composable
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.characters.navigation.homesNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.destinationsdetail.navigation.navigateDestinationsDetail
 import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.home.HomeScreen
+import ke.co.tulivuapps.hobbyhorsetours.composebase.features.screen.hotelsdetail.navigation.navigateHotelsDetail
 import ke.co.tulivuapps.hobbyhorsetours.composebase.utils.Utility.toJson
 
 /**
@@ -31,9 +32,13 @@ fun NavController.navigateToHome(
 fun NavGraphBuilder.homesScreen(navController: NavHostController) {
     composable(homesNavigationRoute) {
         HomeScreen(
-            hiltViewModel()
+            destinationsViewModel =hiltViewModel(),
+            travelstyleviewModel =hiltViewModel(),
+            cityviewModel =hiltViewModel(),
+            hotelsviewModel =hiltViewModel(),
         ) {
             navController.navigateDestinationsDetail(it.toJson())
+            navController.navigateHotelsDetail(it.toJson())
         }
     }
 }

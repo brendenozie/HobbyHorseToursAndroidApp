@@ -2,7 +2,7 @@ package ke.co.tulivuapps.hobbyhorsetours.composebase.domain.usecase.travelstyle
 
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.base.BaseUseCase
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.base.IParams
-import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository.HotelRepository
+import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository.TravelStyleRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
  */
 
 class DeleteTravelStyleFavoriteUseCase(
-    internal val repository: HotelRepository
+    internal val repository: TravelStyleRepository
 ) : BaseUseCase<DeleteTravelStyleFavoriteUseCase.Params, Unit> {
 
     data class Params(
@@ -20,9 +20,9 @@ class DeleteTravelStyleFavoriteUseCase(
 
     override suspend fun invoke(param: Params): Flow<Unit> {
         param.travelStyleId?.let {
-            repository.deleteFavoriteById(param.travelStyleId)
+            repository.deleteFavoriteTravelStyleById(param.travelStyleId)
         } ?: kotlin.run {
-            repository.deleteFavoriteList()
+            repository.deleteFavoriteTravelStyleList()
         }
         return flow { emit(Unit) }
     }

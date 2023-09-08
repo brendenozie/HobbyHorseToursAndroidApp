@@ -12,23 +12,23 @@ import retrofit2.http.*
 
 interface TravelStyleService {
 
-    @GET(Constants.TravelStyle_LIST)
+    @GET(Constants.TRAVEL_STYLE_LIST)
     suspend fun getAllTravelStyles(
         @Query(Constants.PARAM_PAGE) page: Int,
         @QueryMap options: Map<String, String>? = null
     ): Response<TravelStyleResponse>
 
-    @GET(Constants.GET_TravelStyle)
+    @GET(Constants.GET_TRAVEL_STYLE)
     suspend fun getTravelStyle(
-        @Path(Constants.PARAM_ID) characterId: Int
+        @Path(Constants.PARAM_ID) travelStyleId: Int
     ): Response<TravelStyleInfoResponse>
 
-    @GET(Constants.GET_TravelStyle)
+    @GET(Constants.GET_TRAVEL_STYLE)
     suspend fun getTravelStyle(
         @Url url: String
     ): Response<TravelStyleInfoResponse>
 
-    @GET(Constants.TravelStyle_FILTER)
+    @GET(Constants.TRAVEL_STYLE_FILTER)
     suspend fun getFilterTravelStyle(
         @Query(Constants.PARAM_PAGE) page: Int,
         @QueryMap options: Map<String, String>? = null

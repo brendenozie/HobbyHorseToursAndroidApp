@@ -7,13 +7,16 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.converter.EpisodeConverter
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.CityDao
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.DestinationDao
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.FavoriteDao
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.HotelDao
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.TravelStyleDao
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.CityFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.DestinationFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.FavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.HotelFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.TravelStyleFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.Constants
 
 /**
@@ -21,8 +24,8 @@ import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.Constants
  */
 @Stable
 @Database(
-    entities = [FavoriteEntity::class,DestinationFavoriteEntity::class,HotelFavoriteEntity::class,CityFavoriteEntity::class,TravelStyleFavoriteEntity::class],
-    version = 2,
+    entities = [FavoriteEntity::class,DestinationFavoriteEntity::class,HotelFavoriteEntity::class, CityFavoriteEntity::class, TravelStyleFavoriteEntity::class],
+    version = 3,
     exportSchema = true
 )
 @TypeConverters(EpisodeConverter::class)

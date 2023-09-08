@@ -1,8 +1,9 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.data
 
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.HomeScreenItems
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Tweet
 import ke.co.tulivuapps.hobbyhorsetours.composebase.R
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.HomeScreenItems
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Item
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Tweet
 
 object DemoDataProvider {
 

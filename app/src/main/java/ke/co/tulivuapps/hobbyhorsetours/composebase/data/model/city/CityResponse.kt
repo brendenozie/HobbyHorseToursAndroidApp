@@ -2,7 +2,7 @@ package ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.city
 
 import android.os.Parcelable
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.InfoResponse
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Result
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.ResultCity
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -12,5 +12,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class CityResponse(
     val info: InfoResponse,
-    val results: List<Result>
+    val results: List<ResultCity>
 ) : Parcelable

@@ -11,7 +11,7 @@ import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.Constants
  */
 
 @Dao
-interface CitiesDao : BaseDao<CityFavoriteEntity> {
+interface CityDao : BaseDao<CityFavoriteEntity> {
     @Query("SELECT * FROM ${Constants.CITY_TABLE_NAME}")
     suspend fun getFavoriteList(): List<CityFavoriteEntity>
 

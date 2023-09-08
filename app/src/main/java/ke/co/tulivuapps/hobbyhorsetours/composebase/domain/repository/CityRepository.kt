@@ -1,8 +1,6 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository
 
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.CityFavoriteEntity
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.City.CityInfoResponse
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.City.CityResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.city.CityInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.city.CityResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.DataState

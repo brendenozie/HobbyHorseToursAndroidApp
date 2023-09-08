@@ -1,7 +1,5 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.api
 
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.character.CityInfoResponse
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.character.CityResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.city.CityInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.city.CityResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.Constants
@@ -22,7 +20,7 @@ interface CityService {
 
     @GET(Constants.GET_CITY)
     suspend fun getCity(
-        @Path(Constants.PARAM_ID) characterId: Int
+        @Path(Constants.PARAM_ID) cityId: Int
     ): Response<CityInfoResponse>
 
     @GET(Constants.GET_CITY)

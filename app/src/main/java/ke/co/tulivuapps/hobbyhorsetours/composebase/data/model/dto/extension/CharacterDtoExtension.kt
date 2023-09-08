@@ -1,5 +1,6 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.extension
 
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.CityFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.DestinationFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.FavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.HotelFavoriteEntity
@@ -8,12 +9,17 @@ import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.LocationResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.OriginResponse
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Result
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.ResultCharacter
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.ResultCity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.ResultHotel
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.ResultTravelStyle
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.Status
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.TravelStyleFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.CharacterDto
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.CityDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.DestinationDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.HotelDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.LocationDto
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.TravelStyleDto
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.img
 
 /**
@@ -55,8 +61,33 @@ fun HotelFavoriteEntity.toHotelDto() = HotelDto(
     cityId = cityId.orEmpty(),
     createdAt = createdAt.orEmpty(),
     travelStyleId = travelStyleId.orEmpty(),
-    img = img.orEmpty()
+    img = null
 )
+
+fun CityFavoriteEntity.toCityDto() = CityDto(
+    localId = localId ?: 0,
+    id = id.orEmpty(),
+    cityName = cityName.orEmpty(),
+    publicId = publicId.orEmpty(),
+    url = url.orEmpty(),
+    status = status.orEmpty()
+)
+
+
+fun List<CityFavoriteEntity>.toCityFavoriteDtoList() = map { it.toCityDto() }
+
+fun TravelStyleFavoriteEntity.toTravelStyleDto() = TravelStyleDto(
+    localId = localId ?: 0,
+    id = id.orEmpty(),
+    styleName =  styleName.orEmpty(),
+    publicId =  publicId.orEmpty(),
+    url =  url.orEmpty(),
+    status =  status.orEmpty(),
+    img =  img.orEmpty(),
+    createdAt = createdAt.orEmpty()
+)
+
+fun List<TravelStyleFavoriteEntity>.toTravelStyleFavoriteDtoList() = map { it.toTravelStyleDto() }
 
 fun List<ResultHotel>.toHotelDtoList() = map { it.toHotelDto() }
 
@@ -97,6 +128,7 @@ fun DestinationFavoriteEntity.toDestinationDto() = DestinationDto(
     img = null
 )
 
+
 fun List<Result>.toDestinationDtoList() = map { it.toDestinationDto() }
 
 fun List<DestinationFavoriteEntity>.toDestinationFavoriteDtoList() = map { it.toDestinationDto() }
@@ -115,8 +147,28 @@ fun ResultCharacter.toCharacterDto() = CharacterDto(
     type,
     url
 )
+fun ResultCity.toCityDto() = CityDto(
+    localId,
+    id,
+    cityName,
+    publicId,
+    url,
+    status
+)
+fun ResultTravelStyle.toTravelStyleDto() = TravelStyleDto(
+    localId,
+    id,
+    styleName,
+    publicId,
+    url,
+    status,
+    createdAt,
+    img
+)
 
 fun List<ResultCharacter>.toCharacterDtoList() = map { it.toCharacterDto() }
+fun List<ResultCity>.toCityDtoList() = map { it.toCityDto() }
+fun List<ResultTravelStyle>.toTravelStyleDtoList() = map { it.toTravelStyleDto() }
 
 fun FavoriteEntity.toCharacterDto() = CharacterDto(
     created,
@@ -210,7 +262,26 @@ fun HotelDto.toHotelFavoriteEntity() = HotelFavoriteEntity(
     cityId = cityId.orEmpty(),
     createdAt = createdAt.orEmpty(),
     travelStyleId = travelStyleId.orEmpty(),
-    img = img.orEmpty()
+    img = null
+)
+
+fun CityDto.toCityFavoriteEntity() = CityFavoriteEntity(
+    localId = localId ?: 0,
+    id = id.orEmpty(),
+    cityName = cityName.orEmpty(),
+    publicId =  publicId.orEmpty(),
+    url =  url.orEmpty(),
+    status =  status.orEmpty(),
+)
+fun TravelStyleDto.toTravelStyleFavoriteEntity() = TravelStyleFavoriteEntity(
+    localId = localId ?: 0,
+    id = id.orEmpty(),
+    styleName = styleName.orEmpty(),
+    publicId = publicId.orEmpty(),
+    url = url.orEmpty(),
+    status = status.orEmpty(),
+    img = img.orEmpty(),
+    createdAt = createdAt.orEmpty()
 )
 
 fun img.toImgDto() = img(

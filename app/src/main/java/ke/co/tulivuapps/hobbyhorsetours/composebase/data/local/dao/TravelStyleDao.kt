@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.base.BaseDao
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.HotelFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.TravelStyleFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.utils.Constants
 
 /**

@@ -5,6 +5,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.local.dao.CityDao
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.api.CityService
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.source.CityRemoteDataSource
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.remote.source.impl.CityRemoteDataSourceImpl
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.repository.CityRepositoryImpl
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository.CityRepository
 import retrofit2.Retrofit
 

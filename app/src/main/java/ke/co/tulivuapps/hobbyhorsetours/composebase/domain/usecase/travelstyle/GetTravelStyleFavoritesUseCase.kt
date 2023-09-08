@@ -1,10 +1,10 @@
 package ke.co.tulivuapps.hobbyhorsetours.composebase.domain.usecase.travelstyle
 
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.HotelDto
-import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.extension.toHotelFavoriteDtoList
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.TravelStyleDto
+import ke.co.tulivuapps.hobbyhorsetours.composebase.data.model.dto.extension.toTravelStyleFavoriteDtoList
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.base.BaseUseCase
 import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.base.IParams
-import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository.HotelRepository
+import ke.co.tulivuapps.hobbyhorsetours.composebase.domain.repository.TravelStyleRepository
 import kotlinx.coroutines.flow.flow
 
 /**
@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.flow
  */
 
 class GetTravelStyleFavoritesUseCase(
-    internal val repository: HotelRepository
-) : BaseUseCase<IParams, List<HotelDto>> {
+    internal val repository: TravelStyleRepository
+) : BaseUseCase<IParams, List<TravelStyleDto>> {
 
     override suspend fun invoke(param: IParams) = flow {
-        val favorites = repository.getFavoriteList()
-        emit(favorites.toHotelFavoriteDtoList())
+        val favorites = repository.getTravelStyleFavoriteList()
+        emit(favorites.toTravelStyleFavoriteDtoList())
     }
 }
