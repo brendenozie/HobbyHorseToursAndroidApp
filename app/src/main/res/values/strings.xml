@@ -12,13 +12,31 @@
 
     <string name="episodes_screen_title">Episodes</string>
 
+    <string name="episodes_cities_title">Cities</string>
+
+    <string name="episodes_travel_style_title">Travel Style</string>
+
+    <string name="episodes_destinations_title">Destinations</string>
+
+    <string name="episodes_hotels_title">Hotels</string>
+
     <string name="favorite_screen_title">Favorites</string>
+
     <string name="favorite_screen_empty_list_text">You haven\'t added\na character to your favorites yet</string>
+
+    <!--- Popular -->
+    <string name="popular_screen_title">Popular</string>
+
+    <!--- Profile -->
+    <string name="profile_screen_title">My Profile</string>
 
     <!--- Settings -->
     <string name="settings_screen_title">Settings</string>
     <string name="settings_dark_theme">Dark Theme</string>
     <string name="settings_screen_app_version_title">App Version</string>
+
+    <!--- Bookings -->
+    <string name="booking_screen_title">Bookings</string>
 
     <!--- Search -->
     <string name="search_screen_title">Search</string>

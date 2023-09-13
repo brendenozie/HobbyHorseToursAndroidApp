@@ -1,4 +1,4 @@
-package ke.co.tulivuapps.hobbyhorsetours.composebase
+package ke.co.tulivuapps.hobbyhorsetours
 
 import org.junit.Test
 
