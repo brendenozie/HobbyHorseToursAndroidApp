@@ -1,6 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.data.model.dto
 
 import android.os.Parcelable
+import ke.co.tulivuapps.hobbyhorsetours.data.model.img
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -12,11 +13,11 @@ data class BookingDto(
     val id       :   String,
     val createdAt :  String,
     val sessionId  : String?,
-    val hotelId    : String,
+    val hotellId    : String,
     val description : String,
     val startDate   : String,
     val endDate     : String,
-    val img         : String,
+    val img         : img?,
     val lat         : String,
     val location    : String,
     val long        : String,
@@ -33,11 +34,11 @@ data class BookingDto(
             id       = "",
             createdAt = "",
             sessionId  = "",
-            hotelId    = "",
+            hotellId    = "",
             description = "",
             startDate   = "",
             endDate     = "",
-            img         = "",
+            img         = null,
             lat         = "",
             location    = "",
             long        = "",

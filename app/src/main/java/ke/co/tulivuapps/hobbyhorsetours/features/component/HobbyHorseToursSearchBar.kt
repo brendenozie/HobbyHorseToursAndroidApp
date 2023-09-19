@@ -41,7 +41,7 @@ fun HobbyHorseToursSearchBar(
             onValueChange = { onTextChange(it) },
             placeholder = {
                 HobbyHorseToursText(
-                    text = "Search character for name",
+                    text = "Search by name",
                     color = colorResource(R.color.light_gray),
                 )
             },

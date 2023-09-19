@@ -8,8 +8,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.composable
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinations.DestinationsScreen
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinationsdetail.navigation.navigateDestinationsDetail
+import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 
 /**
  * Created by brendenozie on 23.01.2023
@@ -17,7 +19,7 @@ import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinations.Destination
 
 const val destinationsNavigationRoute = "destinations_route"
 
-fun NavController.navigateDestinations(
+fun NavController.navigateToDestinations(
     navOptions: NavOptions? = null
 ) {
     this.navigate(destinationsNavigationRoute, navOptions)
@@ -25,6 +27,6 @@ fun NavController.navigateDestinations(
 
 fun NavGraphBuilder.destinationScreen(navController: NavHostController) {
     composable(destinationsNavigationRoute) {
-        DestinationsScreen(viewModel = hiltViewModel(), navigateToDetail = {}  )
+        DestinationsScreen(viewModel = hiltViewModel(), navigateToDetail = {navController.navigateDestinationsDetail(it.toJson())}  )
     }
 }

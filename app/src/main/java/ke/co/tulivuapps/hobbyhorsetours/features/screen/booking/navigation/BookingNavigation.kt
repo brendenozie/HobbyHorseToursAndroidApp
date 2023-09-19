@@ -10,7 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.composable
-import ke.co.tulivuapps.hobbyhorsetours.data.model.FavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.BookingDto
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.booking.BookingsScreen
 
 /**
@@ -25,13 +25,13 @@ fun NavController.navigateToBookings(
     this.navigate(bookingsNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.bookingsScreen(navigateCharacterDetail: (FavoriteEntity) -> Unit) {
+fun NavGraphBuilder.bookingsScreen(navigateCharacterDetail: (BookingDto) -> Unit) {
     composable(
       bookingsNavigationRoute,
         content = {
             BookingsScreen(
                 viewModel = hiltViewModel(),
-                navigateCharacterDetail = {
+                navigateBookingDetail = {
                     navigateCharacterDetail.invoke(it)
                 }
             )

@@ -7,10 +7,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,13 +22,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.CityDto
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursCharacterShimmer
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursTopBar
 import ke.co.tulivuapps.hobbyhorsetours.features.component.RoundedCornerIconButtonCity
+import ke.co.tulivuapps.hobbyhorsetours.features.component.VerticalGrid
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.rememberFlowWithLifecycle
 import kotlinx.coroutines.flow.Flow
 
@@ -34,7 +37,7 @@ import kotlinx.coroutines.flow.Flow
  */
 
 @Composable
-fun CityScreen(
+fun CitiesScreen(
     viewModel: CityViewModel,
     navigateToDetail: (CityDto?) -> Unit
 ) {
@@ -83,23 +86,54 @@ private fun Content(
             .fillMaxSize()
             .padding(horizontal = 15.dp),
     ) {
-        LazyColumn(
-            contentPadding = PaddingValues(vertical = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
+
+//        pagingItems?.let { HomeGridSection(it) }
+
+
             if (isLoading) {
-                items(10) {
-                    HobbyHorseToursCharacterShimmer()
-                }
-            } else if (pagedData != null && pagingItems != null) {
-                items(items = pagingItems!!) { item ->
-                    if (item != null) {
-                        RoundedCornerIconButtonCity(
-                            modifier = Modifier,
-                            item
-                        )
+                LazyColumn(
+                    contentPadding = PaddingValues(vertical = 10.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(10) {
+                        HobbyHorseToursCharacterShimmer()
+
                     }
                 }
+            } else if (pagedData != null && pagingItems != null) {
+
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(3),
+                    modifier = Modifier.padding(2.dp)
+                ) {
+                    items(
+                        pagingItems!!.itemCount
+                    ) { index ->
+                        pagingItems!![index]?.let {
+                               Box(Modifier.padding(2.dp)) {
+                                    RoundedCornerIconButtonCity(
+                                        modifier = Modifier,
+                                        it
+                                    )
+                                }
+                        }
+                    }
+                }
+
+        }
+    }
+}
+
+@Composable
+fun HomeGridSection(pagingItems: LazyPagingItems<CityDto>) {
+    val items = remember { pagingItems.itemSnapshotList }
+    VerticalGrid {
+        items.forEach {
+            if (it != null) {
+                RoundedCornerIconButtonCity(
+                    modifier = Modifier,
+                    icon = it
+                )
             }
         }
     }
@@ -116,5 +150,5 @@ private fun Content(
 )
 @Composable
 fun DetailContentItemViewPreview() {
-    CityScreen(viewModel = hiltViewModel(), navigateToDetail = {})
+    CitiesScreen(viewModel = hiltViewModel(), navigateToDetail = {})
 }

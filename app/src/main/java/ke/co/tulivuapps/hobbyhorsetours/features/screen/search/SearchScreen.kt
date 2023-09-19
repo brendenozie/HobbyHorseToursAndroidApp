@@ -1,4 +1,7 @@
-@file:OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class)
+@file:OptIn(
+    ExperimentalMaterialApi::class,
+    ExperimentalFoundationApi::class,
+    ExperimentalComposeUiApi::class)
 
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.search
 
@@ -7,6 +10,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,8 +18,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
@@ -25,20 +33,24 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -48,13 +60,15 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.data.model.Status
-import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.CharacterDto
+import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.CityDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.DestinationDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.HotelDto
+import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.TravelStyleDto
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.search.SearchViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursButton
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursCharacterShimmer
-import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursCharactersCard
+import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursDestinationsCard
+import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursHotelsCard
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursSearchBar
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursSelectableText
@@ -72,7 +86,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel,
-    navigateToDetail: (CharacterDto?) -> Unit,
     navigateToHotelDto: (HotelDto) -> Unit,
     navigateToBack: () -> Unit,
     navigateToDestinationDto: (DestinationDto) -> Unit
@@ -124,12 +137,20 @@ fun SearchScreen(
                 Content(
                     isLoading = viewState.isLoading,
                     searchText = viewState.searchText,
-                    pagedData = viewState.pagedData,
+                    pagedHotelData = viewState.pagedHotelData,
+                    pagedDestinationData = viewState.pagedDestinationData,
                     onTriggerEvent = {
                         viewModel.onTriggerEvent(it)
                     },
-                    clickDetail = {
-                        navigateToDetail.invoke(it)
+                    clickHotelDetail = {
+                        if (it != null) {
+                            navigateToHotelDto.invoke(it)
+                        }
+                    },
+                    clickDestinationDetail = {
+                        if (it != null) {
+                            navigateToDestinationDto.invoke(it)
+                        }
                     },
                     onTextChange = {
                         viewModel.searchText(it)
@@ -147,16 +168,24 @@ fun SearchScreen(
 private fun Content(
     isLoading: Boolean,
     searchText: String?,
-    pagedData: Flow<PagingData<CharacterDto>>?,
+    pagedHotelData: Flow<PagingData<HotelDto>>?,
+    pagedDestinationData: Flow<PagingData<DestinationDto>>?,
     onTriggerEvent: (SearchViewEvent) -> Unit,
-    clickDetail: (CharacterDto?) -> Unit,
+    clickHotelDetail: (HotelDto?) -> Unit,
+    clickDestinationDetail: (DestinationDto?) -> Unit,
     onTextChange: (String) -> Unit
 ) {
 
-    var pagingItems: LazyPagingItems<CharacterDto>? = null
-    pagedData?.let {
-        pagingItems = Utility.rememberFlowWithLifecycle(it).collectAsLazyPagingItems()
+    var pagingHotelItems: LazyPagingItems<HotelDto>? = null
+    pagedHotelData?.let {
+        pagingHotelItems = Utility.rememberFlowWithLifecycle(it).collectAsLazyPagingItems()
     }
+
+    var pagingDestinationItems: LazyPagingItems<DestinationDto>? = null
+    pagedDestinationData?.let {
+        pagingDestinationItems = Utility.rememberFlowWithLifecycle(it).collectAsLazyPagingItems()
+    }
+
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -176,40 +205,160 @@ private fun Content(
                 keyboardController?.hide()
             }
         )
-        ShowSearchList(isLoading, pagingItems, pagedData, clickDetail, onTriggerEvent)
+        ShowSearchList(isLoading, pagingHotelItems, pagedHotelData, pagingDestinationItems, pagedDestinationData, clickHotelDetail, clickDestinationDetail, onTriggerEvent)
     }
 }
 
 @Composable
 private fun ShowSearchList(
     isLoading: Boolean,
-    pagingItems: LazyPagingItems<CharacterDto>?,
-    pagedData: Flow<PagingData<CharacterDto>>?,
-    clickDetail: (CharacterDto?) -> Unit,
+    pagingHotelItems: LazyPagingItems<HotelDto>?,
+    pagedHotelData: Flow<PagingData<HotelDto>>?,
+    pagingDestinationItems: LazyPagingItems<DestinationDto>?,
+    pagedDestinationData: Flow<PagingData<DestinationDto>>?,
+    clickHotelDetail: (HotelDto?) -> Unit,
+    clickDestinationDetail: (DestinationDto?) -> Unit,
     onTriggerEvent: (SearchViewEvent) -> Unit
 ) {
-    LazyColumn(
-        contentPadding = PaddingValues(vertical = 10.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
+
         if (isLoading) {
-            items(10) {
-                HobbyHorseToursCharacterShimmer()
+            LazyColumn(
+                contentPadding = PaddingValues(vertical = 10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(10) {
+                    HobbyHorseToursCharacterShimmer()
+                }
             }
-        } else if (pagedData != null && pagingItems != null) {
-            items(items = pagingItems) { item ->
-                HobbyHorseToursCharactersCard(
-                    status = item?.status ?: Status.Unknown,
-                    detailClick = {
-                        clickDetail.invoke(item)
-                    },
-                    dto = item,
-                    onTriggerEvent = {
-                        onTriggerEvent.invoke(SearchViewEvent.UpdateFavorite(it))
+        } else if (pagedHotelData != null && pagingHotelItems != null && pagedDestinationData != null && pagingDestinationItems != null) {
+
+
+//            item {
+                Row(
+                    modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Destinations",
+                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.h2,
+                        textAlign = TextAlign.Start,
+                        fontSize = 20.sp
+                    )
+//                        Text(
+//                            modifier = Modifier
+//                                .clickable(onClick = { navigateToCities.invoke() }),
+//                            text = "View All",
+//                            style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
+//                        )
+                }
+//            }
+
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier.padding(2.dp)
+            ) {
+
+                items(
+                    pagingDestinationItems.itemCount
+                ) { index ->
+                    pagingDestinationItems[index]?.let {
+                        Box(Modifier.padding(2.dp)) {
+                            HobbyHorseToursDestinationsCard(
+                                status = Status.Unknown,
+                                detailClick = {
+                                    clickDestinationDetail.invoke(it)
+                                },
+                                dto = it,
+                                onTriggerEvent = {
+                                    onTriggerEvent.invoke(
+                                        SearchViewEvent.UpdateDestinationFavorite(
+                                            it
+                                        )
+                                    )
+                                }
+                            )
+                        }
                     }
-                )
+                }
+
+//            items(items = pagingHotelItems) { item ->
+//                HobbyHorseToursHotelsCard(
+//                    status = Status.Unknown,
+//                    detailClick = {
+//                        clickHotelDetail.invoke(item)
+//                    },
+//                    dto = item,
+//                    onTriggerEvent = {
+////                        onTriggerEvent.invoke(SearchViewEvent.UpdateFavorite(it))
+//                    }
+//                )
+//            }
             }
-        }
+
+
+             Spacer(modifier = Modifier.size(10.dp))
+
+             Row(
+                    modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Hotels",
+                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.h2,
+                        textAlign = TextAlign.Start,
+                        fontSize = 20.sp
+                    )
+//                        Text(
+//                            modifier = Modifier
+//                                .clickable(onClick = { navigateToCities.invoke() }),
+//                            text = "View All",
+//                            style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
+//                        )
+                }
+
+
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier.padding(2.dp)
+            ) {
+
+            items(
+                    pagingHotelItems.itemCount
+                ) { index ->
+                    pagingHotelItems[index]?.let {
+                        Box(Modifier.padding(2.dp)) {
+                            HobbyHorseToursHotelsCard(
+                                status = Status.Unknown,
+                                detailClick = {
+                                    clickHotelDetail.invoke(it)
+                                },
+                                dto = it,
+                                onTriggerEvent = {
+                                    onTriggerEvent.invoke(SearchViewEvent.UpdateHotelFavorite(it))
+                                }
+                            )
+                        }
+                    }
+                }
+
+
+            }
+
+//            items(items = pagingDestinationItems) { item ->
+//                HobbyHorseToursDestinationsCard(
+//                    status = Status.Unknown,
+//                    detailClick = {
+//                        clickDestinationDetail.invoke(item)
+//                    },
+//                    dto = item,
+//                    onTriggerEvent = {
+////                        onTriggerEvent.invoke(SearchViewEvent.UpdateFavorite(it))
+//                    }
+//                )
+//            }
+//        }
     }
 }
 
@@ -220,6 +369,16 @@ private fun BottomSheetLayout(
     state: ModalBottomSheetState
 ) {
     val scope = rememberCoroutineScope()
+
+    var pagingCityItems: LazyPagingItems<CityDto>? = null
+    viewState.pagedCityData?.let {
+        pagingCityItems = Utility.rememberFlowWithLifecycle(it).collectAsLazyPagingItems()
+    }
+
+    var pagingTravelStyleItems: LazyPagingItems<TravelStyleDto>? = null
+    viewState.pagedTravelStyleData?.let {
+        pagingTravelStyleItems = Utility.rememberFlowWithLifecycle(it).collectAsLazyPagingItems()
+    }
 
     ConstraintLayout(
         modifier = Modifier
@@ -258,40 +417,49 @@ private fun BottomSheetLayout(
                 },
         ) {
             HobbyHorseToursText(
-                text = stringResource(id = R.string.search_modal_status_title),
-                color = MaterialTheme.colors.onSurface
+                text = stringResource(id = R.string.search_modal_city_title),
+                color = MaterialTheme.colors.primary
             )
-            Row(modifier = Modifier.padding(top = 10.dp)) {
-                viewState.status.forEach {
-                    HobbyHorseToursSelectableText(
-                        modifier = Modifier.weight(1f),
-                        isSelected = it.selected,
-                        text = it.name
-                    ) {
-                        viewModel.selectStatus(it.name)
+            LazyRow( modifier = Modifier.fillMaxWidth() ) {
+                if(pagingCityItems !=null) {
+                    items(items = pagingCityItems!!) { item ->
+                        if (item != null) {
+                            HobbyHorseToursSelectableText(
+                                modifier = Modifier.weight(1f),
+                                isSelected = viewState.selectedCityData!=null && viewState.selectedCityData.cityName == item.cityName,
+                                text = item.cityName
+                            ) {
+                                viewModel.selectCity(item)
+                            }
+                        }
+                        Spacer(modifier = Modifier.width(20.dp))
                     }
-                    Spacer(modifier = Modifier.width(20.dp))
-
+//                Spacer(modifier = Modifier.width(20.dp))
                 }
-                Spacer(modifier = Modifier.width(20.dp))
             }
 
             HobbyHorseToursText(
-                text = stringResource(id = R.string.search_modal_gender_title),
+                text = stringResource(id = R.string.search_modal_travelstyle_title),
                 modifier = Modifier.padding(top = 10.dp),
-                color = MaterialTheme.colors.onSurface
+                color = MaterialTheme.colors.primary
             )
-            Row(modifier = Modifier.padding(top = 10.dp)) {
-                viewState.gender.forEach {
-                    HobbyHorseToursSelectableText(
-                        modifier = Modifier.weight(0.5f),
-                        isSelected = it.selected,
-                        text = it.name,
-                        style = MaterialTheme.typography.body2
-                    ) {
-                        viewModel.selectGender(it.name)
+            LazyRow( modifier = Modifier.fillMaxWidth() ) {
+                if(pagingCityItems !=pagingTravelStyleItems) {
+                    items(items = pagingTravelStyleItems!!) { itm ->
+                        if (itm != null) {
+                            itm.styleName?.let {
+                                HobbyHorseToursSelectableText(
+                                    modifier = Modifier.weight(0.5f),
+                                    isSelected = viewState.selectedTravelStyleData!=null && viewState.selectedTravelStyleData.styleName == itm.styleName,
+                                    text = it,
+                                    style = MaterialTheme.typography.body2
+                                ) {
+                                    viewModel.selectTravelStyle(itm)
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.width(5.dp))
                     }
-                    Spacer(modifier = Modifier.width(5.dp))
                 }
             }
         }
@@ -325,7 +493,6 @@ private fun BottomSheetLayout(
 fun DetailContentItemViewPreview() {
     SearchScreen(
         viewModel = hiltViewModel(),
-        navigateToDetail = {},
         navigateToHotelDto = {},
         navigateToBack = {},
         navigateToDestinationDto = {}

@@ -23,7 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -154,15 +154,15 @@ private fun Content(
                     ) {
                         Text(
                             text = "Cities",
-                            style = TextStyle(
-                                fontSize = 18.sp,
-                            ),
-                            modifier = Modifier.weight(1f)
+                            modifier = Modifier.weight(1f),
+                            style = MaterialTheme.typography.h2,
+                            textAlign = TextAlign.Start,
+                            fontSize = 20.sp
                         )
                         Text(modifier = Modifier
                             .clickable(onClick = { navigateToCities.invoke() }),
                             text = "View All",
-                            style = MaterialTheme.typography.subtitle2.copy(color = Color.LightGray)
+                            style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
                         )
                     }
                     ContentCities(isLoading = cityViewState.isLoading,
@@ -182,15 +182,15 @@ private fun Content(
                     ) {
                         Text(
                             text = "Travel Style",
-                            style = TextStyle(
-                                fontSize = 18.sp,
-                            ),
+                            style = MaterialTheme.typography.h2,
+                            textAlign = TextAlign.Start,
+                            fontSize = 20.sp,
                             modifier = Modifier.weight(1f)
                         )
                         Text(modifier = Modifier
                             .clickable(onClick = { navigateToTravelStyles.invoke() }),
                             text = "View All",
-                            style = MaterialTheme.typography.subtitle2.copy(color = Color.LightGray)
+                            style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
                         )
                     }
                     ContentTravelStyle(isLoading = travelStyleViewState.isLoading,
@@ -210,15 +210,15 @@ private fun Content(
                     ) {
                         Text(
                             text = "Destinations",
-                            style = TextStyle(
-                                fontSize = 18.sp,
-                            ),
+                            style = MaterialTheme.typography.h2,
+                            textAlign = TextAlign.Start,
+                            fontSize = 20.sp,
                             modifier = Modifier.weight(1f)
                         )
                         Text(modifier = Modifier
                             .clickable(onClick = { navigateToDestinations.invoke() }),
                             text = "View All",
-                            style = MaterialTheme.typography.subtitle2.copy(color = Color.LightGray)
+                            style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
                         )
                     }
                     ContentDestinations(isLoading = destinationsViewState.isLoading,
@@ -240,15 +240,15 @@ private fun Content(
                     ) {
                         Text(
                             text = "Hotels",
-                            style = TextStyle(
-                                fontSize = 18.sp,
-                            ),
+                            style = MaterialTheme.typography.h2,
+                            textAlign = TextAlign.Start,
+                            fontSize = 20.sp,
                             modifier = Modifier.weight(1f)
                         )
                         Text(modifier = Modifier
                             .clickable(onClick = { navigateToHotels.invoke() }),
                             text = "View All",
-                            style = MaterialTheme.typography.subtitle2.copy(color = Color.LightGray)
+                            style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
                         )
                     }
                     ContentHotels(isLoading = hotelsViewState.isLoading,

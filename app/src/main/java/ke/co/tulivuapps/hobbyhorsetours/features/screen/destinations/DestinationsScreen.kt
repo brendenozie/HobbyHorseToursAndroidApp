@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -19,7 +21,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.data.model.Status
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.DestinationDto
@@ -47,7 +48,7 @@ fun DestinationsScreen(
         scaffoldState = scaffoldState,
         topBar = {
             HobbyHorseToursTopBar(
-                text = stringResource(id = R.string.characters_screen_title),
+                text = stringResource(id = R.string.episodes_destinations_title),
                 elevation = 10.dp,
             )
         },
@@ -84,28 +85,57 @@ private fun Content(
             .fillMaxSize()
             .padding(horizontal = 15.dp),
     ) {
-        LazyColumn(
-            contentPadding = PaddingValues(vertical = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
+//        LazyColumn(
+//            contentPadding = PaddingValues(vertical = 10.dp),
+//            verticalArrangement = Arrangement.spacedBy(10.dp)
+//        ) {
             if (isLoading) {
-                items(10) {
-                    HobbyHorseToursCharacterShimmer()
+                LazyColumn(
+                    contentPadding = PaddingValues(vertical = 10.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(10) {
+                        HobbyHorseToursCharacterShimmer()
+
+                    }
                 }
             } else if (pagedData != null && pagingItems != null) {
-                items(items = pagingItems!!) { item ->
-                    HobbyHorseToursDestinationsCard(
-                        status = Status.Unknown,
-                        detailClick = {
-                            clickDetail.invoke(item)
-                        },
-                        dto = item,
-                        onTriggerEvent = {
-                            //onTriggerEvent.invoke(DestinationsViewEvent.UpdateFavorite(it))
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier.padding(2.dp)
+                ) {
+                    items(
+                        pagingItems!!.itemCount
+                    ) { index ->
+                        pagingItems!![index]?.let {
+                            Box(Modifier.padding(2.dp)) {
+                                HobbyHorseToursDestinationsCard(
+                                    status = Status.Unknown,
+                                    detailClick = {
+                                        clickDetail.invoke(it)
+                                    },
+                                    dto = it,
+                                    onTriggerEvent = {
+//                            onTriggerEvent.invoke(HotelsViewEvent.UpdateFavorite(it))
+                                    }
+                                )
+                            }
                         }
-                    )
+                    }
                 }
-            }
+//                items(items = pagingItems!!) { item ->
+//                    HobbyHorseToursDestinationsCard(
+//                        status = Status.Unknown,
+//                        detailClick = {
+//                            clickDetail.invoke(item)
+//                        },
+//                        dto = item,
+//                        onTriggerEvent = {
+//                            //onTriggerEvent.invoke(DestinationsViewEvent.UpdateFavorite(it))
+//                        }
+//                    )
+//                }
+//            }
         }
     }
 }

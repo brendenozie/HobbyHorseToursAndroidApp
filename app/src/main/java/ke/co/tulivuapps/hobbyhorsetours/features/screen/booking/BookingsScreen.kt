@@ -33,7 +33,6 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import ke.co.tulivuapps.hobbyhorsetours.R
-import ke.co.tulivuapps.hobbyhorsetours.data.model.FavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.BookingDto
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursBookingCard
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursEpisodesShimmer
@@ -50,7 +49,7 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 fun BookingsScreen(
     viewModel: BookingsViewModel = hiltViewModel(),
-    navigateCharacterDetail: (FavoriteEntity) -> Unit
+    navigateBookingDetail: (BookingDto) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val viewState = viewModel.uiState.collectAsState().value
@@ -75,8 +74,7 @@ fun BookingsScreen(
             HobbyHorseToursTopBar(
                 text = stringResource(id = R.string.booking_screen_title),
                 actions = {
-                    IconButton(onClick = {
-                    }) {
+                    IconButton(onClick = {  }) {
                     }
                 },
                 elevation = 10.dp,
@@ -90,7 +88,9 @@ fun BookingsScreen(
                     viewModel.onTriggerEvent(it)
                 },
                 clickDetail = {
-                    //navigateToDestination.invoke(it)
+                    if (it != null) {
+                        navigateBookingDetail.invoke(it)
+                    }
                 }
             )
         },
@@ -130,7 +130,10 @@ private fun Content(
 //                LazyRow( modifier = Modifier.fillMaxWidth() ) {
                     items(items = pagingItems!!) { item ->
                         if (item != null) {
-                            HobbyHorseToursBookingCard(item = item)
+                            HobbyHorseToursBookingCard(item = item,
+                                detailClick = {
+                                clickDetail.invoke(item)
+                            },)
                         }
                     }
 //                }

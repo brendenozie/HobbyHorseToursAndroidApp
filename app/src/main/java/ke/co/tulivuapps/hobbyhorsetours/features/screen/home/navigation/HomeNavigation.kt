@@ -10,14 +10,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.composable
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.characters.navigation.homesNavigationRoute
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.cities.navigation.navigateCities
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinations.navigation.navigateDestinations
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.cities.navigation.navigateToCities
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinations.navigation.navigateToDestinations
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinationsdetail.navigation.navigateDestinationsDetail
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.HomeScreen
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.navigation.navigateHotels
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.navigation.navigateToHotels
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotelsdetail.navigation.navigateHotelsDetail
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.search.navigation.navigateToSearch
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.navigation.navigateTravelStyle
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.navigation.navigateToTravelStyle
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 
 /**
@@ -42,10 +42,10 @@ fun NavGraphBuilder.homesScreen(navController: NavHostController) {
             cityviewModel =hiltViewModel(),
             hotelsviewModel =hiltViewModel(),
             navigateToSearch = {navController.navigateToSearch()},
-            navigateToCities =  {navController.navigateCities()},
-            navigateToTravelStyles= {navController.navigateTravelStyle()},
-            navigateToDestinations= {navController.navigateDestinations()},
-            navigateToHotels= {navController.navigateHotels()},
+            navigateToCities =  {navController.navigateToCities()},
+            navigateToTravelStyles= {navController.navigateToTravelStyle()},
+            navigateToDestinations= {navController.navigateToDestinations()},
+            navigateToHotels= {navController.navigateToHotels()},
             navigateToDestination = {navController.navigateDestinationsDetail(it.toJson())}
         ) {
             navController.navigateHotelsDetail(it.toJson())

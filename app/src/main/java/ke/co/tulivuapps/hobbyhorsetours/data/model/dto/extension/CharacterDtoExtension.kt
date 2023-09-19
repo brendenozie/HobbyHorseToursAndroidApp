@@ -32,7 +32,7 @@ fun ResultBooking.toBookingDto() = BookingDto(
     id       ,
     createdAt,
     sessionId  ,
-    hotelId     ,
+    hotellId     ,
     description ,
     startDate,
     endDate     ,
@@ -317,3 +317,14 @@ fun img.toImgDto() = img(
 )
 
 fun List<img>.toImgDtoList() = map { it.toImgDto() }
+
+
+//@ExperimentalFoundationApi
+//public fun <T: Any> VerticalGrid.items(
+//    lazyPagingItems: LazyPagingItems<T>,
+//    itemContent: @Composable LazyItemScope.(value: T?) -> Unit
+//) {
+//    items(lazyPagingItems.itemCount) { index ->
+//        itemContent(lazyPagingItems[index])
+//    }
+//}

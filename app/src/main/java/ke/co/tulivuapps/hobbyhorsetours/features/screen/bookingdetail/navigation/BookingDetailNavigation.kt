@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalAnimationApi::class)
 
-package ke.co.tulivuapps.hobbyhorsetours.features.screen.cities.navigation
+package ke.co.tulivuapps.hobbyhorsetours.features.screen.bookingdetail.navigation
 
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -8,29 +8,32 @@ import androidx.compose.animation.core.tween
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.composable
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.cities.CitiesScreen
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.bookingdetail.DetailScreen
 
 /**
  * Created by brendenozie on 23.01.2023
  */
 
-const val citiesNavigationRoute = "cities_route"
+const val bookingDetailNavigationRoute = "booking_detail_route"
 
-fun NavController.navigateToCities(
+fun NavController.navigateBookingDetail(
+    bookingDetail: String,
     navOptions: NavOptions? = null
 ) {
-    this.navigate(citiesNavigationRoute, navOptions)
+    this.navigate(bookingDetailNavigationRoute.plus("?bookingDetail=${bookingDetail}"), navOptions)
 }
 
-fun NavGraphBuilder.citiesScreen(navController: NavHostController) {
+fun NavGraphBuilder.bookingDetailScreen(navigateToBack: () -> Unit) {
     composable(
-        citiesNavigationRoute,
+        bookingDetailNavigationRoute.plus("?bookingDetail={bookingDetail}"),
         content = {
-                CitiesScreen(viewModel = hiltViewModel(), navigateToDetail = {})
-            },
+            DetailScreen(
+                viewModel = hiltViewModel(),
+                navigateToBack = navigateToBack
+            )
+        },
         enterTransition = {
             slideIntoContainer(
                 AnimatedContentScope.SlideDirection.Left,

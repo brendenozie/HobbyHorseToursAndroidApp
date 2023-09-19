@@ -3,6 +3,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,10 +28,12 @@ import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.BookingDto
 fun HobbyHorseToursBookingCard(
     modifier: Modifier = Modifier,
     item: BookingDto,
+    detailClick: () -> Unit,
 ) {
     Card(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { detailClick() },
         shape = RoundedCornerShape(8.dp),
     ) {
         ConstraintLayout(modifier = modifier.padding(horizontal = 10.dp, vertical = 10.dp)) {

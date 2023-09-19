@@ -8,7 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.composable
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.TravelStylesScreen
 
 /**
@@ -17,7 +17,7 @@ import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.TravelStyle
 
 const val travelStyleNavigationRoute = "travel_style_route"
 
-fun NavController.navigateTravelStyle(
+fun NavController.navigateToTravelStyle(
     navOptions: NavOptions? = null
 ) {
     this.navigate(travelStyleNavigationRoute, navOptions)

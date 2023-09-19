@@ -47,7 +47,7 @@ fun MoreInfoSection() {
                 style = typography.body1.copy(fontWeight = FontWeight.Bold)
             )
         },
-        secondaryText = { Text(text = "Tap to checkout the repo for the project") },
+        secondaryText = { Text(text = "Click to edit your profile information") },
         modifier = Modifier
             .clickable(onClick = { launchSocialActivity(context, "repository") })
     )
@@ -59,7 +59,7 @@ fun MoreInfoSection() {
                 style = typography.body1.copy(fontWeight = FontWeight.Bold)
             )
         },
-        secondaryText = { Text(text = "Tap to write me about any concern or info at $email") },
+        secondaryText = { Text(text = "View Data Privacy information") },
         modifier = Modifier
             .clickable(onClick = { launchSocialActivity(context, "repository") })
     )

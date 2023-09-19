@@ -39,10 +39,10 @@
     <string name="booking_screen_title">Bookings</string>
 
     <!--- Search -->
-    <string name="search_screen_title">Search</string>
+    <string name="search_screen_title">Search Destinations and Hotels</string>
     <string name="search_modal_title">Filter</string>
-    <string name="search_modal_status_title">Status</string>
-    <string name="search_modal_gender_title">Gender</string>
+    <string name="search_modal_city_title">City</string>
+    <string name="search_modal_travelstyle_title">Travel Style</string>
     <string name="search_modal_button_text">Apply</string>
 
 </resources>

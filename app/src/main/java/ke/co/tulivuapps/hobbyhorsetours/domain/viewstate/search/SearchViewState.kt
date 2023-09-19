@@ -3,8 +3,10 @@ package ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.search
 import android.os.Parcelable
 import androidx.compose.runtime.Stable
 import androidx.paging.PagingData
-import ke.co.tulivuapps.hobbyhorsetours.data.model.Status
-import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.CharacterDto
+import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.CityDto
+import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.DestinationDto
+import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.HotelDto
+import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.TravelStyleDto
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.parcelize.Parcelize
@@ -16,18 +18,12 @@ import kotlinx.parcelize.Parcelize
 @Stable
 data class SearchViewState(
     val searchText: String? = null,
-    val pagedData: Flow<PagingData<CharacterDto>>? = null,
-    val status: List<CharacterStatus> = listOf(
-        CharacterStatus(Status.Alive.value, false),
-        CharacterStatus(Status.Dead.value, false),
-        CharacterStatus(Status.Unknown.value, false)
-    ),
-    val gender: List<CharacterGender> = listOf(
-        CharacterGender("female", false),
-        CharacterGender("male", false),
-        CharacterGender("genderless", false),
-        CharacterGender("unknown", false)
-    ),
+    val pagedHotelData: Flow<PagingData<HotelDto>>? = null,
+    val pagedDestinationData: Flow<PagingData<DestinationDto>>? = null,
+    val pagedCityData: Flow<PagingData<CityDto>>? = null,
+    val selectedCityData: CityDto? = null,
+    val pagedTravelStyleData: Flow<PagingData<TravelStyleDto>>? = null,
+    val selectedTravelStyleData: TravelStyleDto? = null,
     val isLoading: Boolean = false
 ) : IViewState
 
