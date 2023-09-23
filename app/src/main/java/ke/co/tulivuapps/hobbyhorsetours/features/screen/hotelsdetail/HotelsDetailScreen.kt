@@ -63,6 +63,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HotelsDetailScreen(
     viewModel: HotelsDetailViewModel = viewModel(),
+    navigateToBookNow: () -> Unit,
     navigateToBack: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -232,7 +233,7 @@ private fun CharacterInfoRow(modifier: Modifier, text: String, value: String) {
 )
 @Composable
 fun DetailContentItemViewPreview() {
-    HotelsDetailScreen(viewModel = hiltViewModel(), navigateToBack = {})
+    HotelsDetailScreen(viewModel = hiltViewModel(), navigateToBack = {}, navigateToBookNow = {})
 }
 
 
@@ -243,6 +244,7 @@ fun DetailContentItemViewPreview() {
 fun DetailScreen(
     viewModel: HotelsDetailViewModel = viewModel(),
     scaffoldState: ScaffoldState = rememberScaffoldState(),
+    navigateToBookNow: ()-> Unit,
     navigateToBack: () -> Unit
 ) {
     val viewState by viewModel.uiState.collectAsState()
@@ -280,7 +282,7 @@ fun DetailScreen(
             )
         },
         content = {innerPadding ->
-            DetailScreenContent(modifier = Modifier.padding(innerPadding), viewModel= viewModel, navigateToBack = { navigateToBack })
+            DetailScreenContent(modifier = Modifier.padding(innerPadding), viewModel= viewModel, navigateToBookNow = navigateToBookNow)
         },
         scaffoldState = scaffoldState,
         backgroundColor = MaterialTheme.colors.background
@@ -291,7 +293,7 @@ fun DetailScreen(
 private fun DetailScreenContent(
     modifier: Modifier,
     viewModel: HotelsDetailViewModel,
-    navigateToBack: () -> Unit
+    navigateToBookNow: ()-> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val viewState by viewModel.uiState.collectAsState()
@@ -355,7 +357,7 @@ private fun DetailScreenContent(
             }
             Spacer(modifier = Modifier.weight(1F))
             Button(
-                onClick = {},
+                onClick = {navigateToBookNow.invoke()},
                 modifier = Modifier.padding(bottom = 56.dp).size(170.dp, 56.dp),
                 shape = RoundedCornerShape(72.dp),
                 colors = ButtonDefaults.buttonColors(

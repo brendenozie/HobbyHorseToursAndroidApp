@@ -13,6 +13,7 @@ import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursBottom
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursFloatingActionBar
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.booking.navigation.bookingsScreen
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.booknow.navigation.bookNowScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.charactersdetail.navigation.charactersDetailScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.charactersdetail.navigation.navigateCharactersDetail
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.cities.navigation.citiesScreen
@@ -22,6 +23,7 @@ import ke.co.tulivuapps.hobbyhorsetours.features.screen.favorites.navigation.fav
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.navigation.homesScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.navigation.hotelsScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotelsdetail.navigation.hotelsDetailScreen
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.login.navigation.loginScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.onboarding.navigation.onboardingNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.onboarding.navigation.onbooardingScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.popular.navigation.episodesScreen
@@ -73,14 +75,16 @@ fun NavGraph() {
         ) {
             onbooardingScreen(navController)
             homesScreen(navController)
+            loginScreen(navController)
             destinationScreen(navController)
             destinationsDetailScreen { navController.navigateUp() }
             citiesScreen(navController)
             hotelsScreen(navController)
-            hotelsDetailScreen{ navController.navigateUp() }
+            hotelsDetailScreen(navController)
             travelStylesScreen(navController)
             charactersDetailScreen { navController.navigateUp() }
             bookingsScreen { navController.navigateCharactersDetail(it.toJson()) }
+            bookNowScreen {  }
             episodesScreen()
             searchScreen(navController)
             profileScreen()

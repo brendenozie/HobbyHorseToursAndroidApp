@@ -16,19 +16,44 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.features.carousel.Pager
 import ke.co.tulivuapps.hobbyhorsetours.features.carousel.PagerState
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.navigation.homeNavigationRoute
+import kotlinx.coroutines.delay
 
 @Composable
-fun OnBoardingScreen(onSkip: () -> Unit) {
+fun OnBoardingScreen(onSkip: () -> Unit,
+                     splashScreenViewModel: OnBoardingViewModel = hiltViewModel(),
+                     navController: NavController
+                    ) {
+
+    val onboarding by splashScreenViewModel.onBoardingCompleted.collectAsState()
+
+    LaunchedEffect(key1 = true) {
+        delay(300L)
+        if (onboarding) {
+            navController.popBackStack()
+            navController.navigate(homeNavigationRoute)
+        }
+//        else {
+//            navController.navigate(loginNavigationRoute)
+//        }
+    }
+
     val currContext = LocalContext.current.applicationContext
+
     val pagerState: PagerState = run {
         remember {
             PagerState(0, 0, onboardingList.size - 1)
@@ -53,7 +78,10 @@ fun OnBoardingScreen(onSkip: () -> Unit) {
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(vertical = 48.dp, horizontal = 16.dp)
-                    .clickable(onClick = onSkip)
+                    .clickable(onClick = {
+                                            splashScreenViewModel.setOnboarding()
+                                            navController.popBackStack()
+                                            onSkip() })
             )
             Row(
                 modifier = Modifier
@@ -74,6 +102,8 @@ fun OnBoardingScreen(onSkip: () -> Unit) {
                         pagerState.currentPage =
                             pagerState.currentPage + 1
                     }else{
+                        splashScreenViewModel.setOnboarding()
+                        navController.popBackStack()
                         onSkip()
                     }
                 },

@@ -25,13 +25,15 @@ fun NavController.navigateBookingDetail(
     this.navigate(bookingDetailNavigationRoute.plus("?bookingDetail=${bookingDetail}"), navOptions)
 }
 
-fun NavGraphBuilder.bookingDetailScreen(navigateToBack: () -> Unit) {
+fun NavGraphBuilder.bookingDetailScreen(navigateToBack: () -> Unit,navigateToBookNow: () -> Unit,navController: NavController) {
     composable(
         bookingDetailNavigationRoute.plus("?bookingDetail={bookingDetail}"),
         content = {
             DetailScreen(
                 viewModel = hiltViewModel(),
-                navigateToBack = navigateToBack
+                navigateToBack = navigateToBack,
+                navigateToBookNow = navigateToBookNow,
+                navController = navController
             )
         },
         enterTransition = {

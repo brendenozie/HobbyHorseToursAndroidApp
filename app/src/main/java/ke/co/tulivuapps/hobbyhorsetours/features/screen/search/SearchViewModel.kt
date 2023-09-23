@@ -74,8 +74,16 @@ class SearchViewModel @Inject constructor(
 
             val queryData = HashMap<String, String>()
             viewState.searchText?.let { queryData[Constants.PARAM_NAME] = it }
-//            viewState.city.let { c -> c.selected }?.name?.let { queryData[Constants.PARAM_CITY] = it }
-//            viewState.travelStyle.let { c -> c.selected }?.name?.let { queryData[Constants.PARAM_TRAVEL_STYLE] = it }
+            viewState.selectedCityData.let {
+                if (it != null) {
+                    queryData[Constants.PARAM_CITY] = it.id ?: ""
+                }
+            }
+            viewState.selectedTravelStyleData.let {
+                if (it != null) {
+                    queryData[Constants.PARAM_TRAVEL_STYLE] = it.id ?: ""
+                }
+            }
 
             val paramsHotel = GetHotelsFilterUseCase.Params(config, queryData)
             val paramsDestination = GetDestinationsFilterUseCase.Params(config, queryData)
@@ -106,11 +114,19 @@ class SearchViewModel @Inject constructor(
     }
 
     fun selectCity(value: CityDto) {
-        setState { currentState.copy(selectedCityData = value) }
+        if(currentState.selectedCityData !=null && currentState.selectedCityData!!.cityName == value.cityName){
+            setState { currentState.copy(selectedCityData = null) }
+        }else {
+            setState { currentState.copy(selectedCityData = value) }
+        }
     }
 
     fun selectTravelStyle(value: TravelStyleDto) {
-        setState { currentState.copy(selectedTravelStyleData = value) }
+        if(currentState.selectedTravelStyleData !=null && currentState.selectedTravelStyleData!!.styleName == value.styleName){
+            setState { currentState.copy(selectedTravelStyleData = null) }
+        }else {
+            setState { currentState.copy(selectedTravelStyleData = value) }
+        }
         //setState { currentState.copy(pagedTravelStyleData = currentState.pagedTravelStyleData.map { it.copy(selected = it.name == value && it.selected.not()) }) }
     }
 

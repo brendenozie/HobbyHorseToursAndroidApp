@@ -1,6 +1,11 @@
-package com.guru.composecookbook.login
+package ke.co.tulivuapps.hobbyhorsetours.features.screen.login
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,7 +22,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun HorizontalDottedProgressBar() {
     val color = MaterialTheme.colors.onPrimary
-    val transition = rememberInfiniteTransition()
+    val transition = rememberInfiniteTransition(label = "")
     val state by transition.animateFloat(
         initialValue = 0f,
         targetValue = 6f,
@@ -27,7 +32,7 @@ fun HorizontalDottedProgressBar() {
                 easing = LinearEasing
             ),
             repeatMode = RepeatMode.Reverse
-        )
+        ), label = ""
     )
 
     DrawCanvas(state = state, color = color)

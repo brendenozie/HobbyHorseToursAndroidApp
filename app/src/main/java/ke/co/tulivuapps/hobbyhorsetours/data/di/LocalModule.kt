@@ -7,6 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ke.co.tulivuapps.hobbyhorsetours.data.local.DataStoreOperation
+import ke.co.tulivuapps.hobbyhorsetours.data.local.DataStoreOperationImpl
 import ke.co.tulivuapps.hobbyhorsetours.data.local.dao.CityDao
 import ke.co.tulivuapps.hobbyhorsetours.data.local.dao.DestinationDao
 import ke.co.tulivuapps.hobbyhorsetours.data.local.dao.FavoriteDao
@@ -53,5 +55,11 @@ class LocalModule {
     @Singleton
     fun provideTravelStyleDao(appDatabase: HobbyHorseToursDatabase): TravelStyleDao {
         return appDatabase.travelStyleDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDataStoreImpl(@ApplicationContext context: Context): DataStoreOperation {
+        return DataStoreOperationImpl(context)
     }
 }

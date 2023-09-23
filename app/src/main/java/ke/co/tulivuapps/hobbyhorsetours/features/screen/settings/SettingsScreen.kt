@@ -2,7 +2,13 @@ package ke.co.tulivuapps.hobbyhorsetours.features.screen.settings
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Switch
@@ -14,9 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import ke.co.tulivuapps.hobbyhorsetours.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import ke.co.tulivuapps.hobbyhorsetours.BuildConfig
+import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursText
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursTopBar
@@ -97,6 +103,7 @@ private fun Content(
                     .padding(horizontal = 20.dp, vertical = 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
+
                 HobbyHorseToursText(
                     text = stringResource(id = R.string.settings_screen_app_version_title),
                     style = MaterialTheme.typography.body2

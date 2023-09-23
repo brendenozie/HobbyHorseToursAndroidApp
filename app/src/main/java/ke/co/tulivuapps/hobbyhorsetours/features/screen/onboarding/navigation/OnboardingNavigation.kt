@@ -27,8 +27,6 @@ fun NavController.navigateToOnboarding(
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.onbooardingScreen(navController: NavHostController) {
     composable(onboardingNavigationRoute) {
-        OnBoardingScreen() {
-            navController.navigateToHome()
-        }
+        OnBoardingScreen(onSkip = {navController.navigateToHome()},navController = navController)
     }
 }

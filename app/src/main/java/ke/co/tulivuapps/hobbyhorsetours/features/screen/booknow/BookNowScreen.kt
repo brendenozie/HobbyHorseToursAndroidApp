@@ -1,4 +1,4 @@
-package ke.co.tulivuapps.hobbyhorsetours.features.screen.booking
+package ke.co.tulivuapps.hobbyhorsetours.features.screen.booknow
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -47,7 +47,7 @@ import kotlinx.coroutines.flow.Flow
  */
 
 @Composable
-fun BookingsScreen(
+fun BookNowScreen(
     viewModel: BookingsViewModel = hiltViewModel(),
     navigateBookingDetail: (BookingDto) -> Unit
 ) {
@@ -142,6 +142,7 @@ private fun Content(
         }
     }
 //}
+
 
 @Composable
 private fun EmptyListAnimation() {

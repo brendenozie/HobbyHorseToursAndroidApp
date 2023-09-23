@@ -34,10 +34,12 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.guru.composecookbook.login.HorizontalDottedProgressBar
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.onboarding.OnBoardingScreen
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.features.lottie.LottieWorkingLoadingView
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.navigation.homeNavigationRoute
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.login.navigation.loginNavigationRoute
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -90,7 +92,8 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
 //                            faIcon = FaIcons.Envelope,
                             painter = painterResource(R.drawable.envelope),
                             contentDescription = "envolpe",
-                            tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                            tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+                            modifier = Modifier.size(12.dp)
                         )
                     },
                     maxLines = 1,
@@ -102,7 +105,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                     ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(),
                     label = { Text(text = "Email address") },
-                    placeholder = { Text(text = "abc@gmail.com") },
+                    placeholder = { Text(text = "abc@gmail.com",color = Color.LightGray) },
                     onValueChange = {
                         email = it
                     },
@@ -117,7 +120,8 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
 //                            faIcon = FaIcons.Key,
                             painter = painterResource(R.drawable.key),
                             contentDescription = "key",
-                            tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current)
+                            tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+                            modifier = Modifier.size(12.dp)
                         )
                     },
                     trailingIcon = {
@@ -126,7 +130,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                             painter = painterResource(R.drawable.eyelashes),
                             contentDescription = "eyelash",
                             tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
-                            modifier = Modifier.clickable(onClick = {
+                            modifier = Modifier.size(12.dp).clickable(onClick = {
                                 passwordVisualTransformation =
                                     if (passwordVisualTransformation != VisualTransformation.None) {
                                         VisualTransformation.None
@@ -145,7 +149,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                         imeAction = ImeAction.Done
                     ),
                     label = { Text(text = "Password") },
-                    placeholder = { Text(text = "12334444") },
+                    placeholder = { Text(text = "12334444",color = Color.LightGray) },
                     onValueChange = {
                         password = it
                     },
@@ -190,7 +194,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                     )
                     Text(
                         text = "Or use",
-                        color = Color.LightGray,
+                        color = Color.Gray,
                         modifier = Modifier
                             .align(Alignment.Center)
                             .background(MaterialTheme.colors.background)
@@ -208,7 +212,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                     Icon(
                         painter = painterResource(R.drawable.facebook),
                         contentDescription = "facebook",
-                        tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+//                        tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                     )
                     Text(
                         text = "Sign in with Facebook",
@@ -230,7 +234,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                     Icon(
                         painter = painterResource(R.drawable.google),
                         contentDescription = "google",
-                        tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+//                        tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                     )
                     Text(
                         text = "Sign in with Gmail",
@@ -266,19 +270,37 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
 
 @SuppressLint("UnusedCrossfadeTargetStateParameter")
 @Composable
-fun LoginOnboarding() {
-    var loggedIn by remember { mutableStateOf(false) }
+fun LoginOnboarding(
+    loginViewModel: OnLoginViewModel = hiltViewModel(),
+    navController: NavController
+) {
+
+    val loggedIn by loginViewModel.onLoginCompleted.collectAsState()
+
+    LaunchedEffect(key1 = true) {
+        delay(1000L)
+        navController.popBackStack()
+        if (!loggedIn) {
+            navController.navigate(homeNavigationRoute)
+        } else {
+            navController.navigate(loginNavigationRoute)
+        }
+    }
+
+
     val coroutineScope = rememberCoroutineScope()
-    Crossfade(targetState = loggedIn) {
+    Crossfade(targetState = loggedIn, label = "LoginCrossFadeAnimation") {
         if (loggedIn) {
-            OnBoardingScreen {
-                loggedIn = false
-            }
+//            OnBoardingScreen{
+//                loggedIn = false,
+//                navController = navController,
+//                onSkip = {}
+//            }
         } else {
             LoginScreen {
                 coroutineScope.launch {
                     delay(2000)
-                    loggedIn = true
+                    //loggedIn = true
                 }
             }
         }

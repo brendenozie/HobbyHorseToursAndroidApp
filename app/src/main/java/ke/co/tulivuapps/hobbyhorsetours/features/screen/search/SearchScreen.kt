@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
@@ -74,6 +75,7 @@ import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursSearch
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursSelectableText
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursText
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursTopBar
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.HotelsViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -232,55 +234,59 @@ private fun ShowSearchList(
             }
         } else if (pagedHotelData != null && pagingHotelItems != null && pagedDestinationData != null && pagingDestinationItems != null) {
 
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier.padding(2.dp),
 
-//            item {
-                Row(
-                    modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Destinations",
-                        modifier = Modifier.weight(1f),
-                        style = MaterialTheme.typography.h2,
-                        textAlign = TextAlign.Start,
-                        fontSize = 20.sp
-                    )
+            ) {
+                item(span = { GridItemSpan(maxLineSpan)}) {
+                    Row(
+                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 20.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Destinations",
+                            modifier = Modifier.weight(1f),
+                            style = MaterialTheme.typography.h2,
+                            textAlign = TextAlign.Start,
+                            fontSize = 20.sp
+                        )
 //                        Text(
 //                            modifier = Modifier
 //                                .clickable(onClick = { navigateToCities.invoke() }),
 //                            text = "View All",
 //                            style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
 //                        )
-                }
-//            }
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier.padding(2.dp)
-            ) {
-
-                items(
-                    pagingDestinationItems.itemCount
-                ) { index ->
-                    pagingDestinationItems[index]?.let {
-                        Box(Modifier.padding(2.dp)) {
-                            HobbyHorseToursDestinationsCard(
-                                status = Status.Unknown,
-                                detailClick = {
-                                    clickDestinationDetail.invoke(it)
-                                },
-                                dto = it,
-                                onTriggerEvent = {
-                                    onTriggerEvent.invoke(
-                                        SearchViewEvent.UpdateDestinationFavorite(
-                                            it
-                                        )
-                                    )
-                                }
-                            )
-                        }
                     }
                 }
+
+                item(span = { GridItemSpan(maxLineSpan)}) {
+                    LazyRow(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+
+                        items(
+                            pagingDestinationItems.itemCount
+                        ) { index ->
+                            pagingDestinationItems[index]?.let {
+                                Box(Modifier.padding(2.dp)) {
+                                    HobbyHorseToursDestinationsCard(
+                                        status = Status.Unknown,
+                                        detailClick = {
+                                            clickDestinationDetail.invoke(it)
+                                        },
+                                        dto = it,
+                                        onTriggerEvent = {
+                                            onTriggerEvent.invoke(
+                                                SearchViewEvent.UpdateDestinationFavorite(
+                                                    it
+                                                )
+                                            )
+                                        }
+                                    )
+                                }
+                            }
+                        }
 
 //            items(items = pagingHotelItems) { item ->
 //                HobbyHorseToursHotelsCard(
@@ -294,37 +300,36 @@ private fun ShowSearchList(
 //                    }
 //                )
 //            }
-            }
+                    }
+                }
 
+                item(span = { GridItemSpan(maxLineSpan)}) {
+                    Spacer(modifier = Modifier.size(10.dp))
 
-             Spacer(modifier = Modifier.size(10.dp))
-
-             Row(
-                    modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Hotels",
-                        modifier = Modifier.weight(1f),
-                        style = MaterialTheme.typography.h2,
-                        textAlign = TextAlign.Start,
-                        fontSize = 20.sp
-                    )
+                }
+                item(span = { GridItemSpan(maxLineSpan)}) {
+                    Row(
+                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 20.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Hotels",
+                            modifier = Modifier.weight(1f),
+                            style = MaterialTheme.typography.h2,
+                            textAlign = TextAlign.Start,
+                            fontSize = 20.sp
+                        )
 //                        Text(
 //                            modifier = Modifier
 //                                .clickable(onClick = { navigateToCities.invoke() }),
 //                            text = "View All",
 //                            style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
 //                        )
+                    }
+
                 }
 
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier.padding(2.dp)
-            ) {
-
-            items(
+                items(
                     pagingHotelItems.itemCount
                 ) { index ->
                     pagingHotelItems[index]?.let {
@@ -336,15 +341,30 @@ private fun ShowSearchList(
                                 },
                                 dto = it,
                                 onTriggerEvent = {
-                                    onTriggerEvent.invoke(SearchViewEvent.UpdateHotelFavorite(it))
+//                                    onTriggerEvent.invoke(
+//                                        SearchViewEvent.UpdateHotelFavorite(
+//                                            it
+//                                        )
+//                                    )
                                 }
                             )
                         }
                     }
                 }
 
-
-            }
+//                item {
+//                    ContentHotels(isLoading = false,
+//                        pagingHotelItems = pagingHotelItems,
+//                        pagedHotelData = pagedHotelData,
+//                        onTriggerEvent = {
+//                            //onTriggerEvent.onTriggerEvent(it)
+//                        },
+//                        clickHotelDetail = {
+//                            if (it != null) {
+//                                clickHotelDetail.invoke(it)
+//                            }
+//                        })
+//                }
 
 //            items(items = pagingDestinationItems) { item ->
 //                HobbyHorseToursDestinationsCard(
@@ -359,7 +379,63 @@ private fun ShowSearchList(
 //                )
 //            }
 //        }
+            }
     }
+}
+
+@Composable
+private fun ContentHotels(
+    isLoading :Boolean = false,
+    pagingHotelItems: LazyPagingItems<HotelDto>?,
+    pagedHotelData: Flow<PagingData<HotelDto>>?,
+    onTriggerEvent: (HotelsViewEvent) -> Unit,
+    clickHotelDetail: (HotelDto?) -> Unit
+) {
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+//            .padding(horizontal = 10.dp),
+    ) {
+
+        if (isLoading) {
+
+        } else if (pagedHotelData != null && pagingHotelItems != null) {
+
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                modifier = Modifier.padding(2.dp)
+            ) {
+
+                items(
+                    pagingHotelItems.itemCount
+                ) { index ->
+                    pagingHotelItems?.get(index)?.let {
+                        Box(Modifier.padding(2.dp)) {
+                            HobbyHorseToursHotelsCard(
+                                status = Status.Unknown,
+                                detailClick = {
+                                    clickHotelDetail.invoke(it)
+                                },
+                                dto = it,
+                                onTriggerEvent = {
+//                                    onTriggerEvent.invoke(
+//                                        SearchViewEvent.UpdateHotelFavorite(
+//                                            it
+//                                        )
+//                                    )
+                                }
+                            )
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+    }
+//    }
 }
 
 @Composable

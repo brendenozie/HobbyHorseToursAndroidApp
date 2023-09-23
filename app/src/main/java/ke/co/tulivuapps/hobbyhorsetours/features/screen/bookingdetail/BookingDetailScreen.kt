@@ -43,17 +43,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.data.model.ResultBooking
+import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.BookingDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.img
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursNetworkImage
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursText
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursTopBar
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.navigation.homeNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.features.ui.theme.VeryDarkBlue
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -63,6 +67,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun BookingDetailScreen(
     viewModel: BookingDetailViewModel = viewModel(),
+    navigateBookingNow: (BookingDto) -> Unit,
     navigateToBack: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -232,7 +237,7 @@ private fun CharacterInfoRow(modifier: Modifier, text: String, value: String) {
 )
 @Composable
 fun DetailContentItemViewPreview() {
-    BookingDetailScreen(viewModel = hiltViewModel(), navigateToBack = {})
+    BookingDetailScreen(viewModel = hiltViewModel(), navigateToBack = {}, navigateBookingNow = {})
 }
 
 
@@ -242,10 +247,13 @@ fun DetailContentItemViewPreview() {
 fun DetailScreen(
     viewModel: BookingDetailViewModel = viewModel(),
     scaffoldState: ScaffoldState = rememberScaffoldState(),
-    navigateToBack: () -> Unit
+    navController: NavController,
+    navigateToBack: () -> Unit,
+    navigateToBookNow: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val viewState by viewModel.uiState.collectAsState()
+    val onLogging by viewModel.onLoginCompleted.collectAsState()
 
     LaunchedEffect(viewModel.uiEvent) {
         launch {
@@ -280,7 +288,7 @@ fun DetailScreen(
             )
         },
         content = {innerPadding ->
-            DetailScreenContent(modifier = Modifier.padding(innerPadding), viewModel= viewModel, navigateToBack = { navigateToBack })
+            DetailScreenContent(modifier = Modifier.padding(innerPadding), viewModel= viewModel, navigateToBack = { navigateToBack }, navigateToBookNow = { navigateToBookNow } , navController = navController)
         },
         scaffoldState = scaffoldState,
         backgroundColor = MaterialTheme.colors.background
@@ -291,10 +299,14 @@ fun DetailScreen(
 private fun DetailScreenContent(
     modifier: Modifier,
     viewModel: BookingDetailViewModel,
+    navController: NavController,
+    navigateToBookNow: () -> Unit,
     navigateToBack: () -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val viewState by viewModel.uiState.collectAsState()
+
+    val onLogging by viewModel.onLoginCompleted.collectAsState()
 
     LaunchedEffect(viewModel.uiEvent) {
         launch {
@@ -306,6 +318,16 @@ private fun DetailScreenContent(
                 }
             }
         }
+    }
+
+    LaunchedEffect(key1 = true) {
+        delay(1000L)
+        if (!onLogging) {
+            navController.navigate(homeNavigationRoute)
+        }
+//        else {
+//            navController.navigate(loginNavigationRoute)
+//        }
     }
 
     Column(
@@ -351,12 +373,10 @@ private fun DetailScreenContent(
             }
             Spacer(modifier = Modifier.weight(1F))
             Button(
-                onClick = {},
+                onClick = { navigateToBookNow.invoke()},
                 modifier = Modifier.padding(bottom = 56.dp).size(170.dp, 56.dp),
                 shape = RoundedCornerShape(72.dp),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colors.background
-                )
+                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.background)
             ) {
                 Text(text = "Book Now", style = MaterialTheme.typography.button)
             }

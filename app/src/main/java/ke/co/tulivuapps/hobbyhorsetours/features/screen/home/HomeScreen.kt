@@ -3,17 +3,17 @@ package ke.co.tulivuapps.hobbyhorsetours.features.screen.home
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
@@ -54,6 +54,7 @@ import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.HotelsViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.HotelsViewModel
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.TravelStyleViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.TravelStyleViewModel
+import ke.co.tulivuapps.hobbyhorsetours.utils.Utility
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.rememberFlowWithLifecycle
 import kotlinx.coroutines.flow.Flow
 
@@ -123,33 +124,48 @@ private fun Content(
     val cityViewState = cityviewModel.uiState.collectAsState().value
     val hotelsViewState = hotelsviewModel.uiState.collectAsState().value
 
+    var pagingHotelItems: LazyPagingItems<HotelDto>? = null
+    hotelsViewState.pagedData?.let {
+        pagingHotelItems = Utility.rememberFlowWithLifecycle(it).collectAsLazyPagingItems()
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 15.dp),
     ) {
 
-        LazyColumn(
-            contentPadding = PaddingValues(vertical = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.padding(2.dp),
+
+            ) {
 
             if (isLoading) {
                 items(10) {
                     HobbyHorseToursCharacterShimmer()
                 }
             } else {
-                item(){
+                item{
+                    Spacer(modifier = Modifier.size(10.dp))
+                }
+
+                item(span = { GridItemSpan(maxLineSpan) }){
                     SearchBox { navigateToSearch.invoke() }
                 }
 
-                item {
+                item{
+                    Spacer(modifier = Modifier.size(10.dp))
+                }
+                item(span = { GridItemSpan(maxLineSpan)}) {
                     SlidingBanner()
                 }
-
-                item {
+                item{
+                    Spacer(modifier = Modifier.size(10.dp))
+                }
+                item(span = { GridItemSpan(maxLineSpan)}) {
                     Row(
-                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 20.dp),
+                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
@@ -159,12 +175,16 @@ private fun Content(
                             textAlign = TextAlign.Start,
                             fontSize = 20.sp
                         )
-                        Text(modifier = Modifier
-                            .clickable(onClick = { navigateToCities.invoke() }),
+                        Text(
+                            modifier = Modifier
+                                .clickable(onClick = { navigateToCities.invoke() }),
                             text = "View All",
                             style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
                         )
                     }
+                }
+                item(span = { GridItemSpan(maxLineSpan)}) {
+
                     ContentCities(isLoading = cityViewState.isLoading,
                                     pagedData = cityViewState.pagedData,
                                     onTriggerEvent = {
@@ -175,9 +195,9 @@ private fun Content(
                                     } )
                 }
 
-                item {
+                item(span = { GridItemSpan(maxLineSpan)}) {
                     Row(
-                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 20.dp),
+                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
@@ -187,12 +207,16 @@ private fun Content(
                             fontSize = 20.sp,
                             modifier = Modifier.weight(1f)
                         )
-                        Text(modifier = Modifier
-                            .clickable(onClick = { navigateToTravelStyles.invoke() }),
+                        Text(
+                            modifier = Modifier
+                                .clickable(onClick = { navigateToTravelStyles.invoke() }),
                             text = "View All",
                             style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
                         )
                     }
+                }
+                item(span = { GridItemSpan(maxLineSpan)}) {
+
                     ContentTravelStyle(isLoading = travelStyleViewState.isLoading,
                         pagedData = travelStyleViewState.pagedData,
                         onTriggerEvent = {
@@ -201,11 +225,12 @@ private fun Content(
                         clickDetail = {
                             //navigateToDestination.invoke(it)
                         } )
+
                 }
 
-                item {
+                item(span = { GridItemSpan(maxLineSpan)}) {
                     Row(
-                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 20.dp),
+                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
@@ -215,12 +240,16 @@ private fun Content(
                             fontSize = 20.sp,
                             modifier = Modifier.weight(1f)
                         )
-                        Text(modifier = Modifier
-                            .clickable(onClick = { navigateToDestinations.invoke() }),
+                        Text(
+                            modifier = Modifier
+                                .clickable(onClick = { navigateToDestinations.invoke() }),
                             text = "View All",
                             style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
                         )
                     }
+                }
+
+                item(span = { GridItemSpan(maxLineSpan)}) {
                     ContentDestinations(isLoading = destinationsViewState.isLoading,
                                         pagedData = destinationsViewState.pagedData,
                                         onTriggerEvent = {
@@ -233,9 +262,9 @@ private fun Content(
                                         } )
                 }
 
-                item {
+                item(span = { GridItemSpan(maxLineSpan)}) {
                     Row(
-                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 20.dp),
+                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
@@ -245,24 +274,50 @@ private fun Content(
                             fontSize = 20.sp,
                             modifier = Modifier.weight(1f)
                         )
-                        Text(modifier = Modifier
-                            .clickable(onClick = { navigateToHotels.invoke() }),
+                        Text(
+                            modifier = Modifier
+                                .clickable(onClick = { navigateToHotels.invoke() }),
                             text = "View All",
                             style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
                         )
                     }
-                    ContentHotels(isLoading = hotelsViewState.isLoading,
-                                    pagedData = hotelsViewState.pagedData,
-                                    onTriggerEvent = {
-                                        hotelsviewModel.onTriggerEvent(it)
-                                    },
-                                    clickDetail = {
-                                        if (it != null) {
-                                            navigateToHotel.invoke(it)
-                                        }
-                                    } )
                 }
 
+//                item{
+//                    ContentHotels(isLoading = hotelsViewState.isLoading,
+//                                    pagedData = hotelsViewState.pagedData,
+//                                    onTriggerEvent = {
+//                                        hotelsviewModel.onTriggerEvent(it)
+//                                    },
+//                                    clickDetail = {
+//                                        if (it != null) {
+//                                            navigateToHotel.invoke(it)
+//                                        }
+//                                    } )
+//                }
+
+                pagingHotelItems?.let { it ->
+                    items(
+                        it.itemCount
+                    ) { index ->
+                        pagingHotelItems!![index]?.let {
+//                            Box(Modifier.padding(2.dp)) {
+                                HobbyHorseToursHotelsCard(
+                                    status = Status.Unknown,
+                                    detailClick = { navigateToHotel.invoke(it) },
+                                    dto = it,
+                                    onTriggerEvent = {
+            //                                    onTriggerEvent.invoke(
+            //                                        SearchViewEvent.UpdateHotelFavorite(
+            //                                            it
+            //                                        )
+            //                                    )
+                                    }
+                                )
+//                            }
+                        }
+                    }
+                }
 
             }
         }
