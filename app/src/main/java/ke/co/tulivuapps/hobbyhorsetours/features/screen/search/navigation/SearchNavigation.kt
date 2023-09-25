@@ -10,7 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.composable
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinationsdetail.navigation.navigateDestinationsDetail
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotelsdetail.navigation.navigateHotelsDetail
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.navigation.navigateHotelsDetail
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.search.SearchScreen
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 

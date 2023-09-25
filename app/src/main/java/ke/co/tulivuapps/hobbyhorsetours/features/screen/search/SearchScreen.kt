@@ -166,6 +166,7 @@ fun SearchScreen(
 
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun Content(
     isLoading: Boolean,

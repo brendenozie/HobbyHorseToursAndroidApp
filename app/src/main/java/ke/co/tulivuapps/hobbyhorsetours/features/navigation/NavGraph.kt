@@ -84,7 +84,7 @@ fun NavGraph() {
             travelStylesScreen(navController)
             charactersDetailScreen { navController.navigateUp() }
             bookingsScreen { navController.navigateCharactersDetail(it.toJson()) }
-            bookNowScreen {  }
+            bookNowScreen(navController)
             episodesScreen()
             searchScreen(navController)
             profileScreen()

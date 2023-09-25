@@ -5,7 +5,7 @@ package ke.co.tulivuapps.hobbyhorsetours.data.remote.utils
  */
 object Constants {
     const val BASE_URL = "https://HobbyHorseToursapi.com/api/"
-    const val BASE_TEST_URL = "http://192.168.192.118:3000/api/"
+    const val BASE_TEST_URL = "http://192.168.136.118:3000/api/"
 
     const val DATASTORE_NAME = "HobbyHorse_DataStore"
     const val PREFERENCES_BOARDING_KEY = "OnBoarding_Completed"

@@ -37,6 +37,7 @@
 
     <!--- Bookings -->
     <string name="booking_screen_title">Bookings</string>
+    <string name="booking_now_screen_title">Book Now</string>
 
     <!--- Search -->
     <string name="search_screen_title">Search Destinations and Hotels</string>

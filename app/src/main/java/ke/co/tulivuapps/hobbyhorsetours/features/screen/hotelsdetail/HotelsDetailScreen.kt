@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
-import androidx.compose.material.Divider
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
@@ -51,78 +50,14 @@ import ke.co.tulivuapps.hobbyhorsetours.data.model.Result
 import ke.co.tulivuapps.hobbyhorsetours.data.model.img
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursNetworkImage
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
-import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursText
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursTopBar
-import ke.co.tulivuapps.hobbyhorsetours.features.ui.theme.VeryDarkBlue
 import kotlinx.coroutines.launch
 
 /**
  * Created by brendenozie on 13.03.2023
  */
 
-@Composable
-fun HotelsDetailScreen(
-    viewModel: HotelsDetailViewModel = viewModel(),
-    navigateToBookNow: () -> Unit,
-    navigateToBack: () -> Unit
-) {
-    val scaffoldState = rememberScaffoldState()
-    val viewState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(viewModel.uiEvent) {
-        launch {
-            viewModel.uiEvent.collect {
-                when (it) {
-                    is HotelsDetailViewEvent.SnackBarError -> {
-                        scaffoldState.snackbarHostState.showSnackbar(it.message.orEmpty())
-                    }
-                }
-            }
-        }
-    }
-
-    HobbyHorseToursScaffold(
-        topBar = {
-            HobbyHorseToursTopBar(
-                elevation = 10.dp,
-                navigationIcon = {
-                    IconButton(onClick = {
-                        navigateToBack()
-                    }) {
-                        Image(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_left),
-                            contentDescription = null
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = {}) {}
-                },
-                text = stringResource(id = R.string.character_detail_screen_title)
-            )
-        },
-        content = {
-            Content(
-                viewState.data
-            )
-        },
-        scaffoldState = scaffoldState,
-        backgroundColor = MaterialTheme.colors.background
-    )
-}
-
-@Composable
-private fun Content(data: Result?) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 15.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CharacterImage(data)
-        CharacterInfoContainer(data)
-    }
-}
 
 @Composable
 private fun CharacterImage(data: Result?) {
@@ -146,96 +81,6 @@ private fun CharacterImage(data: Result?) {
         )
     }
 }
-
-@Composable
-private fun CharacterInfoContainer(data: Result?) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 20.dp),
-        shape = RoundedCornerShape(8.dp),
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(20.dp)
-        ) {
-            CharacterInfoRow(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.character_detail_card_name),
-                value = data?.title.orEmpty()
-            )
-            Divider(thickness = 0.5.dp)
-            CharacterInfoRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
-                text = stringResource(id = R.string.character_detail_card_species),
-                value = data?.title.orEmpty()
-            )
-            Divider(thickness = 0.5.dp)
-            CharacterInfoRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
-                text = stringResource(id = R.string.character_detail_card_gender),
-                value = data?.title.orEmpty()
-            )
-            Divider(thickness = 0.5.dp)
-            CharacterInfoRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
-                text = stringResource(id = R.string.character_detail_card_last_know_location),
-                value = data?.title.orEmpty()
-            )
-            Divider(thickness = 0.5.dp)
-            CharacterInfoRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
-                text = stringResource(id = R.string.character_detail_card_location),
-                value = data?.location.orEmpty()
-            )
-            Divider(thickness = 0.5.dp)
-        }
-    }
-}
-
-@Composable
-private fun CharacterInfoRow(modifier: Modifier, text: String, value: String) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        HobbyHorseToursText(
-            text = text,
-            style = MaterialTheme.typography.body2,
-            color = VeryDarkBlue
-        )
-
-        HobbyHorseToursText(
-            text = value,
-            style = MaterialTheme.typography.body2,
-            color = MaterialTheme.colors.primary
-        )
-    }
-}
-
-
-@Preview(
-    showBackground = true,
-    name = "Light Mode"
-)
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    name = "Dark Mode"
-)
-@Composable
-fun DetailContentItemViewPreview() {
-    HotelsDetailScreen(viewModel = hiltViewModel(), navigateToBack = {}, navigateToBookNow = {})
-}
-
 
 
 //New Screen
@@ -357,7 +202,7 @@ private fun DetailScreenContent(
             }
             Spacer(modifier = Modifier.weight(1F))
             Button(
-                onClick = {navigateToBookNow.invoke()},
+                onClick = { navigateToBookNow.invoke() },
                 modifier = Modifier.padding(bottom = 56.dp).size(170.dp, 56.dp),
                 shape = RoundedCornerShape(72.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -401,3 +246,17 @@ private fun MoreImages(img: List<img>) {
 }
 
 
+
+@Preview(
+    showBackground = true,
+    name = "Light Mode"
+)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "Dark Mode"
+)
+@Composable
+fun DetailContentItemViewPreview() {
+    DetailScreen(viewModel = hiltViewModel(), navigateToBack = {}, navigateToBookNow = {})
+}

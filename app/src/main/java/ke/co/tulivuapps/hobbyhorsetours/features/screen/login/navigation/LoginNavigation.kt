@@ -24,6 +24,7 @@ fun NavController.navigateToLogin(
     this.navigate(loginNavigationRoute, navOptions)
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.loginScreen(navController: NavController) {
     composable(
         loginNavigationRoute,

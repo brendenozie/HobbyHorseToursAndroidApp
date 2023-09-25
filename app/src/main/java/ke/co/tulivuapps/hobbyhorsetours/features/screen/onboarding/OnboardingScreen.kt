@@ -1,7 +1,6 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.onboarding
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -23,7 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -42,17 +40,12 @@ fun OnBoardingScreen(onSkip: () -> Unit,
     val onboarding by splashScreenViewModel.onBoardingCompleted.collectAsState()
 
     LaunchedEffect(key1 = true) {
-        delay(300L)
+        delay(1000L)
         if (onboarding) {
             navController.popBackStack()
             navController.navigate(homeNavigationRoute)
         }
-//        else {
-//            navController.navigate(loginNavigationRoute)
-//        }
     }
-
-    val currContext = LocalContext.current.applicationContext
 
     val pagerState: PagerState = run {
         remember {
@@ -72,17 +65,23 @@ fun OnBoardingScreen(onSkip: () -> Unit,
             ) {
                 OnboardingPagerItem(onboardingList[commingPage])
             }
-            Text(
-                text = "Skip",
-                style = MaterialTheme.typography.subtitle1,
+            Button(
+                onClick = {
+                    splashScreenViewModel.setOnboarding()
+                    navController.popBackStack()
+                    onSkip()
+                },
                 modifier = Modifier
+                    .animateContentSize()
                     .align(Alignment.TopEnd)
                     .padding(vertical = 48.dp, horizontal = 16.dp)
-                    .clickable(onClick = {
-                                            splashScreenViewModel.setOnboarding()
-                                            navController.popBackStack()
-                                            onSkip() })
-            )
+                    .clip(CircleShape)
+            ) {
+                Text(
+                    text = "Skip",
+                    style = MaterialTheme.typography.subtitle1,
+                )
+            }
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
