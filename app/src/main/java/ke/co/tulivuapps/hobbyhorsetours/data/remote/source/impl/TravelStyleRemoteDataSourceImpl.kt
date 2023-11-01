@@ -1,7 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.data.remote.source.impl
 
 import ke.co.tulivuapps.hobbyhorsetours.data.local.dao.TravelStyleDao
-import ke.co.tulivuapps.hobbyhorsetours.data.model.TravelStyleFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.travelstyle.TravelStyleFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.travelstyle.TravelStyleInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.model.travelstyle.TravelStyleResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.api.TravelStyleService

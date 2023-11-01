@@ -2,7 +2,6 @@ package ke.co.tulivuapps.hobbyhorsetours
 
 import android.app.Application
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.mutableStateOf
 import dagger.hilt.android.HiltAndroidApp
 
 /**
@@ -13,9 +12,9 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class HobbyHorseToursApp : Application() {
 
-    val isDark = mutableStateOf(false)
-
-    fun toggleTheme() {
-        isDark.value = !isDark.value
-    }
+//    val isDark = isSystemInDarkTheme()
+//
+//    fun toggleTheme() {
+//        isDark.value = !isDark.value
+//    }
 }

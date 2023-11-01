@@ -1,13 +1,14 @@
-package ke.co.tulivuapps.hobbyhorsetours.data.model
+package ke.co.tulivuapps.hobbyhorsetours.data.model.hotel
 
 import android.os.Parcelable
 import com.google.gson.Gson
+import ke.co.tulivuapps.hobbyhorsetours.data.model.img
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ResultHotel(
     val localId: Int? =0,
-    val id: String,
+    val id: String?=null,
     val title: String,
     val description: String,
     val star: String,
@@ -21,7 +22,7 @@ data class ResultHotel(
     val cityId: String,
     val createdAt: String,
     val travelStyleId: String = "",
-    val img: List<img>
+    val img: List<img>?=null
     ) : Parcelable {
 
     companion object {

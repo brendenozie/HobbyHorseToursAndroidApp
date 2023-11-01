@@ -3,6 +3,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.profile.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -23,6 +24,6 @@ fun NavController.navigateToProfile(
 
 fun NavGraphBuilder.profileScreen() {
     composable(profileNavigationRoute) {
-        ProfileScreen( )
+        ProfileScreen(profileViewModel = hiltViewModel())
     }
 }

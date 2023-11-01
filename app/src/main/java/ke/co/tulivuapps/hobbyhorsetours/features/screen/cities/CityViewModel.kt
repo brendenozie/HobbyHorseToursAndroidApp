@@ -10,7 +10,7 @@ import ke.co.tulivuapps.hobbyhorsetours.domain.usecase.city.UpdateCityFavoriteUs
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.city.CityViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,17 +24,16 @@ class CityViewModel @Inject constructor(
     private val updateCityFavoriteUseCase: UpdateCityFavoriteUseCase
 ) : BaseViewModel<CityViewState, CityViewEvent>() {
 
-    private val config = PagingConfig(pageSize = 20)
+    private val config = PagingConfig(pageSize = 2)
     init {
-        getAllCity()
+        //getAllCity()
     }
 
     private fun getAllCity() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             setState { currentState.copy(isLoading = true) }
             val params = GetCityUseCase.Params(config, hashMapOf())
             val pagedFlow = getcityUseCase(params).cachedIn(scope = viewModelScope)
-            delay(1000)
             setState { currentState.copy(isLoading = false, pagedData = pagedFlow) }
         }
     }

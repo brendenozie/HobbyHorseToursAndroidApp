@@ -1,6 +1,6 @@
 package ke.co.tulivuapps.hobbyhorsetours.domain.repository
 
-import ke.co.tulivuapps.hobbyhorsetours.data.model.TravelStyleFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.travelstyle.TravelStyleFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.travelstyle.TravelStyleInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.model.travelstyle.TravelStyleResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.DataState

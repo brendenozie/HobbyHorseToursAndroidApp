@@ -48,7 +48,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
 import ke.co.tulivuapps.hobbyhorsetours.R
-import ke.co.tulivuapps.hobbyhorsetours.data.model.ResultBooking
+import ke.co.tulivuapps.hobbyhorsetours.data.model.booking.ResultBooking
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.BookingDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.img
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursNetworkImage

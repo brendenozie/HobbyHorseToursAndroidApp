@@ -1,7 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.data.repository
 
 import ke.co.tulivuapps.hobbyhorsetours.data.local.dao.DestinationDao
-import ke.co.tulivuapps.hobbyhorsetours.data.model.DestinationFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.destination.DestinationFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.destination.DestinationInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.model.destination.DestinationResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.source.DestinationRemoteDataSource

@@ -9,6 +9,7 @@ import ke.co.tulivuapps.hobbyhorsetours.domain.usecase.bookings.GetBookingsUseCa
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.bookings.BookingsViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,7 +30,7 @@ class BookingsViewModel @Inject constructor(
     }
 
     private fun getAllBookings() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             setState { currentState.copy(isLoading = true) }
             val params = GetBookingsUseCase.Params(config, hashMapOf())
             val pagedFlow = getBookingsUseCase(params).cachedIn(scope = viewModelScope)

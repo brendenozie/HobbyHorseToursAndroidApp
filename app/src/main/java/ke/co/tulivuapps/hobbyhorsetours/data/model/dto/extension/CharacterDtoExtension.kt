@@ -1,20 +1,16 @@
 package ke.co.tulivuapps.hobbyhorsetours.data.model.dto.extension
 
-import ke.co.tulivuapps.hobbyhorsetours.data.model.CityFavoriteEntity
-import ke.co.tulivuapps.hobbyhorsetours.data.model.DestinationFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.FavoriteEntity
-import ke.co.tulivuapps.hobbyhorsetours.data.model.HotelFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.LocationEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.LocationResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.model.OriginResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.model.Result
-import ke.co.tulivuapps.hobbyhorsetours.data.model.ResultBooking
-import ke.co.tulivuapps.hobbyhorsetours.data.model.ResultCharacter
-import ke.co.tulivuapps.hobbyhorsetours.data.model.ResultCity
-import ke.co.tulivuapps.hobbyhorsetours.data.model.ResultHotel
-import ke.co.tulivuapps.hobbyhorsetours.data.model.ResultTravelStyle
 import ke.co.tulivuapps.hobbyhorsetours.data.model.Status
-import ke.co.tulivuapps.hobbyhorsetours.data.model.TravelStyleFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.booking.ResultBooking
+import ke.co.tulivuapps.hobbyhorsetours.data.model.character.ResultCharacter
+import ke.co.tulivuapps.hobbyhorsetours.data.model.city.CityFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.city.ResultCity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.destination.DestinationFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.BookingDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.CharacterDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.CityDto
@@ -22,7 +18,11 @@ import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.DestinationDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.HotelDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.LocationDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.TravelStyleDto
+import ke.co.tulivuapps.hobbyhorsetours.data.model.hotel.HotelFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.hotel.ResultHotel
 import ke.co.tulivuapps.hobbyhorsetours.data.model.img
+import ke.co.tulivuapps.hobbyhorsetours.data.model.travelstyle.ResultTravelStyle
+import ke.co.tulivuapps.hobbyhorsetours.data.model.travelstyle.TravelStyleFavoriteEntity
 
 /**
  * Created by brendenozie on 27.03.2023

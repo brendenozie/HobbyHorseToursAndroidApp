@@ -1,6 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.domain.repository
 
-import ke.co.tulivuapps.hobbyhorsetours.data.model.episode.PopularResponse
+import ke.co.tulivuapps.hobbyhorsetours.data.model.popular.PopularResponse
+import ke.co.tulivuapps.hobbyhorsetours.data.model.popular.ResultPopular
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.DataState
 import kotlinx.coroutines.flow.Flow
 
@@ -9,5 +10,5 @@ import kotlinx.coroutines.flow.Flow
  */
 interface PopularRepository {
     fun getAllPopular(): Flow<DataState<PopularResponse>>
-    fun getEpisode(episodeId: Int): Flow<DataState<PopularResponse>>
+    fun getEpisode(episodeId: Int): Flow<DataState<ResultPopular>>
 }

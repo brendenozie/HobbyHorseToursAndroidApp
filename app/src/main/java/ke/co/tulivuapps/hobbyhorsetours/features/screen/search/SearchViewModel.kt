@@ -18,6 +18,7 @@ import ke.co.tulivuapps.hobbyhorsetours.domain.usecase.travelstyle.GetTravelStyl
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.search.SearchViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,13 +40,12 @@ class SearchViewModel @Inject constructor(
     private val config = PagingConfig(pageSize = 20)
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val paramsCity = GetCityUseCase.Params(config, hashMapOf())
             val paramsTravelStyle = GetTravelStyleUseCase.Params(config, hashMapOf())
 
             val pagedCityFlow = getcityUseCase(paramsCity).cachedIn(scope = viewModelScope)
-            val pagedTravelStyleFlow =
-                getTravelStyleUseCase(paramsTravelStyle).cachedIn(scope = viewModelScope)
+            val pagedTravelStyleFlow = getTravelStyleUseCase(paramsTravelStyle).cachedIn(scope = viewModelScope)
 
             setState { currentState.copy(isLoading = false, pagedCityData = pagedCityFlow, pagedTravelStyleData = pagedTravelStyleFlow) }
 
@@ -53,7 +53,7 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun onTriggerEvent(event: SearchViewEvent) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             when (event) {
                 is SearchViewEvent.NewSearchEvent -> {
                     onSearch(currentState)
@@ -88,13 +88,10 @@ class SearchViewModel @Inject constructor(
             val paramsHotel = GetHotelsFilterUseCase.Params(config, queryData)
             val paramsDestination = GetDestinationsFilterUseCase.Params(config, queryData)
 
-
             delay(1000)
 
             val pagedHotelFlow = getHotelsFilterUseCase(paramsHotel).cachedIn(scope = viewModelScope)
             val pagedDestinationFlow = getDestinationsFilterUseCase(paramsDestination).cachedIn(scope = viewModelScope)
-
-
 
             setState { currentState.copy(isLoading = false, pagedHotelData = pagedHotelFlow, pagedDestinationData = pagedDestinationFlow) }
         }

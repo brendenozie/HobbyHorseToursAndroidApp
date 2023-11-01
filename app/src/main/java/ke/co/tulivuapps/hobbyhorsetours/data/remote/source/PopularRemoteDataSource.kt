@@ -1,6 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.data.remote.source
 
-import ke.co.tulivuapps.hobbyhorsetours.data.model.episode.PopularResponse
+import ke.co.tulivuapps.hobbyhorsetours.data.model.popular.PopularResponse
+import ke.co.tulivuapps.hobbyhorsetours.data.model.popular.ResultPopular
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.DataState
 import kotlinx.coroutines.flow.Flow
 
@@ -9,6 +10,6 @@ import kotlinx.coroutines.flow.Flow
  */
 
 interface PopularRemoteDataSource {
-    suspend fun getAllEpisodes(): Flow<DataState<PopularResponse>>
-    suspend fun getEpisode(episodeId: Int): Flow<DataState<PopularResponse>>
+    suspend fun getAllPopular(): Flow<DataState<PopularResponse>>
+    suspend fun getPopular(episodeId: Int): Flow<DataState<ResultPopular>>
 }

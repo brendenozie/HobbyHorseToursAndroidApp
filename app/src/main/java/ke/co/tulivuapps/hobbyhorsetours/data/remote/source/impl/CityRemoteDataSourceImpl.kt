@@ -1,7 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.data.remote.source.impl
 
 import ke.co.tulivuapps.hobbyhorsetours.data.local.dao.CityDao
-import ke.co.tulivuapps.hobbyhorsetours.data.model.CityFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.city.CityFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.city.CityInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.model.city.CityResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.api.CityService
@@ -40,8 +40,6 @@ class CityRemoteDataSourceImpl @Inject constructor(
         getResult {
             cityService.getCity(url)
         }
-
-
     override suspend fun getFavoriteList(): List<CityFavoriteEntity> = dao.getFavoriteList()
 
     override suspend fun deleteFavoriteById(favoriteId: Int) = dao.deleteFavoriteById(favoriteId)

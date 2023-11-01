@@ -1,6 +1,6 @@
 package ke.co.tulivuapps.hobbyhorsetours.data.remote.source
 
-import ke.co.tulivuapps.hobbyhorsetours.data.model.DestinationFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.destination.DestinationFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.destination.DestinationInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.model.destination.DestinationResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.DataState
@@ -22,5 +22,4 @@ interface DestinationRemoteDataSource {
     suspend fun deleteFavoriteList()
     suspend fun saveFavorite(entity: DestinationFavoriteEntity)
     suspend fun saveFavoriteList(entityList: List<DestinationFavoriteEntity>)
-
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "565444776466",
+    "project_id": "hobbyhorsetours",
+    "storage_bucket": "hobbyhorsetours.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565444776466:android:e2c4b96fd74ffb970a7ecb",
+        "android_client_info": {
+          "package_name": "ke.co.tulivuapps.hobbyhorsetours"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuYLXBPWq1aJOJ5BW6k1PJL3te4Cpn-z0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

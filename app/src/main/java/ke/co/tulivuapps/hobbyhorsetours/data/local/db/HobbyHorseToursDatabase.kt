@@ -12,11 +12,11 @@ import ke.co.tulivuapps.hobbyhorsetours.data.local.dao.DestinationDao
 import ke.co.tulivuapps.hobbyhorsetours.data.local.dao.FavoriteDao
 import ke.co.tulivuapps.hobbyhorsetours.data.local.dao.HotelDao
 import ke.co.tulivuapps.hobbyhorsetours.data.local.dao.TravelStyleDao
-import ke.co.tulivuapps.hobbyhorsetours.data.model.CityFavoriteEntity
-import ke.co.tulivuapps.hobbyhorsetours.data.model.DestinationFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.city.CityFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.destination.DestinationFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.FavoriteEntity
-import ke.co.tulivuapps.hobbyhorsetours.data.model.HotelFavoriteEntity
-import ke.co.tulivuapps.hobbyhorsetours.data.model.TravelStyleFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.hotel.HotelFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.travelstyle.TravelStyleFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.Constants
 
 /**
@@ -24,7 +24,7 @@ import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.Constants
  */
 @Stable
 @Database(
-    entities = [FavoriteEntity::class,DestinationFavoriteEntity::class,HotelFavoriteEntity::class, CityFavoriteEntity::class, TravelStyleFavoriteEntity::class],
+    entities = [FavoriteEntity::class, DestinationFavoriteEntity::class, HotelFavoriteEntity::class, CityFavoriteEntity::class, TravelStyleFavoriteEntity::class],
     version = 3,
     exportSchema = true
 )

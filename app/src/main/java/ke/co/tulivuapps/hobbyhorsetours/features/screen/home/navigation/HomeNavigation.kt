@@ -14,7 +14,6 @@ import ke.co.tulivuapps.hobbyhorsetours.features.screen.cities.navigation.naviga
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinations.navigation.navigateToDestinations
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinationsdetail.navigation.navigateDestinationsDetail
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.HomeScreen
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.navigation.navigateHotelsDetail
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.navigation.navigateToHotels
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.search.navigation.navigateToSearch
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.navigation.navigateToTravelStyle
@@ -38,6 +37,7 @@ fun NavGraphBuilder.homesScreen(navController: NavHostController) {
     composable(homesNavigationRoute) {
         HomeScreen(
             destinationsViewModel =hiltViewModel(),
+            homeViewModel = hiltViewModel(),
             travelstyleviewModel =hiltViewModel(),
             cityviewModel =hiltViewModel(),
             hotelsviewModel =hiltViewModel(),
@@ -48,7 +48,7 @@ fun NavGraphBuilder.homesScreen(navController: NavHostController) {
             navigateToHotels= {navController.navigateToHotels()},
             navigateToDestination = {navController.navigateDestinationsDetail(it.toJson())}
         ) {
-            navController.navigateHotelsDetail(it.toJson())
+            //navController.navigateHotelsDetail(it.toJson())
         }
     }
 }

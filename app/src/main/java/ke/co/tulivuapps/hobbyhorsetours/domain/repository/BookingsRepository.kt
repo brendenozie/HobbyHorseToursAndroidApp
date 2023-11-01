@@ -15,4 +15,5 @@ interface BookingsRepository {
     fun getBooking(characterId: Int): Flow<DataState<BookingInfoResponse>>
     fun getBooking(url: String): Flow<DataState<BookingInfoResponse>>
     suspend fun getFilterBooking(page: Int, options: Map<String, String>): Response<BookingResponse>
+    suspend fun bookHotel(bookingInfoResponse: BookingInfoResponse): Flow<DataState<BookingInfoResponse>>
 }

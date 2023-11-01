@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -48,6 +48,7 @@ import coil.size.Size
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.data.model.Result
 import ke.co.tulivuapps.hobbyhorsetours.data.model.img
+import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.hotelsdetail.HotelsDetailViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursNetworkImage
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursTopBar
@@ -57,42 +58,16 @@ import kotlinx.coroutines.launch
  * Created by brendenozie on 13.03.2023
  */
 
-
-
-@Composable
-private fun CharacterImage(data: Result?) {
-    Card(
-        modifier = Modifier
-            .width(350.dp)
-            .height(400.dp)
-            .padding(top = 20.dp),
-        shape = RoundedCornerShape(8.dp),
-        border = BorderStroke(
-            1.dp,
-            color = Color.LightGray //if (data?.status == Status.Alive) Color.Green else Color.Red
-        ),
-    ) {
-        HobbyHorseToursNetworkImage(
-            imageURL = data?.img?.get(0)?.url,
-            modifier = Modifier
-                .fillMaxSize(),
-            placeholder = R.drawable.ic_place_holder,
-            contentScale = ContentScale.FillBounds,
-        )
-    }
-}
-
-
 //New Screen
 
 @Composable
 fun DetailScreen(
     viewModel: HotelsDetailViewModel = viewModel(),
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
-    navigateToBookNow: ()-> Unit,
+    navigateToBookNow: (Result?)-> Unit,
     navigateToBack: () -> Unit
 ) {
     val viewState by viewModel.uiState.collectAsState()
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
 
     LaunchedEffect(viewModel.uiEvent) {
         launch {
@@ -127,7 +102,11 @@ fun DetailScreen(
             )
         },
         content = {innerPadding ->
-            DetailScreenContent(modifier = Modifier.padding(innerPadding), viewModel= viewModel, navigateToBookNow = navigateToBookNow)
+            DetailScreenContent(modifier = Modifier.padding(innerPadding),
+                viewState= viewState,
+                navigateToBookNow = {
+                    navigateToBookNow.invoke(it)
+                })
         },
         scaffoldState = scaffoldState,
         backgroundColor = MaterialTheme.colors.background
@@ -135,81 +114,112 @@ fun DetailScreen(
 }
 
 @Composable
+private fun CharacterImage(data: Result?) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(400.dp)
+            .padding(top = 20.dp),
+        shape = RoundedCornerShape(8.dp),
+        border = BorderStroke(
+            1.dp,
+            color = Color.LightGray //if (data?.status == Status.Alive) Color.Green else Color.Red
+        ),
+    ) {
+        HobbyHorseToursNetworkImage(
+            imageURL = data?.img?.get(0)?.url,
+            modifier = Modifier
+                .fillMaxSize(),
+            placeholder = R.drawable.ic_place_holder,
+            contentScale = ContentScale.FillBounds,
+        )
+    }
+}
+
+
+@Composable
 private fun DetailScreenContent(
     modifier: Modifier,
-    viewModel: HotelsDetailViewModel,
-    navigateToBookNow: ()-> Unit
+    viewState:HotelsDetailViewState,
+    navigateToBookNow: (Result?)-> Unit
 ) {
-    val scaffoldState = rememberScaffoldState()
-    val viewState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(viewModel.uiEvent) {
-        launch {
-            viewModel.uiEvent.collect {
-                when (it) {
-                    is HotelsDetailViewEvent.SnackBarError -> {
-                        scaffoldState.snackbarHostState.showSnackbar(it.message.orEmpty())
-                    }
-                }
-            }
-        }
-    }
-
-    Column(
+    LazyColumn(
         modifier = modifier
-            .padding(start = 24.dp, end = 24.dp, top = 56.dp)
+            .padding(start = 14.dp, end = 14.dp)
             .fillMaxHeight()
             .semantics { contentDescription = "Detail Screen" }
     ) {
-        CharacterImage(
-            viewState.data
-        )
-        Spacer(modifier = Modifier.size(16.dp))
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically
-        ) {
-            viewState.data?.let { Text(text = it.title, style = MaterialTheme.typography.h5) }
-            Spacer(modifier = Modifier.weight(1F))
-            Image(
-                painter = painterResource(id = R.drawable.filter),
-                contentDescription = null,
-                Modifier.size(10.dp)
+        item(key = null) {
+            CharacterImage(
+                viewState.data
             )
-            Spacer(modifier = Modifier.size(8.dp))
-            Text(text = "(4.8)", style = MaterialTheme.typography.caption)
         }
-        Spacer(modifier = Modifier.size(16.dp))
-        viewState.data?.description?.let {
-            Text(
-            text = it,
-            style = MaterialTheme.typography.body2,
-            modifier = Modifier.padding(horizontal = 12.dp)
-        )
+        item(key = null) {
+            Spacer(modifier = Modifier.size(16.dp))
         }
-        Spacer(modifier = Modifier.size(16.dp))
-        viewState.data?.let { MoreImages(it.img) }
-        Spacer(modifier = Modifier.weight(1F))
-        Row(Modifier.fillMaxWidth()) {
-            Column {
-                Text(text = "Total Price", style = MaterialTheme.typography.h6)
-                Spacer(modifier = Modifier.size(12.dp))
-                Row {
-                    Text(text = "", style = MaterialTheme.typography.subtitle2)
-                    viewState.data?.price?.let { Text(text = it, style = MaterialTheme.typography.subtitle2) }
-                }
-            }
-            Spacer(modifier = Modifier.weight(1F))
-            Button(
-                onClick = { navigateToBookNow.invoke() },
-                modifier = Modifier.padding(bottom = 56.dp).size(170.dp, 56.dp),
-                shape = RoundedCornerShape(72.dp),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colors.background
-                )
+        item(key = null) {
+            Row(
+                Modifier
+                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Book Now", style = MaterialTheme.typography.button)
+                viewState.data?.let { Text(text = it.title, style = MaterialTheme.typography.h5) }
+                Spacer(modifier = Modifier.weight(1F))
+                Image(
+                    painter = painterResource(id = R.drawable.filter),
+                    contentDescription = null,
+                    Modifier.size(10.dp)
+                )
+                Spacer(modifier = Modifier.size(8.dp))
+                Text(text = "(4.8)", style = MaterialTheme.typography.caption)
+            }
+        }
+        item(key = null) {
+            Spacer(modifier = Modifier.size(16.dp))
+        }
+        item(key = null) {
+            viewState.data?.description?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.body2
+                )
+            }
+        }
+        item(key = null) {
+            Spacer(modifier = Modifier.size(16.dp))
+        }
+        item(key = null) {
+            viewState.data?.let { MoreImages(it.img) }
+        }
+        item(key = null) {
+            Spacer(modifier = Modifier.size(16.dp))
+        }
+        item(key = null) {
+            Row(Modifier.fillMaxWidth(),verticalAlignment = Alignment.CenterVertically) {
+                Column {
+                    Text(text = "Total Price", style = MaterialTheme.typography.h6)
+                    Spacer(modifier = Modifier.size(12.dp))
+                    Row {
+                        Text(text = "", style = MaterialTheme.typography.subtitle2)
+                        viewState.data?.price?.let {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.subtitle2
+                            )
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.weight(1F))
+                Button(
+                    onClick = { navigateToBookNow.invoke(viewState.data) },
+                    modifier = Modifier
+                        .padding(bottom = 56.dp)
+                        .size(170.dp, 56.dp),
+                    shape = RoundedCornerShape(72.dp),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.background)
+                ) {
+                    Text(text = "Book Now", style = MaterialTheme.typography.button)
+                }
             }
         }
     }
@@ -221,8 +231,7 @@ private fun MoreImages(img: List<img>) {
     Spacer(modifier = Modifier.size(24.dp))
     Column(
         Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp)) {
+            .fillMaxWidth()) {
         Text(text = "More Images", style = MaterialTheme.typography.body2)
         Spacer(modifier = Modifier.size(16.dp))
         Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween) {

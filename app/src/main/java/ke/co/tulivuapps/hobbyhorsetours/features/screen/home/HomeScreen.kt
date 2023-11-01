@@ -1,7 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.home
 
 import android.content.res.Configuration
-import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -10,15 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +36,10 @@ import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.CityDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.DestinationDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.HotelDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.TravelStyleDto
+import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.city.CityViewState
+import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.destinations.DestinationsViewState
+import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.hotels.HotelsViewState
+import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.travelstyle.TravelStyleViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursCharacterShimmer
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursDestinationsCard
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursHotelsCard
@@ -46,6 +49,7 @@ import ke.co.tulivuapps.hobbyhorsetours.features.component.RoundedCornerIconButt
 import ke.co.tulivuapps.hobbyhorsetours.features.component.SearchBox
 import ke.co.tulivuapps.hobbyhorsetours.features.component.SlidingBanner
 import ke.co.tulivuapps.hobbyhorsetours.features.component.TopBar
+import ke.co.tulivuapps.hobbyhorsetours.features.component.VerticalGrid
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.cities.CityViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.cities.CityViewModel
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinations.DestinationsViewEvent
@@ -54,7 +58,6 @@ import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.HotelsViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.HotelsViewModel
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.TravelStyleViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.TravelStyleViewModel
-import ke.co.tulivuapps.hobbyhorsetours.utils.Utility
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.rememberFlowWithLifecycle
 import kotlinx.coroutines.flow.Flow
 
@@ -65,6 +68,7 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 fun HomeScreen(
     destinationsViewModel: DestinationsViewModel,
+    homeViewModel: HomeViewModel,
     travelstyleviewModel: TravelStyleViewModel,
     cityviewModel: CityViewModel,
     hotelsviewModel: HotelsViewModel,
@@ -78,19 +82,33 @@ fun HomeScreen(
 ) {
 
     val scaffoldState = rememberScaffoldState()
+    val isLoggedIn by homeViewModel.signedIn.collectAsState()
+    val username by homeViewModel.userName.collectAsState()
+    val destinationsViewState by  destinationsViewModel.uiState.collectAsState()
+    val travelStyleViewState by travelstyleviewModel.uiState.collectAsState()
+    val cityViewState by cityviewModel.uiState.collectAsState()
+    val hotelsViewState by hotelsviewModel.uiState.collectAsState()
+
+//    LaunchedEffect(key1 = Unit) {
+//
+//    }
 
     HobbyHorseToursScaffold(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = {
-            TopBar(onNavigationIconClick = {    })
+            TopBar(onNavigationIconClick = {    }, isLoggedIn, username )
         },
         content = {
             Content(
                 destinationsViewModel = destinationsViewModel,
+                destinationsViewState = destinationsViewState,
                 travelstyleviewModel = travelstyleviewModel,
+                travelStyleViewState = travelStyleViewState,
                 cityviewModel = cityviewModel,
+                cityViewState = cityViewState,
                 hotelsviewModel = hotelsviewModel,
+                hotelsViewState = hotelsViewState,
                 navigateToSearch = navigateToSearch,
                 navigateToCities = navigateToCities,
                 navigateToTravelStyles = navigateToTravelStyles,
@@ -107,9 +125,13 @@ fun HomeScreen(
 private fun Content(
     isLoading:Boolean = false,
     destinationsViewModel: DestinationsViewModel,
+    destinationsViewState: DestinationsViewState,
     travelstyleviewModel: TravelStyleViewModel,
+    travelStyleViewState:TravelStyleViewState,
     cityviewModel: CityViewModel,
+    cityViewState: CityViewState,
     hotelsviewModel: HotelsViewModel,
+    hotelsViewState: HotelsViewState,
     navigateToSearch: () -> Unit?,
     navigateToCities: () -> Unit?,
     navigateToTravelStyles: () -> Unit?,
@@ -119,51 +141,44 @@ private fun Content(
     navigateToHotel: (HotelDto) -> Unit?
 ) {
 
-    val destinationsViewState = destinationsViewModel.uiState.collectAsState().value
-    val travelStyleViewState = travelstyleviewModel.uiState.collectAsState().value
-    val cityViewState = cityviewModel.uiState.collectAsState().value
-    val hotelsViewState = hotelsviewModel.uiState.collectAsState().value
-
     var pagingHotelItems: LazyPagingItems<HotelDto>? = null
     hotelsViewState.pagedData?.let {
-        pagingHotelItems = Utility.rememberFlowWithLifecycle(it).collectAsLazyPagingItems()
+        pagingHotelItems = rememberFlowWithLifecycle(it).collectAsLazyPagingItems()
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 15.dp),
-    ) {
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier = Modifier.padding(2.dp),
-
-            ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.background),
+//            columns = GridCells.Fixed(2),
+//            horizontalArrangement = Arrangement.spacedBy(Dimension.zero),
+//            verticalArrangement = Arrangement.spacedBy(Dimension.zero),
+//            contentPadding = PaddingValues(horizontal = Dimension.zero),
+        ) {
 
             if (isLoading) {
                 items(10) {
                     HobbyHorseToursCharacterShimmer()
                 }
-            } else {
+            }
+            else {
                 item{
                     Spacer(modifier = Modifier.size(10.dp))
                 }
-
-                item(span = { GridItemSpan(maxLineSpan) }){
+                item{
                     SearchBox { navigateToSearch.invoke() }
                 }
-
                 item{
                     Spacer(modifier = Modifier.size(10.dp))
                 }
-                item(span = { GridItemSpan(maxLineSpan)}) {
+                item {
                     SlidingBanner()
                 }
                 item{
                     Spacer(modifier = Modifier.size(10.dp))
                 }
-                item(span = { GridItemSpan(maxLineSpan)}) {
+                item {
                     Row(
                         modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -183,7 +198,7 @@ private fun Content(
                         )
                     }
                 }
-                item(span = { GridItemSpan(maxLineSpan)}) {
+                item {
 
                     ContentCities(isLoading = cityViewState.isLoading,
                                     pagedData = cityViewState.pagedData,
@@ -195,7 +210,7 @@ private fun Content(
                                     } )
                 }
 
-                item(span = { GridItemSpan(maxLineSpan)}) {
+                item {
                     Row(
                         modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -215,7 +230,7 @@ private fun Content(
                         )
                     }
                 }
-                item(span = { GridItemSpan(maxLineSpan)}) {
+                item {
 
                     ContentTravelStyle(isLoading = travelStyleViewState.isLoading,
                         pagedData = travelStyleViewState.pagedData,
@@ -228,7 +243,7 @@ private fun Content(
 
                 }
 
-                item(span = { GridItemSpan(maxLineSpan)}) {
+                item {
                     Row(
                         modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -249,7 +264,7 @@ private fun Content(
                     }
                 }
 
-                item(span = { GridItemSpan(maxLineSpan)}) {
+                item {
                     ContentDestinations(isLoading = destinationsViewState.isLoading,
                                         pagedData = destinationsViewState.pagedData,
                                         onTriggerEvent = {
@@ -262,7 +277,7 @@ private fun Content(
                                         } )
                 }
 
-                item(span = { GridItemSpan(maxLineSpan)}) {
+                item {
                     Row(
                         modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -283,45 +298,31 @@ private fun Content(
                     }
                 }
 
-//                item{
-//                    ContentHotels(isLoading = hotelsViewState.isLoading,
-//                                    pagedData = hotelsViewState.pagedData,
-//                                    onTriggerEvent = {
-//                                        hotelsviewModel.onTriggerEvent(it)
-//                                    },
-//                                    clickDetail = {
-//                                        if (it != null) {
-//                                            navigateToHotel.invoke(it)
-//                                        }
-//                                    } )
-//                }
-
-                pagingHotelItems?.let { it ->
-                    items(
-                        it.itemCount
-                    ) { index ->
-                        pagingHotelItems!![index]?.let {
-//                            Box(Modifier.padding(2.dp)) {
-                                HobbyHorseToursHotelsCard(
-                                    status = Status.Unknown,
-                                    detailClick = { navigateToHotel.invoke(it) },
-                                    dto = it,
-                                    onTriggerEvent = {
-            //                                    onTriggerEvent.invoke(
-            //                                        SearchViewEvent.UpdateHotelFavorite(
-            //                                            it
-            //                                        )
-            //                                    )
-                                    }
-                                )
-//                            }
+                item {
+                    VerticalGrid {
+                        pagingHotelItems?.let { it ->
+                            it.itemSnapshotList.map {
+                                Box() {
+                                    HobbyHorseToursHotelsCard(
+                                        status = Status.Unknown,
+                                        detailClick = {
+                                            if (it != null) {
+                                                navigateToHotel.invoke(it)
+                                            }
+                                        },
+                                        dto = it,
+                                        onTriggerEvent = {
+                                            //onTriggerEvent.invoke( SearchViewEvent.UpdateHotelFavorite(it) )
+                                        }
+                                    )
+                                }
+                            }
                         }
                     }
                 }
-
             }
         }
-    }
+
 }
 
 @Composable
@@ -348,10 +349,10 @@ private fun ContentDestinations(
 //                items(10) {
 //                    //HobbyHorseToursCharacterShimmer()
 //                }
-            } else if (pagedData != null && pagingItems != null) {
+            } else if (pagedData != null) {
 
                     LazyRow( modifier = Modifier.fillMaxWidth() ) {
-                        items(items = pagingItems!!) { item ->
+                        items(items = pagingItems!!, key = { item -> item.id as Any }) { item ->
                             HobbyHorseToursDestinationsCard(
                                 status = Status.Alive, //item?.status ?: Status.Unknown,
                                 detailClick = {
@@ -369,10 +370,7 @@ private fun ContentDestinations(
                         }
                     }
 
-            }else{
-                Toast.makeText(context, "Nothing To Show", Toast.LENGTH_SHORT).show()
             }
-
     }
 }
 
@@ -398,10 +396,10 @@ private fun ContentHotels(
 
             if (isLoading) {
 
-            } else if (pagedData != null && pagingItems != null) {
+            } else if (pagedData != null) {
 
                     LazyRow( modifier = Modifier.fillMaxWidth() ) {
-                        items(items = pagingItems!!) { item ->
+                        items(items = pagingItems!!, key = { item -> item.id as Any }) { item ->
                             HobbyHorseToursHotelsCard(
                                 status = Status.Alive, //item?.status ?: Status.Unknown,
                                 detailClick = {
@@ -418,8 +416,6 @@ private fun ContentHotels(
                             )
                         }
                     }
-            }else{
-                Toast.makeText(context, "Nothing To Show", Toast.LENGTH_SHORT).show()
             }
         }
 //    }
@@ -448,8 +444,8 @@ private fun ContentCities(
             if (isLoading) {
 
             } else if (pagedData != null) {
-                    LazyRow( modifier = Modifier.fillMaxWidth() ) {
-                        items(items = pagingItems!!) { item ->
+                    LazyRow( modifier = Modifier.fillMaxWidth()) {
+                        items(items = pagingItems!!, key = { item -> item.id as Any }) { item ->
                             if (item != null) {
                                 RoundedCornerIconButtonCity(
                                     modifier = Modifier,
@@ -461,8 +457,6 @@ private fun ContentCities(
 //                    }
                 }
 
-            }else{
-                Toast.makeText(context, "Nothing To Show", Toast.LENGTH_SHORT).show()
             }
         }
 //    }
@@ -492,8 +486,8 @@ private fun ContentTravelStyle(
 
             } else if (pagedData != null) {
 
-                    LazyRow( modifier = Modifier.fillMaxWidth() ) {
-                        items(items = pagingItems!!) { item ->
+                    LazyRow( modifier = Modifier.fillMaxWidth()) {
+                        items(items = pagingItems!!, key = { item -> item.id as Any }) { item ->
                             if (item != null) {
                                 RoundedCornerIconButtonTravelStyle(
                                     modifier = Modifier,
@@ -506,8 +500,6 @@ private fun ContentTravelStyle(
 //                    }
                 }
 
-            }else{
-                Toast.makeText(context, "Nothing To Show", Toast.LENGTH_SHORT).show()
             }
         }
 //    }
@@ -524,14 +516,17 @@ private fun ContentTravelStyle(
 )
 @Composable
 fun DetailContentItemViewPreview() {
-    HomeScreen(destinationsViewModel = hiltViewModel(),
-                cityviewModel = hiltViewModel(),
-                travelstyleviewModel = hiltViewModel(),
-                hotelsviewModel = hiltViewModel(),
-                navigateToSearch = {},
-                navigateToCities = {},
-                navigateToTravelStyles = {},
-                navigateToDestinations = {},
-                navigateToHotels = {},
-                navigateToDestination = {},) {}
+    HomeScreen(
+        destinationsViewModel = hiltViewModel(),
+        homeViewModel = hiltViewModel(),
+        cityviewModel = hiltViewModel(),
+        travelstyleviewModel = hiltViewModel(),
+        hotelsviewModel = hiltViewModel(),
+        navigateToSearch = {},
+        navigateToCities = {},
+        navigateToTravelStyles = {},
+        navigateToDestinations = {},
+        navigateToHotels = {},
+        navigateToDestination = {},
+    ) {}
 }

@@ -38,4 +38,8 @@ class BookingsRepositoryImpl @Inject constructor(
         options: Map<String, String>
     ): Response<BookingResponse> = cityRemoteDataSource.getFilterBookings(page, options)
 
+    override suspend fun bookHotel(bookingInfoResponse: BookingInfoResponse): Flow<DataState<BookingInfoResponse>> = flow {
+            emitAll(cityRemoteDataSource.setBooking(bookingInfoResponse))
+        }
+
 }

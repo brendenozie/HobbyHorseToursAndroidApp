@@ -2,7 +2,7 @@ package ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.bookings
 
 import androidx.compose.runtime.Stable
 import androidx.paging.PagingData
-import ke.co.tulivuapps.hobbyhorsetours.data.model.ResultBooking
+import ke.co.tulivuapps.hobbyhorsetours.data.model.booking.ResultBooking
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.BookingDto
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewState
 import kotlinx.coroutines.flow.Flow

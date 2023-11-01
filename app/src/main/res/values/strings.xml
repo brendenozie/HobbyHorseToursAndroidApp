@@ -46,4 +46,44 @@
     <string name="search_modal_travelstyle_title">Travel Style</string>
     <string name="search_modal_button_text">Apply</string>
 
+    <string name="google_cloud_server_client_id" translatable="false">"131810820705-361gms6ip1irs83esv49dr0dcg9hpe53.apps.googleusercontent.com"</string>
+    <string name="you_are_offline">You are offline!</string>
+
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password_should_be_at_least_6_characters">Password should be at least 6 characters!</string>
+    <string name="not_a_valid_email">Not a valid Email!</string>
+    <string name="passwords_do_not_match">Passwords don\'t match!</string>
+    <string name="recover_your_account">Recover your Account</string>
+
+    <string name="click_label_select">select</string>
+    <string name="state_descr_selected">Selected</string>
+    <string name="state_descr_not_selected">Not selected</string>
+    <string name="cd_done">Done</string>
+    <string name="cd_back">Back</string>
+    <string name="calendar_select_dates_title">Select Dates</string>
+    <string name="input_select_location">Select Location</string>
+    <string name="input_select_time">Select Time</string>
+    <string name="select_destination_hint">Choose Destination</string>
+    <string name="select_destination_to_caption">To</string>
+    <string name="select_dates">Select Dates</string>
+    <string name="error_max_people">Error: We don\'t support more than %d people</string>
+    <plurals name="number_adults_selected">
+        <item quantity="one"> %d Adult%s</item>
+        <item quantity="other"> %d Adults%s</item>
+        <item quantity="two"> %d Adults%s</item>
+        <item quantity="many"> %d Adults%s</item>
+    </plurals>
+    <plurals name="number_children_selected">
+        <item quantity="one"> %d Child%s</item>
+        <item quantity="other"> %d Children%s</item>
+        <item quantity="two"> %d Children%s</item>
+        <item quantity="many"> %d Children%s</item>
+    </plurals>
+    <plurals name="number_rooms_selected">
+        <item quantity="one"> %d Room%s</item>
+        <item quantity="other"> %d Rooms%s</item>
+        <item quantity="two"> %d Rooms%s</item>
+        <item quantity="many"> %d Rooms%s</item>
+    </plurals>
+
 </resources>

@@ -1,6 +1,6 @@
 package ke.co.tulivuapps.hobbyhorsetours.domain.repository
 
-import ke.co.tulivuapps.hobbyhorsetours.data.model.HotelFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.hotel.HotelFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.hotel.HotelInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.model.hotel.HotelResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.DataState

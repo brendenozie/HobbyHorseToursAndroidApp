@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -17,13 +18,21 @@ android {
         versionName = "1.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        vectorDrawables.useSupportLibrary = true
         kapt {
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
+        }
+    }
+
+    signingConfigs {
+        // We use a bundled debug keystore, to allow debug builds from CI to be upgradable
+        named("debug") {
+            storeFile = rootProject.file("HobbyHorseKeyStore.jks")
+            storePassword = "alvinpeter"
+            keyAlias = "HobbyHorseKeyStore"
+            keyPassword = "alvinpeter"
         }
     }
 
@@ -34,6 +43,9 @@ android {
     }
 
     buildTypes {
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("debug")
+        }
         getByName("release") {
             isMinifyEnabled = true
             proguardFiles(
@@ -43,12 +55,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
+
     buildFeatures {
         compose = true
     }
@@ -140,6 +154,17 @@ dependencies {
     // UI Tests
     androidTestImplementation(libs.androidx.compose.ui.test)
     debugImplementation(libs.androidx.compose.ui.testManifest)
+
+    //firebase
+    val firebaseBom = platform("com.google.firebase:firebase-bom:27.0.0")
+    implementation(firebaseBom)
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-storage-ktx")
+    implementation(libs.facebook.android.sdk)
+
+    //google login
+    implementation(libs.play.services.auth)
 
     testImplementation(libs.junit4)
     androidTestImplementation(libs.androidx.test.ext)

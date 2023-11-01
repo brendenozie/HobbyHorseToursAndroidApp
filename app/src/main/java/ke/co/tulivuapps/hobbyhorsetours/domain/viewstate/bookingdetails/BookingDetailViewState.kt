@@ -1,7 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.bookingdetails
 
 import androidx.compose.runtime.Stable
-import ke.co.tulivuapps.hobbyhorsetours.data.model.ResultBooking
+import ke.co.tulivuapps.hobbyhorsetours.data.model.booking.ResultBooking
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewState
 
 /**

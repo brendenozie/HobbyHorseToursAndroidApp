@@ -1,4 +1,4 @@
-package ke.co.tulivuapps.hobbyhorsetours.data.model
+package ke.co.tulivuapps.hobbyhorsetours.data.model.destination
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo

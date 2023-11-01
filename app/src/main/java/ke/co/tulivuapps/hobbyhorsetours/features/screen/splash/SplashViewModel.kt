@@ -1,10 +1,10 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.splash
 
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.splash.SplashViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +19,7 @@ class SplashViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            delay(2000)
+            delay(1000)
             setEvent(SplashViewEvent.DirectToDashBoard)
         }
     }

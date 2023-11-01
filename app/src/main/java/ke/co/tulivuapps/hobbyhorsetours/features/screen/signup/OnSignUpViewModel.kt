@@ -1,4 +1,4 @@
-package ke.co.tulivuapps.hobbyhorsetours.features.screen.login
+package ke.co.tulivuapps.hobbyhorsetours.features.screen.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class OnLoginViewModel @Inject constructor(
+class OnSignUpViewModel @Inject constructor(
     private val dataStoreOperation: DataStoreOperation
 ) : ViewModel() {
 

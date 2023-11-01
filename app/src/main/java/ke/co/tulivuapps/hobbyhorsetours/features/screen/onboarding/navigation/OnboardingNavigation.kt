@@ -8,7 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.composable
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.navigation.navigateToHome
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.homee.navigation.navigateToHomee
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.onboarding.OnBoardingScreen
 
 /**
@@ -27,6 +27,6 @@ fun NavController.navigateToOnboarding(
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.onbooardingScreen(navController: NavHostController) {
     composable(onboardingNavigationRoute) {
-        OnBoardingScreen(onSkip = {navController.navigateToHome()},navController = navController)
+        OnBoardingScreen(onSkip = {navController.navigateToHomee()},navController = navController)
     }
 }

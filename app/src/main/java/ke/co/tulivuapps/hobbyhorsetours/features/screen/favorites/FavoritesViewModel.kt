@@ -1,12 +1,13 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.favorites
 
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import ke.co.tulivuapps.hobbyhorsetours.domain.usecase.favorite.DeleteFavoriteUseCase
 import ke.co.tulivuapps.hobbyhorsetours.domain.usecase.favorite.GetFavoritesUseCase
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.favorites.FavoritesViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,7 +27,7 @@ class FavoritesViewModel @Inject constructor(
     }
 
     private fun getFavorites() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             setState { currentState.copy(isLoading = true) }
             delay(2000)
             val favoritesList = getFavoritesUseCase.repository.getFavoriteList()

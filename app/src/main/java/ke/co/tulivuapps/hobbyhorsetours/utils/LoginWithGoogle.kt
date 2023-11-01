@@ -1,0 +1,30 @@
+package ke.co.tulivuapps.hobbyhorsetours.utils
+
+import android.content.Context
+import android.content.Intent
+import androidx.activity.result.contract.ActivityResultContract
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import ke.co.tulivuapps.hobbyhorsetours.R
+
+class LoginWithGoogle : ActivityResultContract<Unit, String?>() {
+    override fun createIntent(context: Context, input: Unit): Intent {
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(context.getString(R.string.google_cloud_server_client_id))
+            .requestEmail().build()
+        val googleSignInClient = GoogleSignIn.getClient(context, googleSignInOptions)
+        return googleSignInClient.signInIntent
+    }
+
+    override fun parseResult(resultCode: Int, intent: Intent?): String? {
+        val task = GoogleSignIn.getSignedInAccountFromIntent(intent)
+        return try {
+            val account = task.getResult(ApiException::class.java)!!
+            account.idToken!!
+//            Toast.makeText(LocalContext.current.applicationContext, "", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            null
+        }
+    }
+}

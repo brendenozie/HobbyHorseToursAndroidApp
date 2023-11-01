@@ -1,9 +1,9 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.onboarding
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -22,30 +22,36 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 fun OnboardingPagerItem(item: Onboard) {
 
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(item.lottieFile))
-    Column(
+    LazyColumn(
         modifier = Modifier.padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LottieAnimation(
-            composition,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(250.dp),
-            restartOnPlay = true,
-            alignment = Alignment.Center,
-            iterations = LottieConstants.IterateForever,
-        )
-        Text(
-            text = item.title,
-            style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.ExtraBold),
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(16.dp)
-        )
-        Text(
-            text = item.description,
-            style = MaterialTheme.typography.body1,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
+        item(key = null) {
+            LottieAnimation(
+                composition,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(250.dp),
+                restartOnPlay = true,
+                alignment = Alignment.Center,
+                iterations = LottieConstants.IterateForever,
+            )
+        }
+        item(key = null) {
+            Text(
+                text = item.title,
+                style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.ExtraBold),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+        item(key = null) {
+            Text(
+                text = item.description,
+                style = MaterialTheme.typography.body1,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+        }
     }
 }

@@ -1,14 +1,18 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import ke.co.tulivuapps.hobbyhorsetours.features.calendar.navigation.calendarScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursBottomAppBar
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursFloatingActionBar
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
@@ -21,6 +25,8 @@ import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinations.navigation.
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinationsdetail.navigation.destinationsDetailScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.favorites.navigation.favoritesScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.navigation.homesScreen
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.homee.navigation.homeeNavigationRoute
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.homee.navigation.homeesScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.navigation.hotelsScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotelsdetail.navigation.hotelsDetailScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.login.navigation.loginScreen
@@ -37,16 +43,18 @@ import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
  * Created by brendenozie on 9.03.2023
  */
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun NavGraph() {
+fun NavGraph(isOnBoarded: Boolean) {
+    val scaffoldState = rememberScaffoldState()
     val navController = rememberAnimatedNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val currentDestination = navController
-        .currentBackStackEntryAsState().value?.destination
+    val currentDestination = navController.currentBackStackEntryAsState().value?.destination
 
     HobbyHorseToursScaffold(
+        scaffoldState= scaffoldState,
         bottomBar = {
             BottomNav.values().forEach { navItem ->
                 if (navItem.route == currentRoute) {
@@ -70,12 +78,14 @@ fun NavGraph() {
     ) { innerPadding ->
         AnimatedNavHost(
             navController = navController,
-            startDestination = onboardingNavigationRoute,
+            startDestination = if (isOnBoarded)  homeeNavigationRoute else onboardingNavigationRoute,
             Modifier.padding(innerPadding)
         ) {
             onbooardingScreen(navController)
+            homeesScreen(navController)
             homesScreen(navController)
             loginScreen(navController)
+            calendarScreen(navController)
             destinationScreen(navController)
             destinationsDetailScreen { navController.navigateUp() }
             citiesScreen(navController)

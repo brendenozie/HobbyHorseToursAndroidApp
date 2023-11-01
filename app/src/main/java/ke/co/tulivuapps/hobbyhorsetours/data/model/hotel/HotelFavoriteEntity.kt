@@ -1,8 +1,7 @@
-package ke.co.tulivuapps.hobbyhorsetours.data.model
+package ke.co.tulivuapps.hobbyhorsetours.data.model.hotel
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.Constants

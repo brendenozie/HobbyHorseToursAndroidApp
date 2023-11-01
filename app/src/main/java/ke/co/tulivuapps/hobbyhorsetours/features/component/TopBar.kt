@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Badge
@@ -42,10 +41,8 @@ import ke.co.tulivuapps.hobbyhorsetours.R
 
 
 @Composable
-fun TopBar(onNavigationIconClick: () -> Unit) {
-    val showDialog = remember {
-        mutableStateOf(false)
-    }
+fun TopBar(onNavigationIconClick: () -> Unit, isSignedIn: Boolean, username: String?) {
+    val showDialog = remember {  mutableStateOf(false)  }
     if (showDialog.value) {
         DialogBox(showDialog = showDialog.value,
             dismissDialog = { showDialog.value = false })
@@ -53,32 +50,47 @@ fun TopBar(onNavigationIconClick: () -> Unit) {
     TopAppBar(elevation = 0.dp,modifier = Modifier.padding(top = 20.dp, start = 10.dp, end = 10.dp), title = {
         Column {
             Text(
-                text = "Hi, Good Afternoon",
+                modifier = Modifier.clickable { if(!isSignedIn) {onNavigationIconClick.invoke()} },
+                text = if(isSignedIn) "Welcome," else "Hello, Your not Signed In,",
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Medium,
                 fontSize = 12.sp,
                 color = Color.Gray
             )
+
             Text(
-                text = "Timo",
+                modifier = Modifier.clickable { if(!isSignedIn) {onNavigationIconClick.invoke()} },
+                text =  if(isSignedIn && username != null) username else "Click to sign in" ,
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 18.sp,
-                style = TextStyle(color = if (isSystemInDarkTheme()) Color.Black else Color.White)
-            )
+                style = TextStyle(color = if (isSystemInDarkTheme()) Color.White else Color.Black)
+                    )
         }
     }, navigationIcon = {
-        Image(painter = painterResource(id = R.drawable.coffee),
-            contentDescription = "profile image",
+        val radius = 24.dp
+        val shape = RoundedCornerShape(radius)
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
-                .size(58.dp)
-                .clip(
-                    CircleShape
+                .defaultMinSize(minWidth = radius * 2, minHeight = radius * 2)
+                .background(
+                    color = Color.White, shape = shape
                 )
-                .border(1.dp,color = if (isSystemInDarkTheme()) Color.Black else Color.White)
-                .clickable {
-                    onNavigationIconClick()
-                })
+                .border(1.dp,color = if (isSystemInDarkTheme()) Color.White else Color.Black,shape = RoundedCornerShape(24.dp))
+                .clip(shape),
+        ) {
+            Image(
+                modifier = Modifier
+                    .size(36.dp)
+                    .clickable {
+                        showDialog.value = true
+                    },
+                painter = painterResource(id = R.drawable.refer),
+                contentDescription = ""
+            )
+        }
+
     }, actions = {
         BadgedBox(
             badge = {
@@ -88,7 +100,7 @@ fun TopBar(onNavigationIconClick: () -> Unit) {
                 )
             },
         ) {
-            val radius = 20.dp
+            val radius = 22.dp
             val shape = RoundedCornerShape(radius)
             Box(
                 contentAlignment = Alignment.Center,
@@ -97,12 +109,12 @@ fun TopBar(onNavigationIconClick: () -> Unit) {
                     .background(
                         color = Color.White, shape = shape
                     )
-                    .border(1.dp,color = if (isSystemInDarkTheme()) Color.Black else Color.White,shape = RoundedCornerShape(20.dp))
+                    .border(1.dp,color = if (isSystemInDarkTheme()) Color.White else Color.Black,shape = RoundedCornerShape(22.dp))
                     .clip(shape),
             ) {
                 Icon(
                     modifier = Modifier
-                        .size(28.dp)
+                        .size(30.dp)
                         .clickable {
                             showDialog.value = true
                         },
@@ -162,5 +174,5 @@ fun DialogBox(
 @Preview(showBackground = true)
 @Composable
 fun PreviewHeaderItem() {
-    TopBar(onNavigationIconClick = {})
+    TopBar(onNavigationIconClick = {},false, "")
 }

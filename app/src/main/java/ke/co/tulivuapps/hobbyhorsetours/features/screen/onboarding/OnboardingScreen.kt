@@ -28,8 +28,7 @@ import androidx.navigation.NavController
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.features.carousel.Pager
 import ke.co.tulivuapps.hobbyhorsetours.features.carousel.PagerState
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.navigation.homeNavigationRoute
-import kotlinx.coroutines.delay
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.homee.navigation.homeeNavigationRoute
 
 @Composable
 fun OnBoardingScreen(onSkip: () -> Unit,
@@ -37,13 +36,12 @@ fun OnBoardingScreen(onSkip: () -> Unit,
                      navController: NavController
                     ) {
 
-    val onboarding by splashScreenViewModel.onBoardingCompleted.collectAsState()
+    val isOnBoarded by splashScreenViewModel.onBoarded.collectAsState()
 
-    LaunchedEffect(key1 = true) {
-        delay(1000L)
-        if (onboarding) {
+    LaunchedEffect(key1 =Unit) {
+        if (isOnBoarded) {
             navController.popBackStack()
-            navController.navigate(homeNavigationRoute)
+            navController.navigate(homeeNavigationRoute)
         }
     }
 

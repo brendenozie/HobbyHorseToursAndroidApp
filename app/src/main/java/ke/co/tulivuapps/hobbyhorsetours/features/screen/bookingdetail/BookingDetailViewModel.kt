@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ke.co.tulivuapps.hobbyhorsetours.data.local.DataStoreOperation
-import ke.co.tulivuapps.hobbyhorsetours.data.model.ResultBooking
+import ke.co.tulivuapps.hobbyhorsetours.data.model.booking.ResultBooking
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.bookingdetails.BookingDetailViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel

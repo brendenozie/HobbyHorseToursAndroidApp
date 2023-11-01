@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ke.co.tulivuapps.hobbyhorsetours.R
-import ke.co.tulivuapps.hobbyhorsetours.data.model.episode.PopularResultResponse
+import ke.co.tulivuapps.hobbyhorsetours.data.model.popular.ResultPopular
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursEpisodesShimmer
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursPopularCard
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
@@ -44,6 +44,8 @@ fun PopularScreen(
                     is PopularViewEvent.SnackBarError -> {
                         scaffoldState.snackbarHostState.showSnackbar(it.message.orEmpty())
                     }
+
+                    else -> {}
                 }
             }
         }
@@ -76,7 +78,7 @@ fun PopularScreen(
 @Composable
 private fun Content(
     isLoading: Boolean,
-    data: List<PopularResultResponse>?,
+    data: List<ResultPopular>?,
 ) {
     Box(
         modifier = Modifier
@@ -94,9 +96,9 @@ private fun Content(
             } else {
                 items(items = data ?: listOf()) { item ->
                     HobbyHorseToursPopularCard(
-                        name = item.name.orEmpty(),
-                        date = item.airDate.orEmpty(),
-                        episode = item.episode.orEmpty(),
+                        name = item.document.title.orEmpty(),
+                        date = item.count.toString(),//.orEmpty(),
+                        episode = item.document.star.orEmpty(),
                     )
                 }
             }

@@ -1,6 +1,9 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.login
 
 import android.annotation.SuppressLint
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.launch
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,16 +38,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.features.lottie.LottieWorkingLoadingView
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.navigation.homeNavigationRoute
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.login.navigation.loginNavigationRoute
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.homee.navigation.homeeNavigationRoute
+import ke.co.tulivuapps.hobbyhorsetours.utils.LoginWithGoogle
 
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit) {
+fun LoginScreen(onBack: () -> Unit,onLoginSuccess: () -> Unit,loginViewModel: LoginViewModel ) {
+
+    val context = LocalContext.current
+
+    val googleLoginLauncher = rememberLauncherForActivityResult(LoginWithGoogle()) {
+        if (it != null) {
+            loginViewModel.loginWithGoogle(it)
+        }
+    }
+
+    var loading = loginViewModel.loading.collectAsState().value
+    val user = loginViewModel.userDetails.collectAsState().value
+
     Scaffold { paddingValues ->
 
         //TextFields
@@ -66,7 +80,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                 .padding(horizontal = 16.dp)
         ) {
             item { Spacer(modifier = Modifier.height(20.dp)) }
-            item { LottieWorkingLoadingView(context = LocalContext.current) }
+            item { LottieWorkingLoadingView() }
             item {
                 Text(
                     text = "Welcome Back",
@@ -89,9 +103,8 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                     value = email,
                     leadingIcon = {
                         Icon(
-//                            faIcon = FaIcons.Envelope,
                             painter = painterResource(R.drawable.envelope),
-                            contentDescription = "envolpe",
+                            contentDescription = "envelope",
                             tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                             modifier = Modifier.size(12.dp)
                         )
@@ -117,7 +130,6 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                     value = password,
                     leadingIcon = {
                         Icon(
-//                            faIcon = FaIcons.Key,
                             painter = painterResource(R.drawable.key),
                             contentDescription = "key",
                             tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
@@ -126,18 +138,19 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                     },
                     trailingIcon = {
                         Icon(
-//                            Icon = FaIcons.EyeSlash,
                             painter = painterResource(R.drawable.eyelashes),
                             contentDescription = "eyelash",
                             tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
-                            modifier = Modifier.size(12.dp).clickable(onClick = {
-                                passwordVisualTransformation =
-                                    if (passwordVisualTransformation != VisualTransformation.None) {
-                                        VisualTransformation.None
-                                    } else {
-                                        PasswordVisualTransformation()
-                                    }
-                            })
+                            modifier = Modifier
+                                .size(12.dp)
+                                .clickable(onClick = {
+                                    passwordVisualTransformation =
+                                        if (passwordVisualTransformation != VisualTransformation.None) {
+                                            VisualTransformation.None
+                                        } else {
+                                            PasswordVisualTransformation()
+                                        }
+                                })
                         )
                     },
                     colors = TextFieldDefaults.outlinedTextFieldColors(),
@@ -149,7 +162,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                         imeAction = ImeAction.Done
                     ),
                     label = { Text(text = "Password") },
-                    placeholder = { Text(text = "12334444",color = Color.LightGray) },
+                    placeholder = { Text(text = "***********",color = Color.LightGray) },
                     onValueChange = {
                         password = it
                     },
@@ -158,7 +171,6 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                 )
             }
             item {
-                var loading by remember { mutableStateOf(false) }
                 Button(
                     onClick = {
                         if (invalidInput(email.text, password.text)) {
@@ -167,8 +179,11 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                         } else {
                             loading = true
                             hasError = false
-                            onLoginSuccess.invoke()
                         }
+
+                        loginViewModel.loginWithCredentials(emailAddress = email.text, password = password.text)
+                        onLoginSuccess.invoke()
+
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -180,6 +195,10 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                         HorizontalDottedProgressBar()
                     } else {
                         Text(text = "Log In")
+                    }
+
+                    if(user!=null && !loading) {
+                        Toast.makeText(context, "${user.body?.name} Done", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -203,31 +222,31 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                 }
             }
 
+//            item {
+//                OutlinedButton(
+//                    onClick = { }, modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(50.dp)
+//                ) {
+//                    Icon(
+//                        painter = painterResource(R.drawable.facebook),
+//                        contentDescription = "facebook",
+////                        tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
+//                    )
+//                    Text(
+//                        text = "Sign in with Facebook",
+//                        fontSize = 14.sp,
+//                        textAlign = TextAlign.Center,
+//                        modifier = Modifier.fillMaxWidth()
+//                    )
+//                }
+//            }
+//
+//            item { Spacer(modifier = Modifier.height(8.dp)) }
+
             item {
                 OutlinedButton(
-                    onClick = { }, modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.facebook),
-                        contentDescription = "facebook",
-//                        tint = LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
-                    )
-                    Text(
-                        text = "Sign in with Facebook",
-                        fontSize = 14.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            }
-
-            item { Spacer(modifier = Modifier.height(8.dp)) }
-
-            item {
-                OutlinedButton(
-                    onClick = { }, modifier = Modifier
+                    onClick = { googleLoginLauncher.launch() }, modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp)
                 ) {
@@ -271,41 +290,22 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
 @SuppressLint("UnusedCrossfadeTargetStateParameter")
 @Composable
 fun LoginOnboarding(
-    loginViewModel: OnLoginViewModel = hiltViewModel(),
+    loginViewModel: LoginViewModel = hiltViewModel(),
     navController: NavController
 ) {
+    val isLoggedIn by loginViewModel.selectedLogin.collectAsState()
 
-    val loggedIn by loginViewModel.onLoginCompleted.collectAsState()
-
-    LaunchedEffect(key1 = true) {
-        delay(1000L)
-        navController.popBackStack()
-        if (!loggedIn) {
-            navController.navigate(homeNavigationRoute)
-        } else {
-            navController.navigate(loginNavigationRoute)
+    LaunchedEffect(isLoggedIn) {
+        if (isLoggedIn) {
+            navController.navigate(homeeNavigationRoute)
         }
     }
 
-
-    val coroutineScope = rememberCoroutineScope()
-    Crossfade(targetState = loggedIn, label = "LoginCrossFadeAnimation") {
-        if (loggedIn) {
-//            OnBoardingScreen{
-//                loggedIn = false,
-//                navController = navController,
-//                onSkip = {}
-//            }
-        } else {
-            LoginScreen {
-                coroutineScope.launch {
-                    delay(2000)
-                    //loggedIn = true
-                }
-            }
+    Crossfade(targetState = isLoggedIn, label = "LoginCrossFadeAnimation") {
+                LoginScreen( onBack = { }, onLoginSuccess = { },loginViewModel = viewModel())
         }
     }
-}
+
 
 fun invalidInput(email: String, password: String) =
     email.isBlank() || password.isBlank()

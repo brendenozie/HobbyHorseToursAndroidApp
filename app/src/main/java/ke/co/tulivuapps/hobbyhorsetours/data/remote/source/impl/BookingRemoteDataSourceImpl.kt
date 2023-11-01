@@ -17,14 +17,11 @@ class BookingRemoteDataSourceImpl @Inject constructor(
 ) :
     BaseRemoteDataSource(), BookingsRemoteDataSource {
 
-    override suspend fun getAllBookings(
-        page: Int,
-        options: Map<String, String>
-    ): Response<BookingResponse> = cityService.getAllBookings(page, options)
+    override suspend fun getAllBookings( page: Int, options: Map<String, String>): Response<BookingResponse> =
+        cityService.getAllBookings(page, options)
 
-    override suspend fun getFilterBookings(
-        page: Int, options: Map<String, String>
-    ): Response<BookingResponse> = cityService.getFilterBooking(page, options)
+    override suspend fun getFilterBookings( page: Int, options: Map<String, String> ): Response<BookingResponse> =
+        cityService.getFilterBooking(page, options)
 
     override suspend fun getBooking(cityId: Int): Flow<DataState<BookingInfoResponse>> =
         getResult {
@@ -35,6 +32,11 @@ class BookingRemoteDataSourceImpl @Inject constructor(
         getResult {
             cityService.getBooking(url)
         }
-    
+
+    override suspend fun setBooking(data: BookingInfoResponse): Flow<DataState<BookingInfoResponse>> =
+        getResult {
+            cityService.postBooking(data)
+        }
+
 
 }

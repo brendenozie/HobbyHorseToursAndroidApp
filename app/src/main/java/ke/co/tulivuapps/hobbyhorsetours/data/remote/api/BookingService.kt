@@ -33,4 +33,7 @@ interface BookingService {
         @Query(Constants.PARAM_PAGE) page: Int,
         @QueryMap options: Map<String, String>? = null
     ): Response<BookingResponse>
+
+    @POST(Constants.POST_BOOKING_LIST)
+    suspend fun postBooking(@Body data: BookingInfoResponse): Response<BookingInfoResponse>
 }

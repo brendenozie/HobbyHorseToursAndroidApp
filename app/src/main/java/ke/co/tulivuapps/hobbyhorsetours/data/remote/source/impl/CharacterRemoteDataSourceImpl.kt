@@ -1,9 +1,9 @@
 package ke.co.tulivuapps.hobbyhorsetours.data.remote.source.impl
 
 import ke.co.tulivuapps.hobbyhorsetours.data.local.dao.FavoriteDao
+import ke.co.tulivuapps.hobbyhorsetours.data.model.FavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.model.character.CharacterInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.model.character.CharacterResponse
-import ke.co.tulivuapps.hobbyhorsetours.data.model.FavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.api.CharacterService
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.source.CharacterRemoteDataSource
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.DataState
@@ -38,8 +38,6 @@ class CharacterRemoteDataSourceImpl @Inject constructor(
         getResult {
             characterService.getCharacter(url)
         }
-
-
     override suspend fun getFavoriteList(): List<FavoriteEntity> = dao.getFavoriteList()
 
     override suspend fun deleteFavoriteById(favoriteId: Int) = dao.deleteFavoriteById(favoriteId)

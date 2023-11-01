@@ -34,6 +34,12 @@ class DestinationPagingSource(
                 emptyList()
             }
 
+            val pageNext = if (response.isSuccessful) {
+                response.body()?.info?.next?.toInt() ?: 0
+            } else {
+                0
+            }
+
             if (destinationList.isNotEmpty()) {
                 destinationList.map {
                     val characterFav = repository.getFavorite(it.localId ?: 0)
@@ -44,8 +50,9 @@ class DestinationPagingSource(
             LoadResult.Page(
                 data = destinationList,
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (destinationList.isEmpty()) null else page + 1
+                nextKey = if (pageNext == 0 || pageNext <= page) null else pageNext //if (destinationList.isEmpty()) null else page + 1
             )
+
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
         }

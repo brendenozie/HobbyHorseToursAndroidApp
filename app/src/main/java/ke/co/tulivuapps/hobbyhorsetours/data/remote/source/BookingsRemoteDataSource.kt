@@ -15,5 +15,5 @@ interface BookingsRemoteDataSource {
     suspend fun getFilterBookings(page: Int, options: Map<String, String>): Response<BookingResponse>
     suspend fun getBooking(cityId: Int): Flow<DataState<BookingInfoResponse>>
     suspend fun getBooking(url: String): Flow<DataState<BookingInfoResponse>>
-
+    suspend fun setBooking(data: BookingInfoResponse): Flow<DataState<BookingInfoResponse>>
 }

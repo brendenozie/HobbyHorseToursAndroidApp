@@ -1,4 +1,4 @@
-package com.geraudluku.marketdashboard
+package ke.co.tulivuapps.hobbyhorsetours.features.screen.onboarding
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

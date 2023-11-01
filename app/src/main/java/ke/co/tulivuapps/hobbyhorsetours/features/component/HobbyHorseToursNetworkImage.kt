@@ -11,6 +11,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberImagePainter
 import coil.size.OriginalSize
+import coil.size.Size
 
 /**
  * Created by brendenozie on 13.03.2023
@@ -30,7 +31,7 @@ fun HobbyHorseToursNetworkImage(
         data = imageURL,
         builder = {
             crossfade(crossFade)
-            size(OriginalSize)
+            size(Size.ORIGINAL)
             error(placeholder)
             fallback(placeholder)
         },

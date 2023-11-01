@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
@@ -45,50 +46,61 @@ fun HobbyHorseToursHotelsCard(
 //        elevation = 8.dp,
         modifier = Modifier
             .padding(5.dp)
-            .width(160.dp)
+            .width(250.dp)
+            .height(200.dp)
             .clickable { detailClick() },
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(2.dp),
         ) {
-            HobbyHorseToursNetworkImage(
-                imageURL = dto?.img!![0].url ?: R.drawable.ic_place_holder,
-                modifier = Modifier
-                    .fillMaxHeight()
-//                    .width(140.dp)
-                    .height(120.dp)
-                    .clip(shape = RoundedCornerShape(15)),
-                placeholder = R.drawable.ic_place_holder,
-                contentScale = ContentScale.Crop,
-            )
-            Spacer(modifier = Modifier.width(2.dp))
-            Row(modifier = Modifier.padding(top = 5.dp,end = 5.dp,start = 5.dp)) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = dto?.title.orEmpty(),
-                        style = TextStyle(
-                            color = Color.Black,
-                            fontSize = 16.sp,
-                        )
-                    )
-                    Text(
-                        text = dto?.price.orEmpty(),
-                        style = TextStyle(
-                            color = Color.Black,
-                            fontSize = 16.sp,
-                        )
+            item(key = null) {
+                if (dto != null) {
+                    HobbyHorseToursNetworkImage(
+                        imageURL = if (dto.img?.isNotEmpty() == true) dto.img[0].url else R.drawable.ic_place_holder,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(120.dp)
+                            .clip(shape = RoundedCornerShape(15)),
+                        placeholder = R.drawable.ic_place_holder,
+                        contentScale = ContentScale.Fit,
                     )
                 }
-                Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.CenterEnd) {
-                    dto?.let {
-                        HobbyHorseToursFavoriteButton(
-                            dto = it,
-                            onTriggerEvent = { dto ->
-                                onTriggerEvent.invoke(dto)
-                            }
+            }
+            item(key = null) {
+                Spacer(modifier = Modifier.width(2.dp))
+            }
+            item(key = null) {
+                Row(modifier = Modifier.padding(top = 5.dp, end = 5.dp, start = 5.dp)) {
+                    Column(modifier = Modifier.weight(1f).align(Alignment.CenterVertically)) {
+                        Text(
+                            text = dto?.title ?: "",
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = 16.sp,
+                            )
                         )
+                        Text(
+                            text = dto?.price ?: "",
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = 16.sp,
+                            )
+                        )
+                    }
+                    Box(
+                        modifier = Modifier.fillMaxHeight(),
+                        contentAlignment = Alignment.CenterEnd
+                    ) {
+                        if (dto != null) {
+                            HobbyHorseToursFavoriteButton(
+                                dto = dto,
+                                onTriggerEvent = { dto ->
+                                    onTriggerEvent.invoke(dto)
+                                }
+                            )
+                        }
                     }
                 }
             }

@@ -5,11 +5,12 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.main.MainActivity
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.launchActivity
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  * Created by brendenozie on 3.05.2023
@@ -24,12 +25,14 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         splashScreen.setKeepOnScreenCondition { true }
 
-        lifecycleScope.launchWhenCreated {
-            viewModel.uiEvent.collect {
-                when (it) {
-                    is SplashViewEvent.DirectToDashBoard -> {
-                        startMainActivity()
-                        finish()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiEvent.collect {
+                    when (it) {
+                        is SplashViewEvent.DirectToDashBoard -> {
+                            startMainActivity()
+                            finish()
+                        }
                     }
                 }
             }

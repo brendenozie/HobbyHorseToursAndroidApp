@@ -10,6 +10,7 @@ import ke.co.tulivuapps.hobbyhorsetours.domain.usecase.favorite.UpdateFavoriteUs
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.characters.CharactersViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,7 +30,7 @@ class CharactersViewModel @Inject constructor(
         getAllCharacters()
     }
     private fun getAllCharacters() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             setState { currentState.copy(isLoading = true) }
             val params = GetCharactersUseCase.Params(config, hashMapOf())
             val pagedFlow = getCharactersUseCase(params).cachedIn(scope = viewModelScope)

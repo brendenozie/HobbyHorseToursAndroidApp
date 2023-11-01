@@ -1,6 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.data.repository
 
-import ke.co.tulivuapps.hobbyhorsetours.data.model.episode.PopularResponse
+import ke.co.tulivuapps.hobbyhorsetours.data.model.popular.PopularResponse
+import ke.co.tulivuapps.hobbyhorsetours.data.model.popular.ResultPopular
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.source.PopularRemoteDataSource
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.DataState
 import ke.co.tulivuapps.hobbyhorsetours.domain.repository.PopularRepository
@@ -17,10 +18,10 @@ class PopularRepositoryImpl @Inject constructor(private val episodesRemoteDataSo
     PopularRepository {
 
     override fun getAllPopular(): Flow<DataState<PopularResponse>> = flow {
-        emitAll(episodesRemoteDataSource.getAllEpisodes())
+        emitAll(episodesRemoteDataSource.getAllPopular())
     }
 
-    override fun getEpisode(episodeId: Int): Flow<DataState<PopularResponse>> = flow {
-        emitAll(episodesRemoteDataSource.getEpisode(episodeId))
+    override fun getEpisode(episodeId: Int): Flow<DataState<ResultPopular>> = flow {
+        emitAll(episodesRemoteDataSource.getPopular(episodeId))
     }
 }

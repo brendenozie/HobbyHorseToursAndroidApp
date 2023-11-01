@@ -11,6 +11,7 @@ import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.booknow.navigation.navigateToBookNow
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotelsdetail.DetailScreen
+import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 
 /**
  * Created by brendenozie on 23.01.2023
@@ -27,7 +28,7 @@ fun NavGraphBuilder.hotelsDetailScreen(navController: NavController) {
             DetailScreen(
                 viewModel = hiltViewModel(),
                 navigateToBack = {navController.navigateUp()},
-                navigateToBookNow = { navController.navigateToBookNow() }
+                navigateToBookNow = { navController.navigateToBookNow(it.toJson()) }
             )
         },
         enterTransition = {

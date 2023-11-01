@@ -24,9 +24,10 @@ import androidx.tracing.trace
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.features.navigation.BottomNav
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.booking.navigation.navigateToBookings
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.popular.navigation.navigateToEpisodes
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.favorites.navigation.navigateToFavorites
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.navigation.navigateToHome
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.homee.navigation.navigateToHomee
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.popular.navigation.navigateToEpisodes
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.profile.navigation.navigateToProfile
 
 
@@ -105,7 +106,8 @@ fun navigateToBottomNavDestination(bottomNav: BottomNav, navController: NavContr
         }
 
         when (bottomNav) {
-            BottomNav.HOME -> navController.navigateToHome(bottomNavOptions)
+//            BottomNav.HOME -> navController.navigateToHome(bottomNavOptions)
+            BottomNav.HOMEE -> navController.navigateToHomee(bottomNavOptions)
             BottomNav.POPULAR -> navController.navigateToEpisodes(bottomNavOptions)
             BottomNav.FAVORITES -> navController.navigateToFavorites(bottomNavOptions)
             BottomNav.BOOKING -> navController.navigateToBookings(bottomNavOptions)

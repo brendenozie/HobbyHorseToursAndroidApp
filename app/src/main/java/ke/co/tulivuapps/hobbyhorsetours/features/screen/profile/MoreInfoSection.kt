@@ -49,7 +49,7 @@ fun MoreInfoSection() {
         },
         secondaryText = { Text(text = "Click to edit your profile information") },
         modifier = Modifier
-            .clickable(onClick = { launchSocialActivity(context, "repository") })
+            .clickable(onClick = { })
     )
     ListItem(
         icon = { Icon(imageVector = Icons.Rounded.Email, contentDescription = null) },
@@ -61,17 +61,19 @@ fun MoreInfoSection() {
         },
         secondaryText = { Text(text = "View Data Privacy information") },
         modifier = Modifier
-            .clickable(onClick = { launchSocialActivity(context, "repository") })
+            .clickable(onClick = {
+                //launchSocialActivity(context, "repository")
+             })
     )
     ListItem(
         icon = { Icon(imageVector = Icons.Rounded.Settings, contentDescription = null) },
         text = {
             Text(
-                text = "Demo Settings",
+                text = "Theme Settings",
                 style = typography.body1.copy(fontWeight = FontWeight.Bold)
             )
         },
-        secondaryText = { Text(text = "Not included yet. coming soon..") },
+        secondaryText = { Text(text = "...") },
         modifier = Modifier.clickable(onClick = {})
     )
 

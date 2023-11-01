@@ -3,8 +3,7 @@ package ke.co.tulivuapps.hobbyhorsetours.data.local.dao
 import androidx.room.Dao
 import androidx.room.Query
 import ke.co.tulivuapps.hobbyhorsetours.data.local.base.BaseDao
-import ke.co.tulivuapps.hobbyhorsetours.data.model.HotelFavoriteEntity
-import ke.co.tulivuapps.hobbyhorsetours.data.model.TravelStyleFavoriteEntity
+import ke.co.tulivuapps.hobbyhorsetours.data.model.travelstyle.TravelStyleFavoriteEntity
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.Constants
 
 /**

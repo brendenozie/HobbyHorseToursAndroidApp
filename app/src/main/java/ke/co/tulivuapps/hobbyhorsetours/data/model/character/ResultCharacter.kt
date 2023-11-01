@@ -1,7 +1,11 @@
-package ke.co.tulivuapps.hobbyhorsetours.data.model
+package ke.co.tulivuapps.hobbyhorsetours.data.model.character
 
 import android.os.Parcelable
 import com.google.gson.Gson
+import ke.co.tulivuapps.hobbyhorsetours.data.model.LocationResponse
+import ke.co.tulivuapps.hobbyhorsetours.data.model.OriginResponse
+import ke.co.tulivuapps.hobbyhorsetours.data.model.Result
+import ke.co.tulivuapps.hobbyhorsetours.data.model.Status
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

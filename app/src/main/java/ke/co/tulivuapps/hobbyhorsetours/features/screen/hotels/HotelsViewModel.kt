@@ -10,6 +10,7 @@ import ke.co.tulivuapps.hobbyhorsetours.domain.usecase.hotels.UpdateHotelFavorit
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.hotels.HotelsViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,7 +32,7 @@ class HotelsViewModel @Inject constructor(
     }
 
     private fun getAllHotels() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             setState { currentState.copy(isLoading = true) }
             val params = GetHotelsUseCase.Params(config, hashMapOf())
             val pagedFlow = getHotelsUseCase(params).cachedIn(scope = viewModelScope)

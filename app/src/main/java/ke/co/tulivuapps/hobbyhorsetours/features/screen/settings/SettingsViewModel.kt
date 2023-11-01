@@ -1,11 +1,11 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.settings
 
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import ke.co.tulivuapps.hobbyhorsetours.HobbyHorseToursApp
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.settings.SettingsViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,13 +19,13 @@ class SettingsViewModel @Inject constructor(
 ) : BaseViewModel<SettingsViewState, SettingsViewEvent>() {
 
     init {
-        setState { currentState.copy(isDark = application.isDark.value) }
+        setState { currentState.copy(isDark = false) }
     }
 
    private fun onChangeTheme() {
         viewModelScope.launch {
-            application.toggleTheme()
-            setState { currentState.copy(isDark = application.isDark.value) }
+//            application.toggleTheme()
+            setState { currentState.copy(isDark = false) }
         }
     }
 

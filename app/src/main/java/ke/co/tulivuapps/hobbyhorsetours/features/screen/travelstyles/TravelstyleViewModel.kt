@@ -10,6 +10,7 @@ import ke.co.tulivuapps.hobbyhorsetours.domain.usecase.travelstyle.UpdateTravelS
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.travelstyle.TravelStyleViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,7 +32,7 @@ class TravelStyleViewModel @Inject constructor(
     }
 
     private fun getAllTravelStyle() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             setState { currentState.copy(isLoading = true) }
             val params = GetTravelStyleUseCase.Params(config, hashMapOf())
             val pagedFlow = getTravelStyleUseCase(params).cachedIn(scope = viewModelScope)

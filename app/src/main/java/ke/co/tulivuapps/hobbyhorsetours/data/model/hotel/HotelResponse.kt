@@ -2,8 +2,6 @@ package ke.co.tulivuapps.hobbyhorsetours.data.model.hotel
 
 import android.os.Parcelable
 import ke.co.tulivuapps.hobbyhorsetours.data.model.InfoResponse
-import ke.co.tulivuapps.hobbyhorsetours.data.model.Result
-import ke.co.tulivuapps.hobbyhorsetours.data.model.ResultHotel
 import kotlinx.parcelize.Parcelize
 
 /**
