@@ -2,7 +2,9 @@
 
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.popular.navigation
 
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -23,9 +25,21 @@ fun NavController.navigateToEpisodes(
 }
 
 fun NavGraphBuilder.episodesScreen() {
-    composable(episodesNavigationRoute) {
-        PopularScreen(
-            hiltViewModel()
-        )
-    }
+    composable(episodesNavigationRoute,
+        content={PopularScreen(
+                        hiltViewModel()
+                    )
+                },
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentScope.SlideDirection.Left,
+                animationSpec = tween(700)
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                AnimatedContentScope.SlideDirection.Right,
+                animationSpec = tween(700)
+            )
+        })
 }

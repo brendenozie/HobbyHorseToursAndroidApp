@@ -1,4 +1,4 @@
-package ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels
+package ke.co.tulivuapps. hobbyhorsetours.features.screen.hotels
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -42,6 +42,7 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 fun HotelsScreen(
     viewModel: HotelsViewModel,
+    navigateToBack: () -> Unit,
     navigateToDetail: (HotelDto?) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -56,7 +57,7 @@ fun HotelsScreen(
                 elevation = 10.dp,
                 navigationIcon = {
                     IconButton(onClick = {
-                        //navigateToBack()
+                        navigateToBack()
                     }) {
                         Image(
                             imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_left),
@@ -97,15 +98,11 @@ private fun Content(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 15.dp),
+            .padding(horizontal = 5.dp),
     ) {
-//        LazyColumn(
-//            contentPadding = PaddingValues(vertical = 10.dp),
-//            verticalArrangement = Arrangement.spacedBy(10.dp)
-//        ) {
             if (isLoading) {
                 LazyColumn(
-                    contentPadding = PaddingValues(vertical = 10.dp),
+                    contentPadding = PaddingValues(vertical = 2.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     items(10) {
@@ -113,7 +110,8 @@ private fun Content(
 
                     }
                 }
-            } else if (pagedData != null && pagingItems != null) {
+            }
+        if (pagedData != null && pagingItems != null && pagingItems?.itemCount!! > 0) {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     modifier = Modifier.padding(2.dp)
@@ -122,7 +120,6 @@ private fun Content(
                         pagingItems!!.itemCount
                     ) { index ->
                         pagingItems!![index]?.let {
-                            Box(Modifier.padding(2.dp)) {
                                 HobbyHorseToursHotelsCard(
                                     status = Status.Unknown,
                                     detailClick = {
@@ -130,26 +127,12 @@ private fun Content(
                                     },
                                     dto = it,
                                     onTriggerEvent = {
-//                            onTriggerEvent.invoke(HotelsViewEvent.UpdateFavorite(it))
+//                                          onTriggerEvent.invoke(HotelsViewEvent.UpdateFavorite(it))
                                     }
                                 )
-                            }
                         }
                     }
                 }
-//                items(items = pagingItems!!) { item ->
-//                    HobbyHorseToursHotelsCard(
-//                        status = Status.Unknown,
-//                        detailClick = {
-//                            clickDetail.invoke(item)
-//                        },
-//                        dto = item,
-//                        onTriggerEvent = {
-////                            onTriggerEvent.invoke(HotelsViewEvent.UpdateFavorite(it))
-//                        }
-//                    )
-//                }
-//            }
         }
     }
 }
@@ -165,5 +148,5 @@ private fun Content(
 )
 @Composable
 fun DetailContentItemViewPreview() {
-    HotelsScreen(viewModel = hiltViewModel(), navigateToDetail = {})
+    HotelsScreen(viewModel = hiltViewModel(), navigateToDetail = {}, navigateToBack = {})
 }

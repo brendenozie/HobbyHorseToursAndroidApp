@@ -20,6 +20,8 @@ data class Result(
     val userEmail: String,
     val cityId: String,
     val createdAt: String,
+    val likes: List<String>?=null,
+    val views: List<String>?=null,
     val img: List<img>
     ) : Parcelable {
 

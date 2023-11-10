@@ -25,12 +25,12 @@ enum class BottomNav(
 //    ),
     HOMEE(
         homeeNavigationRoute,
-        R.drawable.ic_outline_people,
+        R.drawable.home,
         R.string.home_screen_title,
     ),
     POPULAR(
         episodesNavigationRoute,
-        R.drawable.ic_baseline_movie_creation_24,
+        R.drawable.fire,
         R.string.popular_screen_title
     ),
     FAVORITES(
@@ -40,12 +40,12 @@ enum class BottomNav(
     ),
     BOOKING(
         bookingsNavigationRoute,
-        R.drawable.ic_baseline_settings,
+        R.drawable.appointment,
         R.string.booking_screen_title,
     ),
     PROFILE(
         profileNavigationRoute,
-        R.drawable.ic_outline_people,
+        R.drawable.ic_person,
         R.string.profile_screen_title
     )
 }

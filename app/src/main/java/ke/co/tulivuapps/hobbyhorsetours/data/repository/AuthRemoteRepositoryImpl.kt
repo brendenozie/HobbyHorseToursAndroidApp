@@ -1,8 +1,12 @@
 package ke.co.tulivuapps.hobbyhorsetours.data.repository
 
+import ke.co.tulivuapps.hobbyhorsetours.data.model.user.UserInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.model.user.UserLoginInfoResponse
+import ke.co.tulivuapps.hobbyhorsetours.data.model.user.UserSignupInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.source.AuthRemoteDataSource
+import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.DataState
 import ke.co.tulivuapps.hobbyhorsetours.domain.repository.AuthRemoteRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 
@@ -12,9 +16,10 @@ class AuthRemoteRepositoryImpl(private val authRemoteDataSource: AuthRemoteDataS
         emitAll(authRemoteDataSource.getLoginDetails(userLoginInfoResponse))
     }
 
-    override suspend fun signUpWithCredentials(email: String, password: String) {
-        TODO("Not yet implemented")
+    override suspend fun signUpWithCredentials(userSignupInfoResponse: UserSignupInfoResponse): Flow<DataState<UserInfoResponse>> = flow {
+        emitAll(authRemoteDataSource.getRegistrationDetails(userSignupInfoResponse))
     }
+
 
     override suspend fun sendPasswordResetEmail(email: String) {
         TODO("Not yet implemented")

@@ -23,6 +23,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.google.android.gms.tasks.Task
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import ke.co.tulivuapps.hobbyhorsetours.R
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -36,6 +37,9 @@ import kotlin.coroutines.resumeWithException
 
 object Utility {
 
+    internal inline fun <reified T> Gson.fromJsonn(json: String) =
+        fromJson<T>(json, object : TypeToken<T>() {}.type)
+
     inline fun <reified T> T.toJson(): String {
         return try {
             Gson().toJson(this)
@@ -44,13 +48,17 @@ object Utility {
         }
     }
 
-    inline fun <reified T> String.fromJson(): T? {
-        return try {
-            Gson().fromJson(this, T::class.java)
-        } catch (ex: Exception) {
-            null
-        }
+    inline fun <reified T> String.fromJson(json: String?): T {
+        return Gson().fromJson<T>(json, object: TypeToken<T>(){}.type)
     }
+
+//    inline fun <reified T> String.fromJson(): T? {
+//        return try {
+//            Gson().fromJson(this, T::class.java)
+//        } catch (ex: Exception) {
+//            null
+//        }
+//    }
 
     fun Activity.launchActivity(
         packageName: String,

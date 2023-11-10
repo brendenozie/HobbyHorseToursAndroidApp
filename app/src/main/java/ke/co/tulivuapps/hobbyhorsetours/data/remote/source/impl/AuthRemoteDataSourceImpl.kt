@@ -2,6 +2,7 @@ package ke.co.tulivuapps.hobbyhorsetours.data.remote.source.impl
 
 import ke.co.tulivuapps.hobbyhorsetours.data.model.user.UserInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.model.user.UserLoginInfoResponse
+import ke.co.tulivuapps.hobbyhorsetours.data.model.user.UserSignupInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.api.AuthService
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.source.AuthRemoteDataSource
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.DataState
@@ -19,7 +20,7 @@ class AuthRemoteDataSourceImpl @Inject constructor(
         authService.postLoginDetails(data)
     }
 
-    override suspend fun getRegistrationDetails(data:UserInfoResponse): Flow<DataState<UserInfoResponse>> = getResult {
+    override suspend fun getRegistrationDetails(data: UserSignupInfoResponse): Flow<DataState<UserInfoResponse>> = getResult {
         authService.postRegistrationDetails(data)
     }
 

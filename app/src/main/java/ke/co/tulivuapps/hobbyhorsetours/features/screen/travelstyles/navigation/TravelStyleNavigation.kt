@@ -2,7 +2,9 @@
 
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.navigation
 
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -24,7 +26,19 @@ fun NavController.navigateToTravelStyle(
 }
 
 fun NavGraphBuilder.travelStylesScreen(navController: NavHostController) {
-    composable(travelStyleNavigationRoute) {
+    composable(travelStyleNavigationRoute,content= {
         TravelStylesScreen(viewModel = hiltViewModel(), navigateToDetail = {})
-    }
+    },
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentScope.SlideDirection.Left,
+                animationSpec = tween(700)
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                AnimatedContentScope.SlideDirection.Right,
+                animationSpec = tween(700)
+            )
+        })
 }

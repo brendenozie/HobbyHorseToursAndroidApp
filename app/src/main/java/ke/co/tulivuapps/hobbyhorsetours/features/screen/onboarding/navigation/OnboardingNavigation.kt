@@ -2,7 +2,9 @@
 
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.onboarding.navigation
 
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -26,7 +28,21 @@ fun NavController.navigateToOnboarding(
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.onbooardingScreen(navController: NavHostController) {
-    composable(onboardingNavigationRoute) {
-        OnBoardingScreen(onSkip = {navController.navigateToHomee()},navController = navController)
-    }
+    composable(onboardingNavigationRoute,
+        content={
+            OnBoardingScreen(onSkip = {navController.navigateToHomee()},
+                navController = navController)
+                },
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentScope.SlideDirection.Left,
+                animationSpec = tween(700)
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                AnimatedContentScope.SlideDirection.Right,
+                animationSpec = tween(700)
+            )
+        })
 }

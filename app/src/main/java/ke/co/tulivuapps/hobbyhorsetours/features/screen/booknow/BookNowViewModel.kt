@@ -59,7 +59,6 @@ class BookNowViewModel @Inject constructor(
 
     var selectedEmail: String? = null
 
-
     val calendarState = CalendarState()
 
     init {
@@ -196,6 +195,7 @@ class BookNowViewModel @Inject constructor(
             when (event) {
                 is BookNowViewEvent.UpdateBooking -> updateBooking(event.dto)
                 is BookNowViewEvent.SnackBarError -> {}
+                else -> {}
             }
         }
     }

@@ -10,7 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.composable
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.login.LoginOnboarding
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.signup.SignUpOnboarding
 
 /**
  * Created by brendenozie on 23.01.2023
@@ -29,7 +29,7 @@ fun NavGraphBuilder.signUpScreen(navController: NavController) {
     composable(
         signUpNavigationRoute,
         content = {
-            LoginOnboarding(loginViewModel = hiltViewModel() ,navController)
+            SignUpOnboarding(signupViewModel = hiltViewModel() ,navController)
         },
         enterTransition = {
             slideIntoContainer(

@@ -51,7 +51,6 @@ fun RoundedCornerIconButtonTravelStyle(modifier: Modifier, icon: TravelStyleDto)
             onClick = { },
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(2.dp)
         ) {
             Row(modifier = Modifier.align(Alignment.Center).width(130.dp).height(100.dp)) {
                 Column(modifier = Modifier.weight(1f),
@@ -70,7 +69,7 @@ fun RoundedCornerIconButtonTravelStyle(modifier: Modifier, icon: TravelStyleDto)
                     )
                     Spacer(Modifier.height(2.dp))
                     icon.styleName?.let {
-                        Text(
+                        Text(modifier=Modifier.padding(2.dp),
                             text = it,
                             style = TextStyle(
                                 color = Color.White,

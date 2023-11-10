@@ -29,25 +29,25 @@ import ke.co.tulivuapps.hobbyhorsetours.data.model.travelstyle.TravelStyleFavori
  */
 
 fun ResultBooking.toBookingDto() = BookingDto(
-    id       ,
-    createdAt,
-    sessionId  ,
-    hotellId     ,
-    description ,
-    startDate,
-    endDate     ,
-    img         ,
-    lat         ,
-    location    ,
-    long        ,
-    price       ,
-    status      ,
-    star        ,
-    title       ,
-    total       ,
-    userEmail   ,
-    cityId      ,
-)
+                                            id,
+                                            createdAt,
+                                            sessionId,
+                                            hotellId,
+                                            description ,
+                                            startDate,
+                                            endDate     ,
+                                            img         ,
+                                            lat         ,
+                                            location    ,
+                                            long        ,
+                                            price       ,
+                                            status      ,
+                                            star        ,
+                                            title       ,
+                                            total       ,
+                                            userEmail   ,
+                                            cityId      ,
+                                        )
 
 fun ResultHotel.toHotelDto() = HotelDto(
     localId,
@@ -90,10 +90,10 @@ fun HotelFavoriteEntity.toHotelDto() = HotelDto(
 fun CityFavoriteEntity.toCityDto() = CityDto(
     localId = localId ?: 0,
     id = id.orEmpty(),
-    cityName = cityName.orEmpty(),
-    publicId = publicId.orEmpty(),
-    url = url.orEmpty(),
-    status = status.orEmpty()
+    cityName = cityName,
+    publicId = publicId,
+    url = url,
+    status = status
 )
 
 
@@ -102,11 +102,11 @@ fun List<CityFavoriteEntity>.toCityFavoriteDtoList() = map { it.toCityDto() }
 fun TravelStyleFavoriteEntity.toTravelStyleDto() = TravelStyleDto(
     localId = localId ?: 0,
     id = id.orEmpty(),
-    styleName =  styleName.orEmpty(),
-    publicId =  publicId.orEmpty(),
-    url =  url.orEmpty(),
-    status =  status.orEmpty(),
-    img =  img.orEmpty(),
+    styleName =  styleName,
+    publicId =  publicId,
+    url =  url,
+    status =  status,
+    img =  img,
     createdAt = createdAt.orEmpty()
 )
 
@@ -138,19 +138,19 @@ fun Result.toDestinationDto() = DestinationDto(
 
 fun DestinationFavoriteEntity.toDestinationDto() = DestinationDto(
     localId = localId ?: 0,
-    id = id.orEmpty(),
+    id = id,
     title = title.orEmpty(),
-    description = description.orEmpty(),
-    star = star.orEmpty(),
-    lat = lat.orEmpty(),
-    location = location.orEmpty(),
-    lang = lang.orEmpty(),
-    price = price.orEmpty(),
-    offer = offer.orEmpty(),
-    offerPrice = offerPrice.orEmpty(),
-    userEmail = userEmail.orEmpty(),
-    cityId = cityId.orEmpty(),
-    createdAt = createdAt.orEmpty(),
+    description = description,
+    star = star,
+    lat = lat,
+    location = location,
+    lang = lang,
+    price = price,
+    offer = offer,
+    offerPrice = offerPrice,
+    userEmail = userEmail,
+    cityId = cityId,
+    createdAt = createdAt,
     img = null
 )
 
@@ -275,29 +275,29 @@ fun DestinationDto.toDestinationFavoriteEntity() = DestinationFavoriteEntity(
 fun HotelDto.toHotelFavoriteEntity() = HotelFavoriteEntity(
     localId = localId ?: 0,
     id = id.orEmpty(),
-    title = title.orEmpty(),
-    description = description.orEmpty(),
-    star = star.orEmpty(),
-    lat = lat.orEmpty(),
-    location = location.orEmpty(),
-    lang = lang.orEmpty(),
-    price = price.orEmpty(),
-    offer = offer.orEmpty(),
-    offerPrice = offerPrice.orEmpty(),
-    userEmail = userEmail.orEmpty(),
-    cityId = cityId.orEmpty(),
-    createdAt = createdAt.orEmpty(),
-    travelStyleId = travelStyleId.orEmpty(),
+    title = title,
+    description = description,
+    star = star,
+    lat = lat,
+    location = location,
+    lang = lang,
+    price = price,
+    offer = offer,
+    offerPrice = offerPrice,
+    userEmail = userEmail,
+    cityId = cityId,
+    createdAt = createdAt,
+    travelStyleId = travelStyleId,
     img = null
 )
 
 fun CityDto.toCityFavoriteEntity() = CityFavoriteEntity(
     localId = localId ?: 0,
     id = id.orEmpty(),
-    cityName = cityName.orEmpty(),
-    publicId =  publicId.orEmpty(),
-    url =  url.orEmpty(),
-    status =  status.orEmpty(),
+    cityName = cityName,
+    publicId =  publicId,
+    url =  url,
+    status =  status,
 )
 fun TravelStyleDto.toTravelStyleFavoriteEntity() = TravelStyleFavoriteEntity(
     localId = localId ?: 0,

@@ -8,7 +8,6 @@ import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.popular.PopularViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,10 +24,9 @@ class PopularViewModel @Inject constructor(
         getAllPopular()
     }
 
-    private fun getAllPopular() {
+    fun getAllPopular() {
         viewModelScope.launch(Dispatchers.IO) {
             setState { currentState.copy(isLoading = true) }
-            delay(2000)
             episodesRepository.getAllPopular().collect {
                 when (it) {
                     is DataState.Success -> {

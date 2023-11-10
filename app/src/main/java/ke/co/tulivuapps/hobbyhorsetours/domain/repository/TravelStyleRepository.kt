@@ -13,7 +13,7 @@ import retrofit2.Response
 
 interface TravelStyleRepository {
     suspend fun getAllTravelStyles(page: Int, options: Map<String, String>): Response<TravelStyleResponse>
-    fun getTravelStyle(characterId: Int): Flow<DataState<TravelStyleInfoResponse>>
+    fun getTravelStyle(travelStyleId: Int): Flow<DataState<TravelStyleInfoResponse>>
     fun getTravelStyle(url: String): Flow<DataState<TravelStyleInfoResponse>>
     suspend fun getFilterTravelStyle(page: Int, options: Map<String, String>): Response<TravelStyleResponse>
     suspend fun getTravelStyleFavoriteList(): List<TravelStyleFavoriteEntity>

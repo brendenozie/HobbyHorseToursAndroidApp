@@ -4,8 +4,11 @@ package ke.co.tulivuapps.hobbyhorsetours.data.remote.utils
  * Created by brendenozie on 10.03.2023
  */
 object Constants {
-    const val BASE_URL = "https://HobbyHorseToursapi.com/api/"
-    const val BASE_TEST_URL = "http://192.168.206.118:3000/api/"
+//    const val BASE_URL = "https://HobbyHorseTours.com/api/"
+    const val BASE_URL = "http://192.168.26.118:3000/api/"
+
+    const val CLIENT_IDD = "565444776466-cr00h819jsoagvkbskcd4gf0tmg3u5es.apps.googleusercontent.com"
+    const val CLIENT_ID ="565444776466-pfkomure3omqff6mhtk90vsac5vje94c.apps.googleusercontent.com"
 
     const val DATASTORE_NAME = "HobbyHorse_DataStore"
     const val PREFERENCES_BOARDING_KEY = "OnBoarding_Completed"
@@ -51,6 +54,7 @@ object Constants {
 
     //Query Parameter
     const val PARAM_PAGE = "page"
+    const val PARAM_Email = "userEmail"
     const val PARAM_ID = "id"
     const val PARAM_NAME = "name"
     const val PARAM_CITY = "city"

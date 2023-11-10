@@ -1,6 +1,9 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.login
 
 import android.app.Application
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ke.co.tulivuapps.hobbyhorsetours.data.local.DataStoreOperation
@@ -54,6 +57,9 @@ class LoginViewModel @Inject constructor(
 
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
+
+    private val _signedInState: MutableState<Boolean> = mutableStateOf(false)
+    val signedInState: State<Boolean> = _signedInState
 
     val selectedLogin =  dataStoreOperation.readOnLoginState().stateIn(
         viewModelScope,

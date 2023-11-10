@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.google.gson.Gson
 import kotlinx.parcelize.Parcelize
 
+
 @Parcelize
 data class ResultCity(
     val localId: Int? =0,
@@ -17,6 +18,7 @@ data class ResultCity(
     companion object {
         fun create(jsonString: String): ResultCity? {
             return try {
+//                jsonString.fromJson<ResultCity>(jsonString)
                 Gson().fromJson(jsonString, ResultCity::class.java)
             } catch (e: Exception) {
                 return null

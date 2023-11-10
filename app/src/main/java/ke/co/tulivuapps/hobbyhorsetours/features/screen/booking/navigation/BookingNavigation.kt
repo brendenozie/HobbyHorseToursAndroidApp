@@ -10,8 +10,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.composable
-import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.BookingDto
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.booking.BookingsScreen
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.bookingdetail.navigation.navigateBookingDetail
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.login.navigation.navigateToLogin
+import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 
 /**
  * Created by brendenozie on 23.01.2023
@@ -25,15 +27,14 @@ fun NavController.navigateToBookings(
     this.navigate(bookingsNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.bookingsScreen(navigateCharacterDetail: (BookingDto) -> Unit) {
+fun NavGraphBuilder.bookingsScreen(navController: NavController) {
     composable(
       bookingsNavigationRoute,
         content = {
             BookingsScreen(
                 viewModel = hiltViewModel(),
-                navigateBookingDetail = {
-                    navigateCharacterDetail.invoke(it)
-                }
+                navigateBookingDetail = {navController.navigateBookingDetail(it.toJson())},
+                navigateToLogin = {navController.navigateToLogin()}
             )
         },
         enterTransition = {

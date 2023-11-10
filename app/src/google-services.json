@@ -12,7 +12,20 @@
           "package_name": "ke.co.tulivuapps.hobbyhorsetours"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "565444776466-cr00h819jsoagvkbskcd4gf0tmg3u5es.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ke.co.tulivuapps.hobbyhorsetours",
+            "certificate_hash": "24ad6561b06559c60a24f902d4a4e381acaf8be3"
+          }
+        },
+        {
+          "client_id": "565444776466-6q250vr54vbd85qa6lu3m2vsn5hsv0pf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAuYLXBPWq1aJOJ5BW6k1PJL3te4Cpn-z0"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "565444776466-6q250vr54vbd85qa6lu3m2vsn5hsv0pf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

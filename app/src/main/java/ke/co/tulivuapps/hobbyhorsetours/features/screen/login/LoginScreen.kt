@@ -1,7 +1,6 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.login
 
 import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.launch
 import androidx.compose.animation.Crossfade
@@ -22,6 +21,7 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -43,17 +43,24 @@ import androidx.navigation.NavController
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.features.lottie.LottieWorkingLoadingView
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.homee.navigation.homeeNavigationRoute
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.signup.navigation.navigateToSignUp
 import ke.co.tulivuapps.hobbyhorsetours.utils.LoginWithGoogle
 
 @Composable
-fun LoginScreen(onBack: () -> Unit,onLoginSuccess: () -> Unit,loginViewModel: LoginViewModel ) {
+fun LoginScreen(onBack: () -> Unit, navigateToRegister: () -> Unit, onLoginSuccess: () -> Unit,loginViewModel: LoginViewModel ) {
 
     val context = LocalContext.current
 
-    val googleLoginLauncher = rememberLauncherForActivityResult(LoginWithGoogle()) {
-        if (it != null) {
-            loginViewModel.loginWithGoogle(it)
-        }
+    val scaffoldState = rememberScaffoldState()
+
+    val token = remember { mutableStateOf<String?>("Kikikl") }
+
+    val googleLoginLauncher = rememberLauncherForActivityResult(
+        contract = LoginWithGoogle(),
+        onResult = {token.value = it ?: "No Message" })
+
+    LaunchedEffect(token.value) {
+            scaffoldState.snackbarHostState.showSnackbar(token.value ?: "Nothing")
     }
 
     var loading = loginViewModel.loading.collectAsState().value
@@ -79,6 +86,15 @@ fun LoginScreen(onBack: () -> Unit,onLoginSuccess: () -> Unit,loginViewModel: Lo
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
         ) {
+            item { Spacer(modifier = Modifier.height(20.dp)) }
+            item {
+                Text(
+                    text = "${token.value}",
+                    fontWeight = FontWeight.Thin,
+//                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.ExtraBold),
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
             item { Spacer(modifier = Modifier.height(20.dp)) }
             item { LottieWorkingLoadingView() }
             item {
@@ -196,10 +212,6 @@ fun LoginScreen(onBack: () -> Unit,onLoginSuccess: () -> Unit,loginViewModel: Lo
                     } else {
                         Text(text = "Log In")
                     }
-
-                    if(user!=null && !loading) {
-                        Toast.makeText(context, "${user.body?.name} Done", Toast.LENGTH_SHORT).show()
-                    }
                 }
             }
             item {
@@ -277,7 +289,7 @@ fun LoginScreen(onBack: () -> Unit,onLoginSuccess: () -> Unit,loginViewModel: Lo
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 16.dp)
-                        .clickable(onClick = {}),
+                        .clickable(onClick = {navigateToRegister()}),
                     textAlign = TextAlign.Center
                 )
             }
@@ -297,12 +309,16 @@ fun LoginOnboarding(
 
     LaunchedEffect(isLoggedIn) {
         if (isLoggedIn) {
+            navController.popBackStack()
             navController.navigate(homeeNavigationRoute)
         }
     }
 
     Crossfade(targetState = isLoggedIn, label = "LoginCrossFadeAnimation") {
-                LoginScreen( onBack = { }, onLoginSuccess = { },loginViewModel = viewModel())
+                LoginScreen( onBack = { navController.popBackStack()},
+                    onLoginSuccess = { },
+                    navigateToRegister = { navController.navigateToSignUp()},
+                    loginViewModel = viewModel())
         }
     }
 

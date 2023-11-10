@@ -61,10 +61,6 @@ class ProfileViewModel @Inject constructor(
     )
 
 
-    init {
-
-        }
-
     override fun createInitialState() = ProfileViewState()
 
     override fun onTriggerEvent(event: ProfileViewEvent) {

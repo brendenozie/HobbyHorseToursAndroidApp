@@ -1,6 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.booking
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,6 +50,7 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 fun BookingsScreen(
     viewModel: BookingsViewModel = hiltViewModel(),
+    navigateToLogin: () -> Unit,
     navigateBookingDetail: (BookingDto) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -91,7 +93,8 @@ fun BookingsScreen(
                     if (it != null) {
                         navigateBookingDetail.invoke(it)
                     }
-                }
+                },
+                clickLogin = { navigateToLogin() }
             )
         },
         backgroundColor = MaterialTheme.colors.background
@@ -104,7 +107,8 @@ private fun Content(
     isLoading :Boolean = false,
     pagedData: Flow<PagingData<BookingDto>>? = null,
     onTriggerEvent: (BookingsViewEvent) -> Unit,
-    clickDetail: (BookingDto?) -> Unit
+    clickDetail: (BookingDto?) -> Unit,
+    clickLogin: () -> Unit
 ) {
     var pagingItems: LazyPagingItems<BookingDto>? = null
     val context = LocalContext.current
@@ -122,29 +126,36 @@ private fun Content(
             contentPadding = PaddingValues(vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            if (isLoading) {
-                items(10) {
-                    HobbyHorseToursEpisodesShimmer()
-                }
-            } else {
-//                LazyRow( modifier = Modifier.fillMaxWidth() ) {
-                    items(items = pagingItems!!) { item ->
-                        if (item != null) {
-                            HobbyHorseToursBookingCard(item = item,
-                                detailClick = {
-                                clickDetail.invoke(item)
-                            },)
-                        }
+                if (isLoading) {
+                    items(10) {
+                        HobbyHorseToursEpisodesShimmer()
                     }
-//                }
                 }
+
+            if(pagingItems!=null && pagingItems!!.itemCount >0) {
+                items(items = pagingItems!!) { item ->
+                    if (item != null) {
+                        HobbyHorseToursBookingCard(
+                            item = item,
+                            detailClick = { clickDetail.invoke(item) },
+                        )
+                    }
+                }
+            }
+
+            if(pagingItems ==null || pagingItems!!.itemCount == 0) {
+                item {
+                    EmptyListAnimation(clickLogin)
+                }
+            }
+
             }
         }
     }
-//}
+
 
 @Composable
-private fun EmptyListAnimation() {
+private fun EmptyListAnimation(reload: () -> Unit?,) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_search))
     Box(
         modifier = Modifier
@@ -160,11 +171,12 @@ private fun EmptyListAnimation() {
                 iterations = LottieConstants.IterateForever,
             )
             HobbyHorseToursText(
-                text = stringResource(R.string.favorite_screen_empty_list_text),
+                text = stringResource(R.string.booking_screen_empty_list_text),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp)
-                    .wrapContentHeight(),
+                    .wrapContentHeight()
+                    .clickable { reload() },
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.subtitle1
             )

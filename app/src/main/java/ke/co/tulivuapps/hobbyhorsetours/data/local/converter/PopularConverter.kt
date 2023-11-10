@@ -13,7 +13,7 @@ import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 class PopularConverter {
     @TypeConverter
     fun toListOfStrings(stringValue: String): List<String>? {
-        return stringValue.fromJson()
+        return stringValue.fromJson(stringValue)
     }
 
     @TypeConverter

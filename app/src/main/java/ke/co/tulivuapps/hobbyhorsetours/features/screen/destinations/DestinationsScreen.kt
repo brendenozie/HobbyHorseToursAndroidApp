@@ -97,7 +97,7 @@ private fun Content(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 15.dp),
+            .padding(horizontal = 5.dp),
     ) {
 //        LazyColumn(
 //            contentPadding = PaddingValues(vertical = 10.dp),
@@ -105,7 +105,7 @@ private fun Content(
 //        ) {
             if (isLoading) {
                 LazyColumn(
-                    contentPadding = PaddingValues(vertical = 10.dp),
+                    contentPadding = PaddingValues(vertical = 2.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     items(10) {
@@ -113,7 +113,7 @@ private fun Content(
 
                     }
                 }
-            } else if (pagedData != null && pagingItems != null) {
+            } else if (pagedData != null && pagingItems != null && pagingItems?.itemCount!! > 0) {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     modifier = Modifier.padding(2.dp)
@@ -122,7 +122,6 @@ private fun Content(
                         pagingItems!!.itemCount
                     ) { index ->
                         pagingItems!![index]?.let {
-                            Box(Modifier.padding(2.dp)) {
                                 HobbyHorseToursDestinationsCard(
                                     status = Status.Unknown,
                                     detailClick = {
@@ -133,7 +132,6 @@ private fun Content(
 //                            onTriggerEvent.invoke(HotelsViewEvent.UpdateFavorite(it))
                                     }
                                 )
-                            }
                         }
                     }
                 }

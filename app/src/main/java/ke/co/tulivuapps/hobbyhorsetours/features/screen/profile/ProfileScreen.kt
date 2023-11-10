@@ -1,13 +1,16 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.profile
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -17,16 +20,25 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTag
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
+import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursText
 
 const val initialImageFloat = 170f
 //const val name = "Gurupreet Singh"
@@ -50,7 +62,7 @@ const val initialImageFloat = 170f
 
 
 @Composable
-fun ProfileScreen(profileViewModel: ProfileViewModel) {
+fun ProfileScreen(profileViewModel: ProfileViewModel,login: () -> Unit?) {
     val scrollState = rememberScrollState(0);
 
 //    val isLoggedIn by profileViewModel.selectedLogin.collectAsState()
@@ -74,21 +86,26 @@ fun ProfileScreen(profileViewModel: ProfileViewModel) {
                 .semantics { testTag = "Profile Screen" }
         ) {
 
-            TopBackground()
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                item {
-                    Spacer(modifier = Modifier.height(100.dp))
+                if(username.isNotEmpty() && email.isNotEmpty() && image.isNotEmpty()) {
+                    TopBackground()
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ) {
+                        item {
+                            Spacer(modifier = Modifier.height(100.dp))
+                        }
+                        item {
+                            TopScrollingContent(scrollState, username, email, image)
+                        }
+                        item {
+                            BottomScrollingContent()
+                        }
+                    }
                 }
-                item {
-                    TopScrollingContent(scrollState, username,email,image)
+                else{
+                    EmptyListAnimation(login)
                 }
-                item {
-                    BottomScrollingContent()
-                }
-            }
         }
         }
     )
@@ -130,5 +147,36 @@ private fun TopBackground() {
 @Preview
 @Composable
 fun ShowProfileScreen() {
-    ProfileScreen(profileViewModel = hiltViewModel())
+    ProfileScreen(profileViewModel = hiltViewModel(),{})
+}
+
+
+@Composable
+private fun EmptyListAnimation(login: () -> Unit?) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_search))
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        Column {
+            LottieAnimation(
+                composition,
+                modifier = Modifier,
+                restartOnPlay = true,
+                alignment = Alignment.Center,
+                iterations = LottieConstants.IterateForever,
+            )
+            HobbyHorseToursText(
+                text = stringResource(R.string.not_logged_in_screen_empty_list_text),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+                    .wrapContentHeight()
+                    .clickable { login() },
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.subtitle1
+            )
+        }
+    }
 }

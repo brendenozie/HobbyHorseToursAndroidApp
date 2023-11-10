@@ -28,17 +28,13 @@ class DestinationPagingSource(
         return try {
             val response = repository.getAllDestinations(page, options)
 
+            val info =if (response.isSuccessful) response.body()?.info else null
             val destinationList = if (response.isSuccessful) {
                 response.body()?.results.orEmpty().toDestinationDtoList()
             } else {
                 emptyList()
             }
 
-            val pageNext = if (response.isSuccessful) {
-                response.body()?.info?.next?.toInt() ?: 0
-            } else {
-                0
-            }
 
             if (destinationList.isNotEmpty()) {
                 destinationList.map {
@@ -50,7 +46,7 @@ class DestinationPagingSource(
             LoadResult.Page(
                 data = destinationList,
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (pageNext == 0 || pageNext <= page) null else pageNext //if (destinationList.isEmpty()) null else page + 1
+                nextKey =  if (info==null) null else info.next as Int
             )
 
         } catch (exception: IOException) {

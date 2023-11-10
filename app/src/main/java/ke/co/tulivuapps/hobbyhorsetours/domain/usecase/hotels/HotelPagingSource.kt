@@ -28,6 +28,7 @@ class HotelPagingSource(
         return try {
             val response = repository.getAllHotels(page, options)
 
+            val info =if (response.isSuccessful) response.body()?.info else null
             val characterList = if (response.isSuccessful) {
                 response.body()?.results.orEmpty().toHotelDtoList()
             } else {
@@ -44,7 +45,7 @@ class HotelPagingSource(
             LoadResult.Page(
                 data = characterList,
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (characterList.isEmpty()) null else page + 1
+                nextKey = if (info==null) null else info.next as Int
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)

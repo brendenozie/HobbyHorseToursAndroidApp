@@ -10,9 +10,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -21,11 +20,13 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.navOptions
 import androidx.tracing.trace
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
 import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.features.navigation.BottomNav
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.booking.navigation.navigateToBookings
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.favorites.navigation.navigateToFavorites
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.navigation.navigateToHome
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.homee.navigation.navigateToHomee
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.popular.navigation.navigateToEpisodes
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.profile.navigation.navigateToProfile
@@ -57,18 +58,27 @@ fun HobbyHorseToursBottomAppBar(
             val primaryColor = MaterialTheme.colors.primary
             val secondaryColor = MaterialTheme.colors.secondary
 
+            val painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current).data(data = screen.iconId)
+                    .apply(block = fun ImageRequest.Builder.() {
+                            crossfade(false)
+                            size(Size(1200, 900))
+                            error(R.drawable.coffee)
+                            fallback(R.drawable.coffee)
+                        }).build()
+            )
+
             BottomNavigationItem(
                 alwaysShowLabel = true,
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = MaterialTheme.colors.secondary,
                 icon = {
                     Icon(
-                        imageVector = ImageVector.vectorResource(id = screen.iconId),
+                        painter = painter,// ImageVector.vectorResource(id = screen.iconId),
                         contentDescription = null,
                         modifier = Modifier.size(24.dp)
                     )
                 },
-
                 label = {
                     HobbyHorseToursText(
                         text = if (screen.titleTextId == R.string.favorite_screen_title) "" else stringResource(

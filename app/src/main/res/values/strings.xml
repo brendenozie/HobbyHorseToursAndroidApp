@@ -6,23 +6,22 @@
     <string name="character_detail_screen_title">Detail</string>
     <string name="character_detail_card_name">Name</string>
     <string name="character_detail_card_species">Species</string>
+
     <string name="character_detail_card_gender">Gender</string>
     <string name="character_detail_card_last_know_location">Last Know Location</string>
     <string name="character_detail_card_location">Location</string>
-
     <string name="episodes_screen_title">Episodes</string>
-
     <string name="episodes_cities_title">Cities</string>
 
     <string name="episodes_travel_style_title">Travel Style</string>
-
     <string name="episodes_destinations_title">Destinations</string>
-
     <string name="episodes_hotels_title">Hotels</string>
-
     <string name="favorite_screen_title">Favorites</string>
+    <string name="favorite_screen_empty_list_text">You haven\'t added\nany favorites yet</string>
 
-    <string name="favorite_screen_empty_list_text">You haven\'t added\na character to your favorites yet</string>
+    <string name="empty_screen_empty_list_text">Sorry!\nunable to connect to the server at the moment\nclick to refresh</string>
+    <string name="not_logged_in_screen_empty_list_text">Sorry!\nyou are not logged In \nClick to login or to sign up</string>
+    <string name="booking_screen_empty_list_text">You haven\'t added\nany bookings yet</string>
 
     <!--- Popular -->
     <string name="popular_screen_title">Popular</string>
@@ -46,9 +45,9 @@
     <string name="search_modal_travelstyle_title">Travel Style</string>
     <string name="search_modal_button_text">Apply</string>
 
-    <string name="google_cloud_server_client_id" translatable="false">"131810820705-361gms6ip1irs83esv49dr0dcg9hpe53.apps.googleusercontent.com"</string>
+    <string name="googlee_cloud_server_client_idd" translatable="false">565444776466-cr00h819jsoagvkbskcd4gf0tmg3u5es.apps.googleusercontent.com</string>
+    <string name="google_cloud_server_client_id" translatable="false">565444776466-pfkomure3omqff6mhtk90vsac5vje94c.apps.googleusercontent.com</string>
     <string name="you_are_offline">You are offline!</string>
-
     <string name="confirm_password">Confirm Password</string>
     <string name="password_should_be_at_least_6_characters">Password should be at least 6 characters!</string>
     <string name="not_a_valid_email">Not a valid Email!</string>

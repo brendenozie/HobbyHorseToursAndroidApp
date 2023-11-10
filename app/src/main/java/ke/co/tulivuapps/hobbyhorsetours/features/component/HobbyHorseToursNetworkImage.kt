@@ -7,10 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.AsyncImagePainter
-import coil.compose.rememberImagePainter
-import coil.size.OriginalSize
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import coil.size.Size
 
 /**
@@ -27,14 +28,15 @@ fun HobbyHorseToursNetworkImage(
     contentScale: ContentScale = ContentScale.Inside,
     crossFade: Boolean = false
 ) {
-    val painter = rememberImagePainter(
-        data = imageURL,
-        builder = {
+    val painter = rememberAsyncImagePainter(
+        ImageRequest.Builder(LocalContext.current)
+            .data(data = imageURL)
+            .apply(block = fun ImageRequest.Builder.() {
             crossfade(crossFade)
             size(Size.ORIGINAL)
             error(placeholder)
             fallback(placeholder)
-        },
+        }).build()
     )
     Box {
         Image(

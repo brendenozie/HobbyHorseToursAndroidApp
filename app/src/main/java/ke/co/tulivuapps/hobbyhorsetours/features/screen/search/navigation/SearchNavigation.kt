@@ -2,7 +2,9 @@
 
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.search.navigation
 
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -27,7 +29,7 @@ fun NavController.navigateToSearch(
 }
 
 fun NavGraphBuilder.searchScreen(navController: NavHostController) {
-    composable(searchNavigationRoute) {
+    composable(searchNavigationRoute,content={
         SearchScreen(
             hiltViewModel(),
             navigateToHotelDto = {
@@ -41,5 +43,17 @@ fun NavGraphBuilder.searchScreen(navController: NavHostController) {
                 navController.navigateDestinationsDetail(it.toJson())
             }
         )
-    }
+    },
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentScope.SlideDirection.Left,
+                animationSpec = tween(700)
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                AnimatedContentScope.SlideDirection.Right,
+                animationSpec = tween(700)
+            )
+        })
 }

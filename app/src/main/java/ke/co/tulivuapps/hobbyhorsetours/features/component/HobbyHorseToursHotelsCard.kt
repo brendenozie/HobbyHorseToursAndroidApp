@@ -43,17 +43,15 @@ fun HobbyHorseToursHotelsCard(
     Card(
         shape = RoundedCornerShape(14.dp),
         backgroundColor = Color.White,
-//        elevation = 8.dp,
         modifier = Modifier
             .padding(5.dp)
             .width(250.dp)
-            .height(200.dp)
+            .height(180.dp)
             .clickable { detailClick() },
     ) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(2.dp),
+                .fillMaxWidth(),
         ) {
             item(key = null) {
                 if (dto != null) {
@@ -62,9 +60,9 @@ fun HobbyHorseToursHotelsCard(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(120.dp)
-                            .clip(shape = RoundedCornerShape(15)),
+                            .clip(shape = RoundedCornerShape(12)),
                         placeholder = R.drawable.ic_place_holder,
-                        contentScale = ContentScale.Fit,
+                        contentScale = ContentScale.FillBounds,
                     )
                 }
             }
@@ -78,14 +76,14 @@ fun HobbyHorseToursHotelsCard(
                             text = dto?.title ?: "",
                             style = TextStyle(
                                 color = Color.Black,
-                                fontSize = 16.sp,
+                                fontSize = 14.sp,
                             )
                         )
                         Text(
-                            text = dto?.price ?: "",
+                            text = "Ksh ${dto?.price}" ?: "",
                             style = TextStyle(
                                 color = Color.Black,
-                                fontSize = 16.sp,
+                                fontSize = 14.sp,
                             )
                         )
                     }

@@ -2,7 +2,9 @@
 
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.navigation
 
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -34,7 +36,22 @@ fun NavController.navigateToHotels(
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.hotelsScreen(navController: NavHostController) {
-    composable(hotelsNavigationRoute) {
-        HotelsScreen(viewModel = hiltViewModel(), navigateToDetail = {navController.navigateHotelsDetail(it.toJson())})
-    }
+    composable(hotelsNavigationRoute,
+        content={
+            HotelsScreen(viewModel = hiltViewModel(),
+                navigateToBack = {navController.popBackStack()},
+                navigateToDetail = {navController.navigateHotelsDetail(it.toJson())})
+        },
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentScope.SlideDirection.Left,
+                animationSpec = tween(700)
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                AnimatedContentScope.SlideDirection.Right,
+                animationSpec = tween(700)
+            )
+        })
 }

@@ -13,10 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.IconButton
@@ -97,7 +94,7 @@ fun DestinationsDetailScreen(
                 actions = {
                     IconButton(onClick = {}) {}
                 },
-                text = stringResource(id = R.string.character_detail_screen_title)
+                text = if (viewState.data != null ) viewState.data!!.title else "Title"
             )
         },
         content = {
@@ -115,7 +112,7 @@ private fun Content(data: Result?) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 15.dp),
+            .padding(start = 14.dp, end = 14.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CharacterImage(data)
@@ -127,14 +124,11 @@ private fun Content(data: Result?) {
 private fun CharacterImage(data: Result?) {
     Card(
         modifier = Modifier
-            .width(350.dp)
+            .fillMaxWidth()
             .height(400.dp)
             .padding(top = 20.dp),
         shape = RoundedCornerShape(8.dp),
-        border = BorderStroke(
-            1.dp,
-            color = Color.LightGray //if (data?.status == Status.Alive) Color.Green else Color.Red
-        ),
+        border = BorderStroke( 1.dp, color = Color.LightGray),
     ) {
         HobbyHorseToursNetworkImage(
             imageURL = data?.img!![0].url,
@@ -310,7 +304,7 @@ private fun DetailScreenContent(
 
     Column(
         modifier = modifier
-            .padding(start = 24.dp, end = 24.dp, top = 56.dp)
+            .padding(start = 24.dp, end = 24.dp)
             .fillMaxHeight()
             .semantics { contentDescription = "Detail Screen" }
     ) {
@@ -324,7 +318,7 @@ private fun DetailScreenContent(
             viewState.data?.let { Text(text = it.title, style = MaterialTheme.typography.h5) }
             Spacer(modifier = Modifier.weight(1F))
             Image(
-                painter = painterResource(id = R.drawable.filter),
+                painter = painterResource(id = R.drawable.star),
                 contentDescription = null,
                 Modifier.size(10.dp)
             )
@@ -350,16 +344,16 @@ private fun DetailScreenContent(
                 }
             }
             Spacer(modifier = Modifier.weight(1F))
-            Button(
-                onClick = {},
-                modifier = Modifier.padding(bottom = 56.dp).size(170.dp, 56.dp),
-                shape = RoundedCornerShape(72.dp),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colors.background
-                )
-            ) {
-                Text(text = "Book Now", style = MaterialTheme.typography.button)
-            }
+//            Button(
+//                onClick = {},
+//                modifier = Modifier.padding(bottom = 56.dp).size(170.dp, 56.dp),
+//                shape = RoundedCornerShape(72.dp),
+//                colors = ButtonDefaults.buttonColors(
+//                    backgroundColor = MaterialTheme.colors.background
+//                )
+//            ) {
+//                Text(text = "Book Now", style = MaterialTheme.typography.button)
+//            }
         }
     }
 }

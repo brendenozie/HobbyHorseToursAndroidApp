@@ -11,7 +11,7 @@ import retrofit2.Response
  */
 
 interface BookingsRemoteDataSource {
-    suspend fun getAllBookings(page: Int, options: Map<String, String>): Response<BookingResponse>
+    suspend fun getAllBookings( page: Int, options: Map<String, String>): Response<BookingResponse>
     suspend fun getFilterBookings(page: Int, options: Map<String, String>): Response<BookingResponse>
     suspend fun getBooking(cityId: Int): Flow<DataState<BookingInfoResponse>>
     suspend fun getBooking(url: String): Flow<DataState<BookingInfoResponse>>

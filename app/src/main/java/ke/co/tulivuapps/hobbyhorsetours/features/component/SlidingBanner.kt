@@ -7,11 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -31,6 +33,15 @@ fun SlidingBanner() {
         }
     }
 
+    val painter = rememberAsyncImagePainter(
+        ImageRequest.Builder(LocalContext.current).data(data = R.drawable.ic_sale_banner).apply(block = fun ImageRequest.Builder.() {
+            crossfade(false)
+            size(Size(1200, 900))
+            error(R.drawable.coffee)
+            fallback(R.drawable.coffee)
+        }).build()
+    )
+
     HorizontalPager(
         count = 3,
         state = pagerState,
@@ -38,8 +49,9 @@ fun SlidingBanner() {
     ) { page ->
         Image(
             modifier = Modifier
+                .padding(horizontal = 4.dp)
                 .fillMaxWidth(),
-            bitmap = ImageBitmap.imageResource(id = R.drawable.ic_sale_banner),
+            painter=painter,
             contentScale = ContentScale.FillWidth,
             contentDescription = "sliding_banner_image"
         )

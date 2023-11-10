@@ -2,13 +2,12 @@ package ke.co.tulivuapps.hobbyhorsetours.data.model.popular
 
 import android.os.Parcelable
 import com.google.gson.Gson
-import ke.co.tulivuapps.hobbyhorsetours.data.model.hotel.ResultHotel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class ResultPopular(
     val count : Int,
-    val document: ResultHotel
+    val document: ResultHotelPopular
     ) : Parcelable {
 
     companion object {

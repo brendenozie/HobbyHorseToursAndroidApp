@@ -22,6 +22,8 @@ data class ResultHotel(
     val cityId: String,
     val createdAt: String,
     val travelStyleId: String = "",
+    val likes: List<String>?=null,
+    val views: List<String>?=null,
     val img: List<img>?=null
     ) : Parcelable {
 

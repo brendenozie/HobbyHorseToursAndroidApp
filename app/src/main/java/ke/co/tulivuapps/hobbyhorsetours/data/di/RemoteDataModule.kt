@@ -5,13 +5,13 @@ import androidx.compose.runtime.Stable
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
-import ke.co.tulivuapps.hobbyhorsetours.BuildConfig
-import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import ke.co.tulivuapps.hobbyhorsetours.BuildConfig
+import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.Constants
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -42,7 +42,7 @@ object RemoteDataModule {
     }
 
     @Provides
-    fun provideHobbyHorseToursApiUrl(): String = Constants.BASE_TEST_URL
+    fun provideHobbyHorseToursApiUrl(): String = Constants.BASE_URL
 
     @Provides
     @Singleton

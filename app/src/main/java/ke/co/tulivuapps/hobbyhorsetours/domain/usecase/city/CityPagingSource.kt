@@ -7,6 +7,7 @@ import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.extension.toCityDtoList
 import ke.co.tulivuapps.hobbyhorsetours.domain.repository.CityRepository
 import java.io.IOException
 
+
 /**
  * Created by brendenozie on 27.03.2023
  */
@@ -26,13 +27,11 @@ class CityPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CityDto> {
         val page = params.key ?: 1
         return try {
+
             val response = repository.getAllCities(page, options)
 
-            val cityList = if (response.isSuccessful) {
-                response.body()?.results.orEmpty().toCityDtoList()
-            } else {
-                emptyList()
-            }
+            val info =if (response.isSuccessful) response.body()?.info else null
+            val cityList = if (response.isSuccessful) response.body()?.results.orEmpty().toCityDtoList() else emptyList()
 
             if (cityList.isNotEmpty()) {
                 cityList.map {
@@ -44,8 +43,9 @@ class CityPagingSource(
             LoadResult.Page(
                 data = cityList,
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (cityList.isEmpty()) null else page + 1
+                nextKey = if (info==null) null else info.next as Int
             )
+
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
         }

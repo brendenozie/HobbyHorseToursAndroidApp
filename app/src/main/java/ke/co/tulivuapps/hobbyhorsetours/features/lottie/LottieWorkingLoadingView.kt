@@ -26,7 +26,7 @@ fun LottieWorkingLoadingView() {
     val progress by animateLottieCompositionAsState(
         composition,
         iterations = LottieConstants.IterateForever,
-        speed = 2f,
+        speed = 1f,
         restartOnPlay = false,
 
         )

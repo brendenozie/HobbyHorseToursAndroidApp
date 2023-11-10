@@ -51,7 +51,7 @@ fun RoundedCornerIconButtonCity(modifier: Modifier, icon: CityDto) {
             onClick = { },
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(2.dp)
+
         ) {
             Row(modifier = Modifier.align(Alignment.Center).width(130.dp).height(100.dp)) {
                 Column(modifier = Modifier.weight(1f),
@@ -69,7 +69,7 @@ fun RoundedCornerIconButtonCity(modifier: Modifier, icon: CityDto) {
                         contentScale = ContentScale.Crop
                     )
                     Spacer(Modifier.height(2.dp))
-                    Text(
+                    Text(modifier=Modifier.padding(2.dp),
                         text = icon.cityName,
                         style = TextStyle(
                             color = Color.White,

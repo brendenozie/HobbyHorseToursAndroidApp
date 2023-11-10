@@ -346,7 +346,7 @@ private fun DetailScreenContent(
             viewState.data?.let { Text(text = it.title, style = MaterialTheme.typography.h5) }
             Spacer(modifier = Modifier.weight(1F))
             Image(
-                painter = painterResource(id = R.drawable.filter),
+                painter = painterResource(id = R.drawable.star),
                 contentDescription = null,
                 Modifier.size(10.dp)
             )

@@ -11,7 +11,6 @@ import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.destinations.DestinationsViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,7 +35,6 @@ class DestinationsViewModel @Inject constructor(
             setState { currentState.copy(isLoading = true) }
             val params = GetDestinationsUseCase.Params(config, hashMapOf())
             val pagedFlow = getDestinationsUseCase(params).cachedIn(scope = viewModelScope)
-            delay(1000)
             setState { currentState.copy(isLoading = false, pagedData = pagedFlow) }
         }
     }
@@ -46,13 +44,13 @@ class DestinationsViewModel @Inject constructor(
         call(updateDestinationFavoriteUseCase(params))
     }
 
-
     override fun createInitialState() = DestinationsViewState()
 
     override fun onTriggerEvent(event: DestinationsViewEvent) {
         viewModelScope.launch {
             when (event) {
                 is DestinationsViewEvent.UpdateDestinationFavorite -> updateDestinationFavorite(event.dto)
+                else -> {}
             }
         }
     }

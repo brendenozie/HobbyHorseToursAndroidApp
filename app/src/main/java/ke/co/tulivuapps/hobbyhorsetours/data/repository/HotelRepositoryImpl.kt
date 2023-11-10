@@ -25,8 +25,9 @@ class HotelRepositoryImpl @Inject constructor(
     override suspend fun getAllHotels(
         page: Int,
         options: Map<String, String>
-    ): Response<HotelResponse> =
-        characterRemoteDataSource.getAllHotels(page = page, options = options)
+    ): Response<HotelResponse> {
+        return characterRemoteDataSource.getAllHotels(page = page, options = options)
+    }
 
     override fun getHotel(characterId: Int): Flow<DataState<HotelInfoResponse>> = flow {
         emitAll(characterRemoteDataSource.getHotel(characterId = characterId))

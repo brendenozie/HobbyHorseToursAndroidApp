@@ -2,6 +2,7 @@ package ke.co.tulivuapps.hobbyhorsetours.data.remote.source
 
 import ke.co.tulivuapps.hobbyhorsetours.data.model.user.UserInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.model.user.UserLoginInfoResponse
+import ke.co.tulivuapps.hobbyhorsetours.data.model.user.UserSignupInfoResponse
 import ke.co.tulivuapps.hobbyhorsetours.data.remote.utils.DataState
 import kotlinx.coroutines.flow.Flow
 
@@ -11,6 +12,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthRemoteDataSource {
     suspend fun getLoginDetails(data: UserLoginInfoResponse): Flow<DataState<UserInfoResponse>>
-    suspend fun getRegistrationDetails(data:UserInfoResponse): Flow<DataState<UserInfoResponse>>
+    suspend fun getRegistrationDetails(data: UserSignupInfoResponse): Flow<DataState<UserInfoResponse>>
 
 }

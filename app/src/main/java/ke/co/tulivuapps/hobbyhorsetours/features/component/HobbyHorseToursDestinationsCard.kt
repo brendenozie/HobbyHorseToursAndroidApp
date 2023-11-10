@@ -42,26 +42,20 @@ fun HobbyHorseToursDestinationsCard(
     Card(
         shape = RoundedCornerShape(14.dp),
         backgroundColor = Color.White,
-//        elevation = 4.dp,
         modifier = Modifier
-            .padding(5.dp)
-            .width(160.dp)
+            .width(200.dp)
             .clickable { detailClick() },
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(2.dp),
+                .fillMaxWidth(),
         ) {
-
             HobbyHorseToursNetworkImage(
-                    imageURL = dto?.img!![0].url ?: R.drawable.ic_place_holder,
+                    imageURL = dto?.img!![0].url,
                     modifier = Modifier
-//                        .fillMaxHeight()
                         .fillMaxWidth()
-//                        .width(140.dp)
                         .height(120.dp)
-                        .clip(shape = RoundedCornerShape(15)),
+                        .clip(shape = RoundedCornerShape(12)),
                     placeholder = R.drawable.ic_place_holder,
                     contentScale = ContentScale.Crop,
                 )
@@ -69,22 +63,22 @@ fun HobbyHorseToursDestinationsCard(
             Row(modifier = Modifier.padding(top = 5.dp,end = 5.dp,start = 5.dp)) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = dto?.title.orEmpty(),
+                        text = dto.title.orEmpty(),
                         style = TextStyle(
                             color = Color.Black,
-                            fontSize = 16.sp,
+                            fontSize = 14.sp,
                         )
                     )
                     Text(
-                        text = dto?.price.orEmpty(),
+                        text = "Ksh ${dto.price}",
                         style = TextStyle(
                             color = Color.Black,
-                            fontSize = 16.sp,
+                            fontSize = 14.sp,
                         )
                     )
                 }
                 Box(modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.CenterEnd) {
-                    dto?.let {
+                    dto.let {
                         HobbyHorseToursDestinationFavoriteButton(
                             dto = it,
                             onTriggerEvent = { dto ->

@@ -28,6 +28,7 @@ class TravelStyleFilterPagingSource(
         return try {
             val response = repository.getFilterTravelStyle(page, options)
 
+            val info =if (response.isSuccessful) response.body()?.info else null
             val travelStyleList = if (response.isSuccessful) {
                 response.body()?.results.orEmpty().toTravelStyleDtoList()
             } else {
@@ -44,7 +45,7 @@ class TravelStyleFilterPagingSource(
             LoadResult.Page(
                 data = travelStyleList,
                 prevKey = if (page == 1) null else page - 1,
-                nextKey = if (travelStyleList.isEmpty()) null else page + 1
+                nextKey = if (info==null) null else info.next as Int
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)

@@ -19,7 +19,7 @@ import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.search.SearchViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,13 +41,25 @@ class SearchViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
+
             val paramsCity = GetCityUseCase.Params(config, hashMapOf())
             val paramsTravelStyle = GetTravelStyleUseCase.Params(config, hashMapOf())
 
-            val pagedCityFlow = getcityUseCase(paramsCity).cachedIn(scope = viewModelScope)
-            val pagedTravelStyleFlow = getTravelStyleUseCase(paramsTravelStyle).cachedIn(scope = viewModelScope)
+            // Trigger repository requests in parallel
+            val pagedCityFlow = async { getcityUseCase(paramsCity).cachedIn(scope = viewModelScope) }
+            val pagedTravelStyleFlow = async { getTravelStyleUseCase(paramsTravelStyle).cachedIn(scope = viewModelScope) }
 
-            setState { currentState.copy(isLoading = false, pagedCityData = pagedCityFlow, pagedTravelStyleData = pagedTravelStyleFlow) }
+            // Wait for all requests to finish
+            val cities = pagedCityFlow.await()
+            val travelStyles = pagedTravelStyleFlow.await()
+
+            setState {
+                currentState.copy(
+                    isLoading = false,
+                    pagedCityData = cities,
+                    pagedTravelStyleData = travelStyles
+                )
+            }
 
         }
     }
@@ -88,12 +100,21 @@ class SearchViewModel @Inject constructor(
             val paramsHotel = GetHotelsFilterUseCase.Params(config, queryData)
             val paramsDestination = GetDestinationsFilterUseCase.Params(config, queryData)
 
-            delay(1000)
+            // Trigger repository requests in parallel
+            val pagedHotelFlow = async { getHotelsFilterUseCase(paramsHotel).cachedIn(scope = viewModelScope) }
+            val pagedDestinationFlow = async { getDestinationsFilterUseCase(paramsDestination).cachedIn(scope = viewModelScope) }
 
-            val pagedHotelFlow = getHotelsFilterUseCase(paramsHotel).cachedIn(scope = viewModelScope)
-            val pagedDestinationFlow = getDestinationsFilterUseCase(paramsDestination).cachedIn(scope = viewModelScope)
+            // Wait for all requests to finish
+            val hotels = pagedHotelFlow.await()
+            val destinations = pagedDestinationFlow.await()
 
-            setState { currentState.copy(isLoading = false, pagedHotelData = pagedHotelFlow, pagedDestinationData = pagedDestinationFlow) }
+            setState {
+                currentState.copy(
+                    isLoading = false,
+                    pagedDestinationData = destinations,
+                    pagedHotelData = hotels
+                )
+            }
         }
     }
 
@@ -133,6 +154,5 @@ class SearchViewModel @Inject constructor(
 sealed class SearchViewEvent : IViewEvent {
     object NewSearchEvent : SearchViewEvent()
     class UpdateHotelFavorite(val dto: HotelDto) : SearchViewEvent()
-
     class UpdateDestinationFavorite(val dto: DestinationDto) : SearchViewEvent()
 }

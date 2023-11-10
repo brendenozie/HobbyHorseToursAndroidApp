@@ -2,7 +2,9 @@
 
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.destinations.navigation
 
+import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -26,7 +28,19 @@ fun NavController.navigateToDestinations(
 }
 
 fun NavGraphBuilder.destinationScreen(navController: NavHostController) {
-    composable(destinationsNavigationRoute) {
-        DestinationsScreen(viewModel = hiltViewModel(), navigateToDetail = {navController.navigateDestinationsDetail(it.toJson())}  )
-    }
+    composable(destinationsNavigationRoute,
+        content = { DestinationsScreen(viewModel = hiltViewModel(),
+                                        navigateToDetail = {navController.navigateDestinationsDetail(it.toJson())}  ) },
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentScope.SlideDirection.Left,
+                animationSpec = tween(700)
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                AnimatedContentScope.SlideDirection.Right,
+                animationSpec = tween(700)
+            )
+        })
 }

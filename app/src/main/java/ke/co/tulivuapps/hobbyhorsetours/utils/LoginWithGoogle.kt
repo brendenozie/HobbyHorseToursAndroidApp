@@ -19,12 +19,12 @@ class LoginWithGoogle : ActivityResultContract<Unit, String?>() {
 
     override fun parseResult(resultCode: Int, intent: Intent?): String? {
         val task = GoogleSignIn.getSignedInAccountFromIntent(intent)
+
         return try {
             val account = task.getResult(ApiException::class.java)!!
             account.idToken!!
-//            Toast.makeText(LocalContext.current.applicationContext, "", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
-            null
+            "$e lol"
         }
     }
 }
