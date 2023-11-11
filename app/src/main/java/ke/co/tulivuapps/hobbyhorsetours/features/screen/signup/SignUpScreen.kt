@@ -186,7 +186,7 @@ fun SignUpScreen(navigateToBack: () -> Unit,
 
             item {
                 OutlinedTextField(
-                    value = email,
+                    value = name,
                     leadingIcon = {
                         Icon(
 //                            faIcon = FaIcons.Envelope,

@@ -45,6 +45,7 @@ import ke.co.tulivuapps.hobbyhorsetours.features.lottie.LottieWorkingLoadingView
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.homee.navigation.homeeNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.signup.navigation.navigateToSignUp
 import ke.co.tulivuapps.hobbyhorsetours.utils.LoginWithGoogle
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(onBack: () -> Unit, navigateToRegister: () -> Unit, onLoginSuccess: () -> Unit,loginViewModel: LoginViewModel ) {
@@ -53,17 +54,29 @@ fun LoginScreen(onBack: () -> Unit, navigateToRegister: () -> Unit, onLoginSucce
 
     val scaffoldState = rememberScaffoldState()
 
-    val token = remember { mutableStateOf<String?>("Kikikl") }
-
     val googleLoginLauncher = rememberLauncherForActivityResult(
         contract = LoginWithGoogle(),
-        onResult = {token.value = it ?: "No Message" })
+        onResult = {
+            if (it != null) {
+                loginViewModel.loginWithGoogle(it)
+            }
+        })
 
-    LaunchedEffect(token.value) {
-            scaffoldState.snackbarHostState.showSnackbar(token.value ?: "Nothing")
+    val viewState = loginViewModel.uiState.collectAsState().value
+
+    LaunchedEffect(viewState.data) {
+        launch {
+            if (viewState.data != null) {
+                loginViewModel.loginWithCredentials(
+                    viewState.data.email,
+                    "123456789",
+                )
+            }
+        }
     }
 
     var loading = loginViewModel.loading.collectAsState().value
+
     val user = loginViewModel.userDetails.collectAsState().value
 
     Scaffold { paddingValues ->
@@ -87,28 +100,17 @@ fun LoginScreen(onBack: () -> Unit, navigateToRegister: () -> Unit, onLoginSucce
                 .padding(horizontal = 16.dp)
         ) {
             item { Spacer(modifier = Modifier.height(20.dp)) }
-            item {
-                Text(
-                    text = "${token.value}",
-                    fontWeight = FontWeight.Thin,
-//                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.ExtraBold),
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-            }
-            item { Spacer(modifier = Modifier.height(20.dp)) }
             item { LottieWorkingLoadingView() }
             item {
                 Text(
                     text = "Welcome Back",
                     fontWeight = FontWeight.ExtraBold,
-//                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.ExtraBold),
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }
             item {
                 Text(
                     text = "We have missed you, Let's start by Sign In!",
-//                    style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(bottom = 12.dp)
                 )

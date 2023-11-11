@@ -17,10 +17,29 @@ import kotlinx.coroutines.withContext
 
 class AuthRepositoryGoogleImpl() : AuthRepositoryGoogle {
 
-    override suspend fun loginWithGoogle(idToken: String): Unit = withContext(IO) {
-        Firebase.auth
+    override suspend fun loginWithGoogle(idToken: String): Flow<DataState<UserInfoResponse>> = flow {
+        val usr = Firebase.auth
             .signInWithCredential(GoogleAuthProvider.getCredential(idToken, null))
-            .await()
+            .await().user
+
+        if (usr != null) {
+            emit(
+                DataState.Success(
+                    UserInfoResponse(
+                        "200",
+                        ResultUser("",
+                            usr.displayName?:"nothing"
+                            , usr.email?:"nothing"
+                            , usr.photoUrl?.toString()
+                                ?:"nothing"),
+                        "Success"
+                    )
+                )
+            )
+        } else {
+            val apiError: APIError =APIError(404,"ERROR NOTHING")
+            emit(DataState.Error(apiError))
+        }
     }
     override suspend fun signUpWithGooogle(idToken: String) : Flow<DataState<UserInfoResponse>> = flow {
         val usr = Firebase.auth

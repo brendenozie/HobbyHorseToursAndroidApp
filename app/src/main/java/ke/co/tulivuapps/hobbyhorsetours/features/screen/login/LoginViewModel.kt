@@ -16,7 +16,6 @@ import ke.co.tulivuapps.hobbyhorsetours.domain.repository.AuthRepositoryGoogle
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.IViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.login.LoginViewState
 import ke.co.tulivuapps.hobbyhorsetours.features.base.BaseViewModel
-import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.connectedOrThrow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -113,17 +112,40 @@ class LoginViewModel @Inject constructor(
     }
 
     fun loginWithGoogle(idToken: String) = viewModelScope.launch {
+        setState { currentState.copy(isLoading = false) }
         try {
-            app.connectedOrThrow()
-            _loading.value = true
-            authRepositoryGoogle.loginWithGoogle(idToken)
-            dataStoreOperation.saveOnLoginState(true)
-            _signedIn.value = true
+            authRepositoryGoogle.signUpWithGooogle(idToken)
+                .stateIn(viewModelScope).collect{
+                    when (it) {
+                        is DataState.Success -> {
+                            setState { currentState.copy(isLoading = false,data = it.data.body) }
+                        }
+                        is DataState.Error -> {
+                            setState { currentState.copy(isLoading = false) }
+                            setEvent(LoginViewEvent.SnackBarError(it.apiError?.message))
+                        }
+                        is DataState.Loading -> {
+                            setState { currentState.copy(isLoading = true) }
+                        }
+                    }
+                }
         } catch (e: Exception) {
             _error.value = e.localizedMessage
+            setState { currentState.copy(isLoading = false) }
         } finally {
-            _loading.value = false
+            setState { currentState.copy(isLoading = false) }
         }
+//        try {
+//            app.connectedOrThrow()
+//            _loading.value = true
+//            authRepositoryGoogle.loginWithGoogle(idToken)
+//            dataStoreOperation.saveOnLoginState(true)
+//            _signedIn.value = true
+//        } catch (e: Exception) {
+//            _error.value = e.localizedMessage
+//        } finally {
+//            _loading.value = false
+//        }
     }
 
     private fun updateHotelFavorite(dto: String) = viewModelScope.launch {

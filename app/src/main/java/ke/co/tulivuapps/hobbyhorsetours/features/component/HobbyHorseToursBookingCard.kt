@@ -87,10 +87,12 @@ fun HobbyHorseToursBookingCard(
 @Preview(showBackground = true)
 @Composable
 private fun BodyPreview() {
-    HobbyHorseToursPopularCard(
+    HobbyHorseToursBookingCard(
         modifier = Modifier,
-        name = "Rick and Morty",
-        date = "2020-03-19",
-        episode = "S01E01",
-    )
+        item = BookingDto("","",""
+            ,"","","",""
+            ,null,"","",""
+            ,"","","",""
+            ,"","","")
+    ) {}
 }

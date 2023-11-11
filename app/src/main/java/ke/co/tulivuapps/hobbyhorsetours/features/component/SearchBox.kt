@@ -29,63 +29,74 @@ import ke.co.tulivuapps.hobbyhorsetours.R
 
 @Composable
 fun SearchBox(detailClick: () -> Unit) {
+//    val visibility = remember { mutableStateOf(false) }
+//
+//    LaunchedEffect(key1 = true) {
+//        delay(1000L)
+//        visibility.value = true
+//    }
 
-        Row(
-            modifier = Modifier.padding(horizontal= 8.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(55.dp)
-                    .clickable(onClick = detailClick),
-                enabled = false,
-                readOnly = true,
-                value = "",
-                onValueChange = {},
-                shape = RoundedCornerShape(30.dp),
-                placeholder = {
-                    Text(
-                        text = "Search...",
-                        color = Color.LightGray,
-                        fontSize = 13.sp,
-                    )
-                },
-                singleLine = true,
-                trailingIcon = {
-                    Box(
-                        modifier = Modifier
-                            .size(30.dp)
-                            .clip(shape = CircleShape)
-                            .background(Color.Black),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(20.dp),
-                            painter = painterResource(id = R.drawable.ic_filter),
-                            contentDescription = "Filter Icon", tint = Color.White
+    Row(modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),horizontalArrangement = Arrangement.Center ) {
+//        AnimatedVisibility(visibility.value,
+//            enter = expandIn(
+//                tween(
+//                    delayMillis = 900,
+//                    easing = LinearOutSlowInEasing,
+//                    durationMillis = 500
+//                )
+//            ) { IntSize(0,0) },
+//        ) {
+            TextField(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(55.dp)
+                        .clickable(onClick = detailClick),
+                    enabled = false,
+                    readOnly = true,
+                    value = "",
+                    onValueChange = {},
+                    shape = RoundedCornerShape(30.dp),
+                    placeholder = {
+                        Text(
+                            text = "Search...",
+                            color = Color.LightGray,
+                            fontSize = 13.sp,
                         )
+                    },
+                    singleLine = true,
+                    trailingIcon = {
+                        Box(
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clip(shape = CircleShape)
+                                .background(Color.Black),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(20.dp),
+                                painter = painterResource(id = R.drawable.ic_filter),
+                                contentDescription = "Filter Icon", tint = Color.White
+                            )
 
-                    }
-                },
-                leadingIcon = {
-                    Icon(
-                        modifier = Modifier.size(25.dp),
-                        painter = painterResource(id = R.drawable.search),
-                        contentDescription = "Search Icon",
+                        }
+                    },
+                    leadingIcon = {
+                        Icon(
+                            modifier = Modifier.size(25.dp),
+                            painter = painterResource(id = R.drawable.search),
+                            contentDescription = "Search Icon",
+                        )
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Gray,
+                        disabledTextColor = Color.Transparent,
+    //                    backgroundColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
                     )
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    textColor = Color.Gray,
-                    disabledTextColor = Color.Transparent,
-//                    backgroundColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent
                 )
-            )
-        }
+            }
+//        }
     }
 
 

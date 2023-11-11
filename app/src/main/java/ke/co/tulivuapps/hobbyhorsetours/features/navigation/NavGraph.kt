@@ -95,7 +95,7 @@ fun NavGraph(isOnBoarded: Boolean) {
             charactersDetailScreen { navController.navigateUp() }
             bookingsScreen(navController)
             bookNowScreen(navController)
-            episodesScreen()
+            episodesScreen(navController)
             searchScreen(navController)
             profileScreen(navController)
             settingsScreen()

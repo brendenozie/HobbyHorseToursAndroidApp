@@ -31,12 +31,13 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import ke.co.tulivuapps.hobbyhorsetours.R
+import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.HotelDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.popular.ResultPopular
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursEpisodesShimmer
-import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursPopularCard
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursText
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursTopBar
+import ke.co.tulivuapps.hobbyhorsetours.features.component.UpcomingPopularItem
 import kotlinx.coroutines.launch
 
 /**
@@ -45,7 +46,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PopularScreen(
-    viewModel: PopularViewModel
+    viewModel: PopularViewModel,
+    navigateToDetail: (HotelDto?) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val viewState = viewModel.uiState.collectAsState().value
@@ -83,7 +85,8 @@ fun PopularScreen(
             Content(
                 isLoading = viewState.isLoading,
                 data = viewState.data,
-                reload = { viewModel.getAllPopular() }
+                reload = { viewModel.getAllPopular() },
+                clickDetail = navigateToDetail
             )
         }
     )
@@ -93,6 +96,7 @@ fun PopularScreen(
 private fun Content(
     isLoading: Boolean,
     data: List<ResultPopular>?,
+    clickDetail: (HotelDto?) -> Unit,
     reload: () -> Unit?
 ) {
     Box(
@@ -112,11 +116,7 @@ private fun Content(
 
             if(data != null ){
                 items(items = data) { item ->
-                    HobbyHorseToursPopularCard(
-                        name = item.document.title.orEmpty(),
-                        date = item.count.toString(),//.orEmpty(),
-                        episode = item.document.star.orEmpty(),
-                    )
+                    UpcomingPopularItem(item= item, onClick = {clickDetail})
                 }
             }
 
@@ -170,5 +170,5 @@ private fun EmptyListAnimation(reload: () -> Unit?,) {
 )
 @Composable
 fun DetailContentItemViewPreview() {
-    PopularScreen(viewModel = hiltViewModel())
+    PopularScreen(viewModel = hiltViewModel(), navigateToDetail = {})
 }

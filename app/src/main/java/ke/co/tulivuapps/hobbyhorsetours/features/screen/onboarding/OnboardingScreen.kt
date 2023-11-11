@@ -1,14 +1,18 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.onboarding
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -18,7 +22,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -141,3 +147,23 @@ val onboardingList = listOf(
     )
 )
 
+@Composable
+fun SimpleDpStateAnimations() {
+//    SubtitleText(subtitle = "Animate DP value")
+    var enabled by remember { mutableStateOf(true) }
+    val animatedColorState = animateColorAsState(targetValue = if (enabled) MaterialTheme.colors.primary else MaterialTheme.colors.secondary,
+                                                    label = "" )
+    val animatedHeightState = animateDpAsState(targetValue = if (enabled) 40.dp else 60.dp,  label = ""  )
+    val animatedWidthState = animateDpAsState(if (enabled) 150.dp else 300.dp, label = "")
+    val buttonColors = ButtonDefaults.buttonColors( contentColor = animatedColorState.value )
+    Button(
+        onClick = { enabled = !enabled },
+        colors = buttonColors,
+        modifier = Modifier
+            .padding(16.dp)
+            .height(animatedHeightState.value)
+            .width(animatedWidthState.value),
+    ) {
+        Text("Scale & Color")
+    }
+}

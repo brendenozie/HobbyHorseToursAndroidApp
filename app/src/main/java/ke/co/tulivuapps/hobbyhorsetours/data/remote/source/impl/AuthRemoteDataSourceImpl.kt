@@ -12,9 +12,7 @@ import javax.inject.Inject
 /**
  * Created by brendenozie on 12.03.2023
  */
-class AuthRemoteDataSourceImpl @Inject constructor(
-    private val authService: AuthService,
-) :   BaseRemoteDataSource(), AuthRemoteDataSource {
+class AuthRemoteDataSourceImpl @Inject constructor(private val authService: AuthService) : BaseRemoteDataSource(), AuthRemoteDataSource {
 
     override suspend fun getLoginDetails(data:UserLoginInfoResponse): Flow<DataState<UserInfoResponse>> = getResult {
         authService.postLoginDetails(data)
@@ -23,6 +21,5 @@ class AuthRemoteDataSourceImpl @Inject constructor(
     override suspend fun getRegistrationDetails(data: UserSignupInfoResponse): Flow<DataState<UserInfoResponse>> = getResult {
         authService.postRegistrationDetails(data)
     }
-
 
 }

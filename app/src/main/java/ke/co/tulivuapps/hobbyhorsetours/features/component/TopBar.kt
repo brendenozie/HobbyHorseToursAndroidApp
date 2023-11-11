@@ -1,5 +1,9 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.component
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,6 +16,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,6 +29,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -35,73 +41,82 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ke.co.tulivuapps.hobbyhorsetours.R
+import kotlinx.coroutines.delay
 
 
 @Composable
 fun TopBar(onNavigationIconClick: () -> Unit, isSignedIn: Boolean, username: String?) {
     val showDialog = remember {  mutableStateOf(false)  }
+
+    val visibility = remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = true) {
+        delay(1000L)
+        visibility.value = true
+    }
+
     if (showDialog.value) {
         DialogBox(showDialog = showDialog.value,
             dismissDialog = { showDialog.value = false })
     }
     TopAppBar(elevation = 0.dp,modifier = Modifier.padding(top = 20.dp, start = 10.dp, end = 10.dp), title = {
-        Column {
-            Text(
-                modifier = Modifier.clickable { if(!isSignedIn) {onNavigationIconClick.invoke()} },
-                text = if(isSignedIn) "Welcome," else "Hello, Your not Signed In,",
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.Medium,
-                fontSize = 12.sp,
-                color = Color.Gray
-            )
-
-            Text(
-                modifier = Modifier.clickable { if(!isSignedIn) {onNavigationIconClick.invoke()} },
-                text =  if(isSignedIn && username != null) username else "Click to sign in" ,
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 18.sp,
-                style = TextStyle(color = if (isSystemInDarkTheme()) Color.White else Color.Black)
+        Column (modifier = Modifier
+            .width(200.dp)
+            .height(60.dp).clickable(onClick = { onNavigationIconClick.invoke() })){
+            AnimatedVisibility(
+                visibility.value,
+                enter = slideIn(
+                    tween(
+                        delayMillis = 300,
+                        easing = LinearOutSlowInEasing,
+                        durationMillis = 800
                     )
+                ) { IntOffset(0, 120) },
+            ) {
+                Text(
+                    text = if (isSignedIn) "Welcome," else "Hello, Your not Signed In,",
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+            }
+            AnimatedVisibility(
+                visibility.value,
+                enter = slideIn(
+                    tween(
+                        delayMillis = 700,
+                        easing = LinearOutSlowInEasing,
+                        durationMillis = 500
+                    )
+                ) { IntOffset(0, 120) },
+            ) {
+                Text(
+                    text = if (isSignedIn && username != null) username else "Click to sign in",
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 18.sp,
+                    style = TextStyle(color = if (isSystemInDarkTheme()) Color.White else Color.Black)
+                )
+            }
         }
     }, navigationIcon = {
         val radius = 24.dp
         val shape = RoundedCornerShape(radius)
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .defaultMinSize(minWidth = radius * 2, minHeight = radius * 2)
-                .background(
-                    color = Color.White, shape = shape
+        AnimatedVisibility(
+            visibility.value,
+            enter = slideIn(
+                tween(
+                    delayMillis = 400,
+                    easing = LinearOutSlowInEasing,
+                    durationMillis = 500
                 )
-                .border(1.dp,color = if (isSystemInDarkTheme()) Color.White else Color.Black,shape = RoundedCornerShape(24.dp))
-                .clip(shape),
+            ) { IntOffset(0, 120) },
         ) {
-            Image(
-                modifier = Modifier
-                    .size(36.dp)
-                    .clickable {
-                        showDialog.value = true
-                    },
-                painter = painterResource(id = R.drawable.refer),
-                contentDescription = ""
-            )
-        }
-
-    }, actions = {
-        BadgedBox(
-            badge = {
-                Badge(
-                    modifier = Modifier
-                        .size(10.dp), backgroundColor = Color.Red
-                )
-            },
-        ) {
-            val radius = 22.dp
-            val shape = RoundedCornerShape(radius)
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -109,22 +124,72 @@ fun TopBar(onNavigationIconClick: () -> Unit, isSignedIn: Boolean, username: Str
                     .background(
                         color = Color.White, shape = shape
                     )
-                    .border(1.dp,color = if (isSystemInDarkTheme()) Color.White else Color.Black,shape = RoundedCornerShape(22.dp))
+                    .border(
+                        1.dp,
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                        shape = RoundedCornerShape(24.dp)
+                    )
                     .clip(shape),
             ) {
-                Icon(
+                Image(
                     modifier = Modifier
-                        .size(30.dp)
+                        .size(36.dp)
                         .clickable {
                             showDialog.value = true
                         },
-                    painter = painterResource(id = R.drawable.notification),
-                    contentDescription = "",
-                    tint = Color.Black
+                    painter = painterResource(id = R.drawable.refer),
+                    contentDescription = ""
                 )
             }
         }
-
+    }, actions = {
+        AnimatedVisibility(
+            visibility.value,
+            enter = slideIn(
+                tween(
+                    delayMillis = 800,
+                    easing = LinearOutSlowInEasing,
+                    durationMillis = 500
+                )
+            ) { IntOffset(0, 120) },
+        ) {
+            BadgedBox(
+                badge = {
+                    Badge(
+                        modifier = Modifier
+                            .size(10.dp), backgroundColor = Color.Red
+                    )
+                },
+            ) {
+                val radius = 22.dp
+                val shape = RoundedCornerShape(radius)
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .defaultMinSize(minWidth = radius * 2, minHeight = radius * 2)
+                        .background(
+                            color = Color.White, shape = shape
+                        )
+                        .border(
+                            1.dp,
+                            color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                            shape = RoundedCornerShape(22.dp)
+                        )
+                        .clip(shape),
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable {
+                                showDialog.value = true
+                            },
+                        painter = painterResource(id = R.drawable.notification),
+                        contentDescription = "",
+                        tint = Color.Black
+                    )
+                }
+            }
+        }
     }, backgroundColor = Color.Transparent)
 }
 

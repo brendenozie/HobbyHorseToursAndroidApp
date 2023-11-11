@@ -6,7 +6,7 @@ import ke.co.tulivuapps.hobbyhorsetours.R
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.booking.navigation.bookingsNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.favorites.navigation.favoritesNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.homee.navigation.homeeNavigationRoute
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.popular.navigation.episodesNavigationRoute
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.popular.navigation.popularNavigationRoute
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.profile.navigation.profileNavigationRoute
 
 /**
@@ -29,7 +29,7 @@ enum class BottomNav(
         R.string.home_screen_title,
     ),
     POPULAR(
-        episodesNavigationRoute,
+        popularNavigationRoute,
         R.drawable.fire,
         R.string.popular_screen_title
     ),
