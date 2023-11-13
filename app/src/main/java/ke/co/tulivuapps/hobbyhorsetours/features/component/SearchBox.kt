@@ -28,24 +28,8 @@ import ke.co.tulivuapps.hobbyhorsetours.R
 
 
 @Composable
-fun SearchBox(detailClick: () -> Unit) {
-//    val visibility = remember { mutableStateOf(false) }
-//
-//    LaunchedEffect(key1 = true) {
-//        delay(1000L)
-//        visibility.value = true
-//    }
-
-    Row(modifier = Modifier.padding(horizontal = 8.dp).fillMaxWidth(),horizontalArrangement = Arrangement.Center ) {
-//        AnimatedVisibility(visibility.value,
-//            enter = expandIn(
-//                tween(
-//                    delayMillis = 900,
-//                    easing = LinearOutSlowInEasing,
-//                    durationMillis = 500
-//                )
-//            ) { IntSize(0,0) },
-//        ) {
+fun SearchBox(modifier: Modifier = Modifier, detailClick: () -> Unit) {
+    Row(modifier = modifier.padding(horizontal = 8.dp).fillMaxWidth(),horizontalArrangement = Arrangement.Center ) {
             TextField(modifier = Modifier
                         .fillMaxWidth()
                         .height(55.dp)
@@ -89,19 +73,17 @@ fun SearchBox(detailClick: () -> Unit) {
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = Color.Gray,
                         disabledTextColor = Color.Transparent,
-    //                    backgroundColor = Color.White,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
                         disabledIndicatorColor = Color.Transparent
                     )
                 )
             }
-//        }
     }
 
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewSearchBox() {
-    SearchBox({})
+    SearchBox{}
 }

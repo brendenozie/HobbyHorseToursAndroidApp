@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandIn
 import androidx.compose.foundation.background
@@ -33,7 +34,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -75,7 +75,6 @@ import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.HotelsViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.TravelStyleViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.features.ui.theme.Dimension
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.rememberFlowWithLifecycle
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
@@ -99,7 +98,6 @@ fun HomeeScreen(
     val homeViewState by  homeViewModel.uiState.collectAsState()
     val isLoggedIn by homeViewModel.selectedLogin.collectAsState()
     val username = homeViewModel.selectedUsername.collectAsState().value
-
 
     LaunchedEffect(homeViewModel.uiEvent) {
         launch {
@@ -149,12 +147,15 @@ private fun Content(
     navigateToHotel: (HotelDto) -> Unit?
 ) {
 
-    val searchVisibility = remember { mutableStateOf(false) }
+    val searchVisibility = remember { MutableTransitionState(true) }
+//    val searchVisibility = remember { mutableStateOf(false) }
+//
+//    LaunchedEffect(key1 = true) {
+//        delay(1000L)
+//        searchVisibility.value = true
+//    }
 
-    LaunchedEffect(key1 = true) {
-        delay(1000L)
-        searchVisibility.value = true
-    }
+    searchVisibility.apply { targetState = true }
 
     var pagingHotelItems: LazyPagingItems<HotelDto>? = null
 
@@ -181,7 +182,7 @@ private fun Content(
     }
 
     val state = rememberLazyGridState()
-    AnimatedVisibility(visible = searchVisibility.value,
+    AnimatedVisibility(visibleState = searchVisibility,
         enter = expandIn(
         tween(
             delayMillis = 1100,
@@ -191,7 +192,6 @@ private fun Content(
     ) { IntSize(0, 0) },) {
         LazyVerticalGrid(
             modifier = Modifier
-                .animateContentSize()
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background),
             columns = GridCells.Fixed(2),

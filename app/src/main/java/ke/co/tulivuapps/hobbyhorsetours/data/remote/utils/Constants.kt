@@ -5,7 +5,7 @@ package ke.co.tulivuapps.hobbyhorsetours.data.remote.utils
  */
 object Constants {
 //    const val BASE_URL = "https://HobbyHorseTours.com/api/"
-    const val BASE_URL = "http://192.168.26.118:3000/api/"
+    const val BASE_URL = "http://192.168.131.118:3000/api/"
 
     const val CLIENT_IDD = "565444776466-cr00h819jsoagvkbskcd4gf0tmg3u5es.apps.googleusercontent.com"
     const val CLIENT_ID ="565444776466-pfkomure3omqff6mhtk90vsac5vje94c.apps.googleusercontent.com"
@@ -50,7 +50,7 @@ object Constants {
     const val POST_BOOKING_LIST = "post-booking"
 
     const val AUTH_LOGIN_LIST = "login"
-    const val AUTH_REGISTRATION_LIST = "registration"
+    const val AUTH_REGISTRATION_LIST = "register"
 
     //Query Parameter
     const val PARAM_PAGE = "page"

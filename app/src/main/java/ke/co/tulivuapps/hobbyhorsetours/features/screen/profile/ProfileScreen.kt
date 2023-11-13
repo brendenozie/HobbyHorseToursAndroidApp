@@ -65,7 +65,7 @@ const val initialImageFloat = 170f
 fun ProfileScreen(profileViewModel: ProfileViewModel,login: () -> Unit?) {
     val scrollState = rememberScrollState(0);
 
-//    val isLoggedIn by profileViewModel.selectedLogin.collectAsState()
+    val isLoggedIn by profileViewModel.selectedLogin.collectAsState()
     val username = profileViewModel.selectedUsername.collectAsState().value
     val email = profileViewModel.selectedEmail.collectAsState().value
     val image = profileViewModel.selectedImg.collectAsState().value
@@ -86,7 +86,7 @@ fun ProfileScreen(profileViewModel: ProfileViewModel,login: () -> Unit?) {
                 .semantics { testTag = "Profile Screen" }
         ) {
 
-                if(username.isNotEmpty() && email.isNotEmpty() && image.isNotEmpty()) {
+                if(username.isNotEmpty() || email.isNotEmpty() || image.isNotEmpty()) {
                     TopBackground()
                     LazyColumn(
                         modifier = Modifier

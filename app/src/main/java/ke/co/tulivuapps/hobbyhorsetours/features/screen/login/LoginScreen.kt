@@ -110,7 +110,7 @@ fun LoginScreen(onBack: () -> Unit, navigateToRegister: () -> Unit, onLoginSucce
             }
             item {
                 Text(
-                    text = "We have missed you, Let's start by Sign In!",
+                    text = "You've been missed, Let's start by Sign In!",
                     fontWeight = FontWeight.Medium,
                     modifier = Modifier.padding(bottom = 12.dp)
                 )

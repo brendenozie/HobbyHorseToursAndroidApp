@@ -51,16 +51,13 @@ fun SignUpOnboarding(
     navController: NavController
 ) {
 
-    val loggedIn by signupViewModel.onSignUpCompleted.collectAsState()
+    val loggedIn by signupViewModel.selectedLogin.collectAsState()
 
-//    LaunchedEffect(key1 = true) {
-//        delay(1000L)
-//        if (loggedIn) {
-//            navController.navigate(homeNavigationRoute)
-//        }
-//    }
-
-//    val coroutineScope = rememberCoroutineScope()
+    LaunchedEffect(key1 = loggedIn) {
+        if (loggedIn) {
+            navController.popBackStack()
+        }
+    }
 
     Crossfade(targetState = loggedIn, label = "LoginCrossFadeAnimation") {
         SignUpScreen(navigateToBack = {navController.popBackStack()},
@@ -104,12 +101,6 @@ fun SignUpScreen(navigateToBack: () -> Unit,
         }
     }
 
-//    LaunchedEffect(isLoggedIn) {
-//        if (isLoggedIn) {
-//            navController.navigate(homeeNavigationRoute)
-//        }
-//    }
-
     LaunchedEffect(onSignUpViewModel.uiEvent) {
         launch {
             onSignUpViewModel.uiEvent.collect {
@@ -149,22 +140,13 @@ fun SignUpScreen(navigateToBack: () -> Unit,
         val nameInteractionState = remember { MutableInteractionSource() }
         val confirmpasswordInteractionState = remember { MutableInteractionSource() }
 
-
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
         ) {
-//            item { Spacer(modifier = Modifier.height(20.dp)) }
-//            item {
-//                Text(
-//                    text = tokl,
-//                    fontWeight = FontWeight.Thin,
-////                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.ExtraBold),
-//                    modifier = Modifier.padding(top = 8.dp)
-//                )
-//            }
+
             item { Spacer(modifier = Modifier.height(20.dp)) }
             item { LottieWorkingLoadingView() }
             item {
