@@ -4,8 +4,8 @@ package ke.co.tulivuapps.hobbyhorsetours.data.remote.utils
  * Created by brendenozie on 10.03.2023
  */
 object Constants {
-//    const val BASE_URL = "https://HobbyHorseTours.com/api/"
-    const val BASE_URL = "http://192.168.131.118:3000/api/"
+    const val BASE_URL = "https://HobbyHorseTours.com/api/"
+//    const val BASE_URL = "http://192.168.45.118:3000/api/"
 
     const val CLIENT_IDD = "565444776466-cr00h819jsoagvkbskcd4gf0tmg3u5es.apps.googleusercontent.com"
     const val CLIENT_ID ="565444776466-pfkomure3omqff6mhtk90vsac5vje94c.apps.googleusercontent.com"
@@ -35,19 +35,19 @@ object Constants {
     const val GET_DESTINATION = "get-destinations/{id}"
     const val DESTINATION_FILTER = "get-destinations/search/"
 
-    const val CITY_LIST = "get-city"
+    const val CITY_LIST = "get-city/"
     const val GET_CITY = "get-city/{id}"
     const val CITY_FILTER = "get-city/"
 
-    const val BOOKING_LIST = "get-bookings"
+    const val BOOKING_LIST = "get-bookings/"
     const val GET_BOOKING = "get-bookings/{id}"
     const val BOOKING_FILTER = "get-bookings/"
 
-    const val TRAVEL_STYLE_LIST = "get-travel-style"
+    const val TRAVEL_STYLE_LIST = "get-travel-style/"
     const val GET_TRAVEL_STYLE = "get-travel-style/{id}"
     const val TRAVEL_STYLE_FILTER = "get-travel-style/"
 
-    const val POST_BOOKING_LIST = "post-booking"
+    const val POST_BOOKING_LIST = "post-booking/"
 
     const val AUTH_LOGIN_LIST = "login"
     const val AUTH_REGISTRATION_LIST = "register"

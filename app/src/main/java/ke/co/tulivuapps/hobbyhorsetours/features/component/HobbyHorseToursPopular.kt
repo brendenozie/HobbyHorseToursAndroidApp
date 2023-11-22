@@ -69,24 +69,27 @@ fun UpcomingPopularItem(
 
             Column(
                 modifier = Modifier
+                    .background(MaterialTheme.colors.secondary.copy(alpha = 0.72f))
                     .padding(
                         start = Dimension.md,
                         bottom = Dimension.md,
                         end = Dimension.lg
                     )
+                    .fillMaxWidth()
+                    .height(50.dp)
                     .align(Alignment.BottomStart)
             ) {
                 if (item != null) {
                     Text(
                         text = item.document.title,
                         style = hobbyTypography.subtitle1,
-                        color = colorResource(id = R.color.black)
+                        color = colorResource(id = R.color.white)
                         )
                     Spacer(modifier = Modifier.height(Dimension.xs))
                     Text(
                         text = item.document.description,
                         style = hobbyTypography.subtitle2,
-                        color = colorResource(id = R.color.black)
+                        color = colorResource(id = R.color.white)
                     )
                 }
             }

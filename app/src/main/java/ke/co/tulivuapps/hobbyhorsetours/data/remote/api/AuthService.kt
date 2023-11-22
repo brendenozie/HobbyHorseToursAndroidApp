@@ -12,6 +12,7 @@ import retrofit2.http.*
  */
 
 interface AuthService {
+
     @POST(Constants.AUTH_LOGIN_LIST)
     suspend fun postLoginDetails(@Body data: UserLoginInfoResponse): Response<UserInfoResponse>
 

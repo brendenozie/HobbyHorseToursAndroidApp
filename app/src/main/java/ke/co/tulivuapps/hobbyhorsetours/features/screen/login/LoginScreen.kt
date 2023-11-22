@@ -47,11 +47,35 @@ import ke.co.tulivuapps.hobbyhorsetours.features.screen.signup.navigation.naviga
 import ke.co.tulivuapps.hobbyhorsetours.utils.LoginWithGoogle
 import kotlinx.coroutines.launch
 
+
+@SuppressLint("UnusedCrossfadeTargetStateParameter")
+@Composable
+fun LoginOnboarding(
+    loginViewModel: LoginViewModel = hiltViewModel(),
+    navController: NavController
+) {
+    val isLoggedIn by loginViewModel.selectedLogin.collectAsState()
+
+    LaunchedEffect(isLoggedIn) {
+        if (isLoggedIn) {
+            navController.popBackStack()
+            navController.navigate(homeeNavigationRoute)
+        }
+    }
+
+    Crossfade(targetState = isLoggedIn, label = "LoginCrossFadeAnimation") {
+        LoginScreen( onBack = { navController.popBackStack()},
+            onLoginSuccess = { },
+            navigateToRegister = { navController.navigateToSignUp()},
+            loginViewModel = viewModel())
+    }
+}
+
+
 @Composable
 fun LoginScreen(onBack: () -> Unit, navigateToRegister: () -> Unit, onLoginSuccess: () -> Unit,loginViewModel: LoginViewModel ) {
 
     val context = LocalContext.current
-
     val scaffoldState = rememberScaffoldState()
 
     val googleLoginLauncher = rememberLauncherForActivityResult(
@@ -300,30 +324,6 @@ fun LoginScreen(onBack: () -> Unit, navigateToRegister: () -> Unit, onLoginSucce
         }
     }
 }
-
-@SuppressLint("UnusedCrossfadeTargetStateParameter")
-@Composable
-fun LoginOnboarding(
-    loginViewModel: LoginViewModel = hiltViewModel(),
-    navController: NavController
-) {
-    val isLoggedIn by loginViewModel.selectedLogin.collectAsState()
-
-    LaunchedEffect(isLoggedIn) {
-        if (isLoggedIn) {
-            navController.popBackStack()
-            navController.navigate(homeeNavigationRoute)
-        }
-    }
-
-    Crossfade(targetState = isLoggedIn, label = "LoginCrossFadeAnimation") {
-                LoginScreen( onBack = { navController.popBackStack()},
-                    onLoginSuccess = { },
-                    navigateToRegister = { navController.navigateToSignUp()},
-                    loginViewModel = viewModel())
-        }
-    }
-
 
 fun invalidInput(email: String, password: String) =
     email.isBlank() || password.isBlank()

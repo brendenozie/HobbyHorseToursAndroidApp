@@ -71,10 +71,8 @@ class LoginViewModel @Inject constructor(
     }
 
     fun loginWithCredentials(emailAddress: String, password:String) = viewModelScope.launch() {
-
         _loading.value = true
         try {
-
             authRemoteRepository.loginWithCredentials(
                 UserLoginInfoResponse(
                     LoginRequest(

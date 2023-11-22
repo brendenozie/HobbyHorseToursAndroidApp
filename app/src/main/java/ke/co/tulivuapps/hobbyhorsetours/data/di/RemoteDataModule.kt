@@ -38,7 +38,8 @@ object RemoteDataModule {
     ): Retrofit {
         return Retrofit.Builder().baseUrl(apiUrl)
             .addConverterFactory(gsonConverterFactory)
-            .client(okHttpClient).build()
+            .client(okHttpClient)
+            .build()
     }
 
     @Provides
@@ -53,6 +54,23 @@ object RemoteDataModule {
     ): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(if (BuildConfig.DEBUG) chuckInterceptor else authInterceptor)
+            //create anonymous interceptor in the lambda and override intercept
+            // passing in Interceptor.Chain parameter
+            .addInterceptor { chain ->
+                //return response
+                chain.proceed(
+                    //create request
+                    chain.request()
+                        .newBuilder()
+                        //add headers to the request builder
+                        .also {
+                            it.addHeader("content-type", "application/json;charset=utf-8")
+                            System.getProperty("http.agent")?.let { it1 -> it.addHeader("User-Agent", it1) }
+                                it.addHeader("Host", "www.hobbyhorsetours.com")
+                        }
+                        .build()
+                )
+            }
             .addInterceptor(httpLoggingInterceptor).build()
 
     @Singleton
@@ -62,7 +80,7 @@ object RemoteDataModule {
     @Singleton
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
-        setLevel(HttpLoggingInterceptor.Level.BASIC)
+        setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
     @Singleton
@@ -73,7 +91,9 @@ object RemoteDataModule {
     ): ChuckerInterceptor =
         ChuckerInterceptor.Builder(context).collector(chuckerCollector)
             .maxContentLength(Constants.CONTENT_LENGTH)
-            .redactHeaders("Content-Type", "application/json").alwaysReadResponseBody(true).build()
+//            .redactHeaders("Content-Type", "application/json")
+//            .redactHeaders("Access-Control-Allow-Origin", "*")
+            .alwaysReadResponseBody(true).build()
 
     @Singleton
     @Provides
@@ -90,7 +110,9 @@ class AuthInterceptor @Inject constructor() : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val requestBuilder = chain.request().newBuilder()
-        requestBuilder.addHeader("Content-Type", "application/json")
+        requestBuilder.addHeader("content-type", "application/json;charset=utf-8")
+            .addHeader("User-Agent", System.getProperty("http.agent"))
+            .addHeader("Host", "www.hobbyhorsetours.com")
         return chain.proceed(requestBuilder.build())
     }
 }

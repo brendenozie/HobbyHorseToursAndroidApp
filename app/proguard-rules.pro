@@ -82,3 +82,7 @@
 -if interface * { @retrofit2.http.* public *** *(...); }
 -keep,allowoptimization,allowshrinking,allowobfuscation class <3>
 
+-keep public class com.google.firebase.** {*;}
+-keep class com.google.android.gms.internal.** {*;}
+-keepclasseswithmembers class com.google.firebase.FirebaseException
+

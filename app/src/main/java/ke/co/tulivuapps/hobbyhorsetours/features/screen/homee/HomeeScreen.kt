@@ -148,12 +148,6 @@ private fun Content(
 ) {
 
     val searchVisibility = remember { MutableTransitionState(true) }
-//    val searchVisibility = remember { mutableStateOf(false) }
-//
-//    LaunchedEffect(key1 = true) {
-//        delay(1000L)
-//        searchVisibility.value = true
-//    }
 
     searchVisibility.apply { targetState = true }
 
