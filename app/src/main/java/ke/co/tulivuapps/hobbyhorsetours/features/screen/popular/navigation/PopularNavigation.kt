@@ -27,6 +27,7 @@ fun NavController.navigateToPopular(
     this.navigate(popularNavigationRoute, navOptions)
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.episodesScreen(navController: NavHostController) {
     composable(popularNavigationRoute,
         content={

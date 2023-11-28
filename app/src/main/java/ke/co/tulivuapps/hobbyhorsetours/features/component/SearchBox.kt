@@ -25,7 +25,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,12 +44,12 @@ fun SearchBox(
     visibility: MutableTransitionState<Boolean> =MutableTransitionState(false),
     detailClick: () -> Unit) {
 
-    val animateStateVisibility = remember { MutableTransitionState(false) }
-
-    animateStateVisibility.apply { targetState = true }
+//    val animateStateVisibility = remember { MutableTransitionState(false) }
+//
+//    animateStateVisibility.apply { targetState = true }
 
     AnimatedVisibility(
-        animateStateVisibility,
+        visibility,
         enter = EnterTransition.None,
         exit = ExitTransition.None
     ) {

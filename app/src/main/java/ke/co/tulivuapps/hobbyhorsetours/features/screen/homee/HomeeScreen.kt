@@ -185,6 +185,11 @@ private fun Content(visibility: MutableTransitionState<Boolean> =MutableTransiti
         enter = EnterTransition.None,
         exit = ExitTransition.None,
         ) {
+
+        val animateStateVisibility = remember { MutableTransitionState(false) }
+
+        animateStateVisibility.apply { targetState = true }
+
         LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxSize()
@@ -219,13 +224,13 @@ private fun Content(visibility: MutableTransitionState<Boolean> =MutableTransiti
                     Spacer(modifier = Modifier.size(10.dp))
                 }
                 item(span = { GridItemSpan(maxLineSpan) }, key = null) {
-                    SearchBox(visibility =visibility) { navigateToSearch.invoke() }
+                    SearchBox(visibility =animateStateVisibility) { navigateToSearch.invoke() }
                 }
                 item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "A") {
                     Spacer(modifier = Modifier.size(10.dp))
                 }
                 item(span = { GridItemSpan(maxLineSpan) }, key = null) {
-                        SlidingBanner(visibility =visibility)
+                    SlidingBanner(visibility =visibility)
                 }
                 item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "A") {
                     Spacer(modifier = Modifier.size(10.dp))
