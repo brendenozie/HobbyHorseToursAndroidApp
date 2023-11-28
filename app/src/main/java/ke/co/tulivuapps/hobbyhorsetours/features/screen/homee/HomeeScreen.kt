@@ -2,11 +2,11 @@ package ke.co.tulivuapps.hobbyhorsetours.features.screen.homee
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -41,7 +42,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -99,6 +99,12 @@ fun HomeeScreen(
     val isLoggedIn by homeViewModel.selectedLogin.collectAsState()
     val username = homeViewModel.selectedUsername.collectAsState().value
 
+    val animateStateVisibility = remember { MutableTransitionState(false) }
+
+    animateStateVisibility.apply { targetState = true }
+
+    val state = rememberLazyGridState()
+
     LaunchedEffect(homeViewModel.uiEvent) {
         launch {
             homeViewModel.uiEvent.collect {
@@ -116,10 +122,11 @@ fun HomeeScreen(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = {
-            TopBar(onNavigationIconClick = { navigateToLogin.invoke() }, isLoggedIn, username )
+            TopBar(onNavigationIconClick = { navigateToLogin.invoke() }, isLoggedIn, visibility =animateStateVisibility ,username )
         },
         content = {
             Content(
+                visibility = animateStateVisibility,
                 homeViewState = homeViewState,
                 reload = { homeViewModel.loadcontent() },
                 navigateToSearch = navigateToSearch,
@@ -128,16 +135,19 @@ fun HomeeScreen(
                 navigateToDestinations = navigateToDestinations,
                 navigateToHotels = navigateToHotels,
                 navigateToDestination = navigateToDestination,
+                lazyGridState = state,
                 navigateToHotel = navigateToHotel)
         },
         backgroundColor = MaterialTheme.colors.background
     )
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-private fun Content(
+private fun Content(visibility: MutableTransitionState<Boolean> =MutableTransitionState(false),
     homeViewState: HomeViewState,
     reload: () -> Unit?,
+    lazyGridState: LazyGridState,
     navigateToSearch: () -> Unit?,
     navigateToCities: () -> Unit?,
     navigateToTravelStyles: () -> Unit?,
@@ -146,10 +156,6 @@ private fun Content(
     navigateToDestination: (DestinationDto) -> Unit?,
     navigateToHotel: (HotelDto) -> Unit?
 ) {
-
-    val searchVisibility = remember { MutableTransitionState(true) }
-
-    searchVisibility.apply { targetState = true }
 
     var pagingHotelItems: LazyPagingItems<HotelDto>? = null
 
@@ -175,15 +181,10 @@ private fun Content(
         pagingTravelStyleItems = rememberFlowWithLifecycle(it).collectAsLazyPagingItems()
     }
 
-    val state = rememberLazyGridState()
-    AnimatedVisibility(visibleState = searchVisibility,
-        enter = expandIn(
-        tween(
-            delayMillis = 1100,
-            easing = LinearOutSlowInEasing,
-            durationMillis = 500
-        ),expandFrom = Alignment.Center
-    ) { IntSize(0, 0) },) {
+    AnimatedVisibility(visibleState = visibility,
+        enter = EnterTransition.None,
+        exit = ExitTransition.None,
+        ) {
         LazyVerticalGrid(
             modifier = Modifier
                 .fillMaxSize()
@@ -192,8 +193,9 @@ private fun Content(
             horizontalArrangement = Arrangement.spacedBy(Dimension.zero),
             verticalArrangement = Arrangement.spacedBy(Dimension.zero),
             contentPadding = PaddingValues(horizontal = Dimension.zero),
-            state = state
+            state = lazyGridState
         ) {
+
 
             if (!homeViewState.isLoading && pagingCityItems != null && pagingCityItems?.itemCount!! == 0 &&
                 pagingDestinationItems != null && pagingDestinationItems?.itemCount!! == 0 &&
@@ -212,17 +214,18 @@ private fun Content(
                 pagingTravelStyleItems != null && pagingTravelStyleItems?.itemCount!! > 0 &&
                 pagingHotelItems != null && pagingHotelItems?.itemCount!! > 0
             ) {
+
                 item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "A") {
                     Spacer(modifier = Modifier.size(10.dp))
                 }
                 item(span = { GridItemSpan(maxLineSpan) }, key = null) {
-                        SearchBox { navigateToSearch.invoke() }
+                    SearchBox(visibility =visibility) { navigateToSearch.invoke() }
                 }
                 item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "A") {
                     Spacer(modifier = Modifier.size(10.dp))
                 }
                 item(span = { GridItemSpan(maxLineSpan) }, key = null) {
-                        SlidingBanner()
+                        SlidingBanner(visibility =visibility)
                 }
                 item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "A") {
                     Spacer(modifier = Modifier.size(10.dp))

@@ -1,6 +1,13 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.home
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -24,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -97,7 +105,7 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
         topBar = {
-            TopBar(onNavigationIconClick = {    }, isLoggedIn, username )
+            TopBar(onNavigationIconClick = {    }, isLoggedIn, username=username )
         },
         content = {
             Content(
@@ -121,6 +129,7 @@ fun HomeScreen(
     )
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun Content(
     isLoading:Boolean = false,
@@ -146,41 +155,61 @@ private fun Content(
         pagingHotelItems = rememberFlowWithLifecycle(it).collectAsLazyPagingItems()
     }
 
-
+    AnimatedVisibility(
+        true,
+        enter = slideIn(
+            tween(
+                delayMillis = 700,
+                easing = LinearOutSlowInEasing,
+                durationMillis = 500
+            )
+        ) { IntOffset(0, 120) },
+    ) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background),
-//            columns = GridCells.Fixed(2),
-//            horizontalArrangement = Arrangement.spacedBy(Dimension.zero),
-//            verticalArrangement = Arrangement.spacedBy(Dimension.zero),
-//            contentPadding = PaddingValues(horizontal = Dimension.zero),
         ) {
 
             if (isLoading) {
                 items(10) {
                     HobbyHorseToursCharacterShimmer()
                 }
-            }
-            else {
-                item{
+            } else {
+                item {
                     Spacer(modifier = Modifier.size(10.dp))
                 }
-                item{
-                    SearchBox { navigateToSearch.invoke() }
+                item {
+                    Box(modifier = Modifier.animateEnterExit(
+                                enter = slideInVertically(
+                                    animationSpec = tween(durationMillis = 5500)
+                                ),
+                                exit = slideOutVertically(
+                                    animationSpec = tween(durationMillis = 5500)
+                                )
+                            )
+                            .fillMaxWidth()
+                    ) {
+                        SearchBox { navigateToSearch.invoke() }
+                    }
                 }
-                item{
+                item {
                     Spacer(modifier = Modifier.size(10.dp))
                 }
                 item {
                     SlidingBanner()
                 }
-                item{
+                item {
                     Spacer(modifier = Modifier.size(10.dp))
                 }
                 item {
                     Row(
-                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
+                        modifier = Modifier.padding(
+                            start = 5.dp,
+                            end = 5.dp,
+                            bottom = 10.dp,
+                            top = 10.dp
+                        ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
@@ -201,18 +230,23 @@ private fun Content(
                 item {
 
                     ContentCities(isLoading = cityViewState.isLoading,
-                                    pagedData = cityViewState.pagedData,
-                                    onTriggerEvent = {
-                                        cityviewModel.onTriggerEvent(it)
-                                    },
-                                    clickDetail = {
-                                        //navigateToDestination.invoke(it)
-                                    } )
+                        pagedData = cityViewState.pagedData,
+                        onTriggerEvent = {
+                            cityviewModel.onTriggerEvent(it)
+                        },
+                        clickDetail = {
+                            //navigateToDestination.invoke(it)
+                        })
                 }
 
                 item {
                     Row(
-                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
+                        modifier = Modifier.padding(
+                            start = 5.dp,
+                            end = 5.dp,
+                            bottom = 10.dp,
+                            top = 10.dp
+                        ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
@@ -239,13 +273,18 @@ private fun Content(
                         },
                         clickDetail = {
                             //navigateToDestination.invoke(it)
-                        } )
+                        })
 
                 }
 
                 item {
                     Row(
-                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
+                        modifier = Modifier.padding(
+                            start = 5.dp,
+                            end = 5.dp,
+                            bottom = 10.dp,
+                            top = 10.dp
+                        ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
@@ -266,20 +305,25 @@ private fun Content(
 
                 item {
                     ContentDestinations(isLoading = destinationsViewState.isLoading,
-                                        pagedData = destinationsViewState.pagedData,
-                                        onTriggerEvent = {
-                                            destinationsViewModel.onTriggerEvent(it)
-                                        },
-                                        clickDetail = {
-                                            if (it != null) {
-                                                navigateToDestination.invoke(it)
-                                            }
-                                        } )
+                        pagedData = destinationsViewState.pagedData,
+                        onTriggerEvent = {
+                            destinationsViewModel.onTriggerEvent(it)
+                        },
+                        clickDetail = {
+                            if (it != null) {
+                                navigateToDestination.invoke(it)
+                            }
+                        })
                 }
 
                 item {
                     Row(
-                        modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
+                        modifier = Modifier.padding(
+                            start = 5.dp,
+                            end = 5.dp,
+                            bottom = 10.dp,
+                            top = 10.dp
+                        ),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
@@ -322,7 +366,7 @@ private fun Content(
                 }
             }
         }
-
+    }
 }
 
 @Composable

@@ -39,13 +39,13 @@ fun NavGraphBuilder.bookingsScreen(navController: NavController) {
         },
         enterTransition = {
             slideIntoContainer(
-                AnimatedContentScope.SlideDirection.Left,
+                AnimatedContentScope.SlideDirection.Right,
                 animationSpec = tween(700)
             )
         },
         popExitTransition = {
             slideOutOfContainer(
-                AnimatedContentScope.SlideDirection.Right,
+                AnimatedContentScope.SlideDirection.Left,
                 animationSpec = tween(700)
             )
         }

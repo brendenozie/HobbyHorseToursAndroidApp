@@ -1,7 +1,11 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideIn
 import androidx.compose.foundation.Image
@@ -29,7 +33,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -45,154 +48,155 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ke.co.tulivuapps.hobbyhorsetours.R
-import kotlinx.coroutines.delay
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun TopBar(onNavigationIconClick: () -> Unit, isSignedIn: Boolean, username: String?) {
-    val showDialog = remember {  mutableStateOf(false)  }
+fun TopBar(onNavigationIconClick: () -> Unit, isSignedIn: Boolean, visibility: MutableTransitionState<Boolean> = MutableTransitionState(false), username: String?) {
 
-    val visibility = remember { mutableStateOf(false) }
-
-    LaunchedEffect(key1 = true) {
-        delay(1000L)
-        visibility.value = true
-    }
+    val showDialog = remember { mutableStateOf(false) }
 
     if (showDialog.value) {
         DialogBox(showDialog = showDialog.value,
             dismissDialog = { showDialog.value = false })
     }
-    TopAppBar(elevation = 0.dp,modifier = Modifier.padding(top = 20.dp, start = 10.dp, end = 10.dp), title = {
-        Column (modifier = Modifier
-            .width(200.dp)
-            .height(60.dp).clickable(onClick = { onNavigationIconClick.invoke() })){
-            AnimatedVisibility(
-                visibility.value,
-                enter = slideIn(
-                    tween(
-                        delayMillis = 300,
-                        easing = LinearOutSlowInEasing,
-                        durationMillis = 800
-                    )
-                ) { IntOffset(0, 120) },
-            ) {
-                Text(
-                    text = if (isSignedIn) "Welcome," else "Hello, Your not Signed In,",
-                    textAlign = TextAlign.Start,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-            }
-            AnimatedVisibility(
-                visibility.value,
-                enter = slideIn(
-                    tween(
-                        delayMillis = 700,
-                        easing = LinearOutSlowInEasing,
-                        durationMillis = 500
-                    )
-                ) { IntOffset(0, 120) },
-            ) {
-                Text(
-                    text = if (isSignedIn && username != null) username else "Click to sign in",
-                    textAlign = TextAlign.Start,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp,
-                    style = TextStyle(color = if (isSystemInDarkTheme()) Color.White else Color.Black)
-                )
-            }
-        }
-    }, navigationIcon = {
-        val radius = 24.dp
-        val shape = RoundedCornerShape(radius)
-        AnimatedVisibility(
-            visibility.value,
-            enter = slideIn(
-                tween(
-                    delayMillis = 400,
-                    easing = LinearOutSlowInEasing,
-                    durationMillis = 500
-                )
-            ) { IntOffset(0, 120) },
-        ) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .defaultMinSize(minWidth = radius * 2, minHeight = radius * 2)
-                    .background(
-                        color = Color.White, shape = shape
-                    )
-                    .border(
-                        1.dp,
-                        color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                        shape = RoundedCornerShape(24.dp)
-                    )
-                    .clip(shape),
-            ) {
-                Image(
-                    modifier = Modifier
-                        .size(36.dp)
-                        .clickable {
-                            showDialog.value = true
-                        },
-                    painter = painterResource(id = R.drawable.refer),
-                    contentDescription = ""
-                )
-            }
-        }
-    }, actions = {
-        AnimatedVisibility(
-            visibility.value,
-            enter = slideIn(
-                tween(
-                    delayMillis = 800,
-                    easing = LinearOutSlowInEasing,
-                    durationMillis = 500
-                )
-            ) { IntOffset(0, 120) },
-        ) {
-            BadgedBox(
-                badge = {
-                    Badge(
-                        modifier = Modifier
-                            .size(10.dp), backgroundColor = Color.Red
-                    )
-                },
-            ) {
-                val radius = 22.dp
-                val shape = RoundedCornerShape(radius)
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .defaultMinSize(minWidth = radius * 2, minHeight = radius * 2)
-                        .background(
-                            color = Color.White, shape = shape
-                        )
-                        .border(
-                            1.dp,
-                            color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                            shape = RoundedCornerShape(22.dp)
-                        )
-                        .clip(shape),
+
+    AnimatedVisibility(visibility,
+        enter = EnterTransition.None,
+        exit = ExitTransition.None) {
+        TopAppBar(
+            elevation = 0.dp,
+            modifier = Modifier.padding(top = 20.dp, start = 10.dp, end = 10.dp),
+            title = {
+                Column(modifier = Modifier
+                    .width(200.dp)
+                    .height(60.dp)
+                    .clickable(onClick = { onNavigationIconClick.invoke() })
                 ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(30.dp)
-                            .clickable {
-                                showDialog.value = true
-                            },
-                        painter = painterResource(id = R.drawable.notification),
-                        contentDescription = "",
-                        tint = Color.Black
+                    Text(
+                        text = if (isSignedIn) "Welcome," else "Hello, Your not Signed In,",
+                        textAlign = TextAlign.Start,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 12.sp,
+                        color = Color.Gray,
+                        modifier = Modifier.animateEnterExit(
+                            enter = slideIn(
+                                tween(
+                                    delayMillis = 300,
+                                    easing = LinearOutSlowInEasing,
+                                    durationMillis = 800
+                                )
+                            ) { IntOffset(0, 120) },
+                        )
+                    )
+                    Spacer(modifier = Modifier.size(5.dp))
+                    Text(
+                        text = if (isSignedIn && username != null) username else "Click to sign in",
+                        textAlign = TextAlign.Start,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp,
+                        style = TextStyle(color = if (isSystemInDarkTheme()) Color.White else Color.Black),
+                        modifier = Modifier.animateEnterExit(
+                            enter = slideIn(
+                                tween(
+                                    delayMillis = 700,
+                                    easing = LinearOutSlowInEasing,
+                                    durationMillis = 500
+                                )
+                            ) { IntOffset(0, 120) },
+                        )
                     )
                 }
-            }
-        }
-    }, backgroundColor = Color.Transparent)
-}
+            },
+            navigationIcon = {
+                val radius = 24.dp
+                val shape = RoundedCornerShape(radius)
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .defaultMinSize(minWidth = radius * 2, minHeight = radius * 2)
+                            .background(
+                                color = Color.White, shape = shape
+                            )
+                            .border(
+                                1.dp,
+                                color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                                shape = RoundedCornerShape(24.dp)
+                            )
+                            .clip(shape)
+                            .animateEnterExit(
+                                enter = slideIn(
+                                    tween(
+                                        delayMillis = 400,
+                                        easing = LinearOutSlowInEasing,
+                                        durationMillis = 500
+                                    )
+                                ) { IntOffset(0, 120) },
+                    ),
+                    ) {
+                        Image(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clickable {
+                                    showDialog.value = true
+                                },
+                            painter = painterResource(id = R.drawable.refer),
+                            contentDescription = ""
+                        )
+                    }
+            },
+            actions = {
+                    BadgedBox(modifier=Modifier.
+                                animateEnterExit(
+                                    enter = slideIn(
+                                        tween(
+                                            delayMillis = 400,
+                                            easing = LinearOutSlowInEasing,
+                                            durationMillis = 500
+                                        )
+                                    ) { IntOffset(0, 120) },
+                                ),
+                        badge = {
+                            Badge(
+                                modifier = Modifier
+                                    .size(10.dp), backgroundColor = Color.Red
+                            )
+                        },
+                    ) {
+                        val radius = 22.dp
+                        val shape = RoundedCornerShape(radius)
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier
+                                .defaultMinSize(minWidth = radius * 2, minHeight = radius * 2)
+                                .background(
+                                    color = Color.White, shape = shape
+                                )
+                                .border(
+                                    1.dp,
+                                    color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                                    shape = RoundedCornerShape(22.dp)
+                                )
+                                .clip(shape),
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(30.dp)
+                                    .clickable {
+                                        showDialog.value = true
+                                    },
+                                painter = painterResource(id = R.drawable.notification),
+                                contentDescription = "",
+                                tint = Color.Black
+                            )
+                        }
+                }
+            },
+            backgroundColor = Color.Transparent
+        )
+    }
 
+}
 
 @Composable
 fun DialogBox(
@@ -239,5 +243,5 @@ fun DialogBox(
 @Preview(showBackground = true)
 @Composable
 fun PreviewHeaderItem() {
-    TopBar(onNavigationIconClick = {},false, "")
+    TopBar(onNavigationIconClick = {}, isSignedIn = false, username = "")
 }
