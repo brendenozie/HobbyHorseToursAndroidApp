@@ -11,6 +11,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import com.google.accompanist.navigation.animation.composable
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.bookingdetail.DetailScreen
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.booknow.navigation.navigateToBookNow
+import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 
 /**
  * Created by brendenozie on 23.01.2023
@@ -25,14 +27,14 @@ fun NavController.navigateBookingDetail(
     this.navigate(bookingDetailNavigationRoute.plus("?bookingDetail=${bookingDetail}"), navOptions)
 }
 
-fun NavGraphBuilder.bookingDetailScreen(navigateToBack: () -> Unit,navigateToBookNow: () -> Unit,navController: NavController) {
+fun NavGraphBuilder.bookingDetailScreen(navController: NavController) {
     composable(
         bookingDetailNavigationRoute.plus("?bookingDetail={bookingDetail}"),
         content = {
             DetailScreen(
                 viewModel = hiltViewModel(),
-                navigateToBack = navigateToBack,
-                navigateToBookNow = navigateToBookNow,
+                navigateToBack = {navController.navigateUp()},
+                navigateToBookNow = {navController.navigateToBookNow(it.toJson())},
                 navController = navController
             )
         },

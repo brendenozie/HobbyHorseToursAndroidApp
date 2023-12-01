@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.IconButton
@@ -134,7 +132,7 @@ private fun CharacterImage(data: ResultBooking?) {
         modifier = Modifier
             .width(350.dp)
             .height(400.dp)
-            .padding(top = 20.dp),
+            .padding(top = 10.dp),
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(
             1.dp,
@@ -156,12 +154,12 @@ private fun CharacterInfoContainer(data: ResultBooking?) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 20.dp),
+            .padding(horizontal = 10.dp, vertical = 10.dp),
         shape = RoundedCornerShape(8.dp),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(20.dp)
+            modifier = Modifier.padding(10.dp)
         ) {
             CharacterInfoRow(
                 modifier = Modifier.fillMaxWidth(),
@@ -360,8 +358,26 @@ private fun DetailScreenContent(
             modifier = Modifier.padding(horizontal = 12.dp)
         )}
         Spacer(modifier = Modifier.size(16.dp))
+        viewState.data?.startDate?.let {Text(
+            text = "Check In:$it",
+            style = MaterialTheme.typography.body2,
+            modifier = Modifier.padding(horizontal = 12.dp)
+        )}
+        Spacer(modifier = Modifier.size(8.dp))
+        viewState.data?.endDate?.let {Text(
+            text = "Check Out:$it",
+            style = MaterialTheme.typography.body2,
+            modifier = Modifier.padding(horizontal = 12.dp)
+        )}
+//        Spacer(modifier = Modifier.size(16.dp))
+//        viewState.data?.?.let {Text(
+//            text = "Check Out:$it",
+//            style = MaterialTheme.typography.body2,
+//            modifier = Modifier.padding(horizontal = 12.dp)
+//        )}
+        Spacer(modifier = Modifier.size(16.dp))
         //viewState.data?.let { it.img?.let { it1 -> MoreImages(it1) } }
-        Spacer(modifier = Modifier.weight(1F))
+//        Spacer(modifier = Modifier.size(16.dp))
         Row(Modifier.fillMaxWidth()) {
             Column {
                 Text(text = "Total Price", style = MaterialTheme.typography.h6)
@@ -371,15 +387,15 @@ private fun DetailScreenContent(
                     viewState.data?.price?.let { Text(text = it, style = MaterialTheme.typography.subtitle2) }
                 }
             }
-            Spacer(modifier = Modifier.weight(1F))
-            Button(
-                onClick = { navigateToBookNow.invoke()},
-                modifier = Modifier.padding(bottom = 56.dp).size(170.dp, 56.dp),
-                shape = RoundedCornerShape(72.dp),
-                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.background)
-            ) {
-                Text(text = "Book Now", style = MaterialTheme.typography.button)
-            }
+            Spacer(modifier = Modifier.size(16.dp))
+//            Button(
+//                onClick = { navigateToBookNow.invoke()},
+//                modifier = Modifier.padding(bottom = 56.dp).size(170.dp, 56.dp),
+//                shape = RoundedCornerShape(72.dp),
+//                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.background)
+//            ) {
+//                Text(text = "Book Now", style = MaterialTheme.typography.button)
+//            }
         }
     }
 }

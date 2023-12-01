@@ -18,7 +18,6 @@ import ke.co.tulivuapps.hobbyhorsetours.features.screen.homee.HomeeScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.navigation.navigateHotelsDetail
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.navigation.navigateToHotels
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.login.navigation.navigateToLogin
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.search.navigation.navigateToSearch
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.navigation.navigateToTravelStyle
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 
@@ -42,7 +41,7 @@ fun NavGraphBuilder.homeesScreen(navController: NavHostController) {
                     HomeeScreen(
                         homeViewModel = hiltViewModel(),
                         navigateToLogin = {navController.navigateToLogin()},
-                        navigateToSearch = {navController.navigateToSearch()},
+                        navigateToSearch = navController,
                         navigateToCities =  {navController.navigateToCities()},
                         navigateToTravelStyles= {navController.navigateToTravelStyle()},
                         navigateToDestinations= {navController.navigateToDestinations()},

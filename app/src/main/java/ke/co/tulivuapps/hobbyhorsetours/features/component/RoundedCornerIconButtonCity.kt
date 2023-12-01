@@ -1,5 +1,8 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.component
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,10 +19,14 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -33,7 +40,7 @@ import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.CityDto
 
 
 @Composable
-fun RoundedCornerIconButtonCity(modifier: Modifier, icon: CityDto) {
+fun RoundedCornerIconButtonCity(icon: CityDto, navigateToSearchCity: (CityDto?) -> Unit) {
     val painter = rememberAsyncImagePainter(
         ImageRequest.Builder(LocalContext.current).data(data = icon.url).apply(block = fun ImageRequest.Builder.() {
             crossfade(false)
@@ -42,13 +49,32 @@ fun RoundedCornerIconButtonCity(modifier: Modifier, icon: CityDto) {
             fallback(R.drawable.coffee)
         }).build()
     )
+
+    //animate slide up
+    val animatedProgress = remember { Animatable(initialValue = 300f) }
+    val opacityProgress = remember { Animatable(initialValue = 0f) }
+    LaunchedEffect(Unit) {
+        animatedProgress.animateTo(
+            targetValue = 0f,
+            animationSpec = tween(300, easing = LinearEasing)
+        )
+        opacityProgress.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(600)
+        )
+    }
+
+    val animatedModifier = Modifier
+        .graphicsLayer(translationY = animatedProgress.value)
+        .alpha(opacityProgress.value)
+
     Box(
-        modifier = modifier
+        modifier = animatedModifier
             .background(color = Color(R.color.light_gray),
                 shape = RoundedCornerShape(10.dp))
     ) {
         IconButton(
-            onClick = { },
+            onClick = { navigateToSearchCity.invoke(icon)},
             modifier = Modifier
                 .align(Alignment.Center)
 

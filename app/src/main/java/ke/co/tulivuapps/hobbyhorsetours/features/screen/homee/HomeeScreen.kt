@@ -6,7 +6,10 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,16 +41,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import androidx.paging.compose.itemsIndexed
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -59,12 +66,12 @@ import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.DestinationDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.HotelDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.TravelStyleDto
 import ke.co.tulivuapps.hobbyhorsetours.domain.viewstate.home.HomeViewState
+import ke.co.tulivuapps.hobbyhorsetours.features.component.CitiesItem
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursDestinationsCard
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursEpisodesShimmer
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursHotelsCard
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursText
-import ke.co.tulivuapps.hobbyhorsetours.features.component.RoundedCornerIconButtonCity
 import ke.co.tulivuapps.hobbyhorsetours.features.component.RoundedCornerIconButtonTravelStyle
 import ke.co.tulivuapps.hobbyhorsetours.features.component.SearchBox
 import ke.co.tulivuapps.hobbyhorsetours.features.component.SlidingBanner
@@ -72,9 +79,11 @@ import ke.co.tulivuapps.hobbyhorsetours.features.component.TopBar
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.cities.CityViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinations.DestinationsViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.HotelsViewEvent
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.search.navigation.navigateToSearch
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.TravelStyleViewEvent
 import ke.co.tulivuapps.hobbyhorsetours.features.ui.theme.Dimension
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.rememberFlowWithLifecycle
+import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 import kotlinx.coroutines.launch
 
 /**
@@ -85,7 +94,7 @@ import kotlinx.coroutines.launch
 fun HomeeScreen(
     homeViewModel: HomeeViewModel,
     navigateToLogin: () -> Unit?,
-    navigateToSearch: () -> Unit?,
+    navigateToSearch: NavController?,
     navigateToCities: () -> Unit?,
     navigateToTravelStyles: () -> Unit?,
     navigateToDestinations: () -> Unit?,
@@ -125,18 +134,20 @@ fun HomeeScreen(
             TopBar(onNavigationIconClick = { navigateToLogin.invoke() }, isLoggedIn, visibility =animateStateVisibility ,username )
         },
         content = {
-            Content(
-                visibility = animateStateVisibility,
-                homeViewState = homeViewState,
-                reload = { homeViewModel.loadcontent() },
-                navigateToSearch = navigateToSearch,
-                navigateToCities = navigateToCities,
-                navigateToTravelStyles = navigateToTravelStyles,
-                navigateToDestinations = navigateToDestinations,
-                navigateToHotels = navigateToHotels,
-                navigateToDestination = navigateToDestination,
-                lazyGridState = state,
-                navigateToHotel = navigateToHotel)
+            if (navigateToSearch != null) {
+                Content(
+                    visibility = animateStateVisibility,
+                    homeViewState = homeViewState,
+                    reload = { homeViewModel.loadcontent() },
+                    navigateToSearch = navigateToSearch,
+                    navigateToCities = navigateToCities,
+                    navigateToTravelStyles = navigateToTravelStyles,
+                    navigateToDestinations = navigateToDestinations,
+                    navigateToHotels = navigateToHotels,
+                    navigateToDestination = navigateToDestination,
+                    lazyGridState = state,
+                    navigateToHotel = navigateToHotel)
+            }
         },
         backgroundColor = MaterialTheme.colors.background
     )
@@ -148,7 +159,7 @@ private fun Content(visibility: MutableTransitionState<Boolean> =MutableTransiti
     homeViewState: HomeViewState,
     reload: () -> Unit?,
     lazyGridState: LazyGridState,
-    navigateToSearch: () -> Unit?,
+    navigateToSearch: NavController,
     navigateToCities: () -> Unit?,
     navigateToTravelStyles: () -> Unit?,
     navigateToDestinations: () -> Unit?,
@@ -190,8 +201,26 @@ private fun Content(visibility: MutableTransitionState<Boolean> =MutableTransiti
 
         animateStateVisibility.apply { targetState = true }
 
+        //animate slide up
+        val animatedProgress = remember { Animatable(initialValue = 300f) }
+        val opacityProgress = remember { Animatable(initialValue = 0f) }
+        LaunchedEffect(Unit) {
+            animatedProgress.animateTo(
+                targetValue = 0f,
+                animationSpec = tween(delayMillis = 700,durationMillis = 300, easing = LinearEasing)
+            )
+            opacityProgress.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(delayMillis = 700, durationMillis = 600)
+            )
+        }
+
+        val animatedModifier = Modifier
+            .graphicsLayer(translationY = animatedProgress.value)
+            .alpha(opacityProgress.value)
+
         LazyVerticalGrid(
-            modifier = Modifier
+            modifier = animatedModifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background),
             columns = GridCells.Fixed(2),
@@ -224,13 +253,13 @@ private fun Content(visibility: MutableTransitionState<Boolean> =MutableTransiti
                     Spacer(modifier = Modifier.size(10.dp))
                 }
                 item(span = { GridItemSpan(maxLineSpan) }, key = null) {
-                    SearchBox(visibility =animateStateVisibility) { navigateToSearch.invoke() }
+                    SearchBox(visibility =animateStateVisibility) { navigateToSearch.navigateToSearch("","") }
                 }
                 item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "A") {
                     Spacer(modifier = Modifier.size(10.dp))
                 }
                 item(span = { GridItemSpan(maxLineSpan) }, key = null) {
-                    SlidingBanner(visibility =visibility)
+                    SlidingBanner(visibility =animateStateVisibility)
                 }
                 item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "A") {
                     Spacer(modifier = Modifier.size(10.dp))
@@ -239,11 +268,11 @@ private fun Content(visibility: MutableTransitionState<Boolean> =MutableTransiti
                 contentCities(isLoading = homeViewState.isLoading,
                     pagingItems = pagingCityItems,
                     onTriggerEvent = {
-                        //cityviewModel.onTriggerEvent(it)
+
                     },
                     navigateToCities = { navigateToCities.invoke() },
                     clickDetail = {
-                        //navigatetoc.invoke(it)
+                        navigateToSearch.navigateToSearch("",it.toJson())
                     }
                 )
 
@@ -254,7 +283,7 @@ private fun Content(visibility: MutableTransitionState<Boolean> =MutableTransiti
                     },
                     navigateToTravelStyles = { navigateToTravelStyles.invoke() },
                     clickDetail = {
-                        navigateToTravelStyles.invoke()
+                        navigateToSearch.navigateToSearch(it.toJson(),"")
                     }
                 )
 
@@ -301,53 +330,105 @@ private fun LazyGridScope.contentCities(
     navigateToCities: () -> Unit,
     clickDetail: (CityDto?) -> Unit
 ) {
-    item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "F") {
-        Row(
-            modifier = Modifier.padding(
-                start = 5.dp,
-                end = 5.dp,
-                bottom = 10.dp,
-                top = 10.dp
-            ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Cities",
-                modifier = Modifier.weight(1f),
-                style = MaterialTheme.typography.h2,
-                textAlign = TextAlign.Start,
-                fontSize = 20.sp
-            )
-            Text(
-                modifier = Modifier
-                    .clickable(onClick = { navigateToCities.invoke() }),
-                text = "View All",
-                style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
-            )
-        }
-    }
-    item(span = { GridItemSpan(maxLineSpan) }, key = null) {
-        if (!isLoading && pagingItems != null) {
-            val state = rememberLazyListState()
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                contentPadding = PaddingValues(5.dp),
-                horizontalArrangement = Arrangement.spacedBy(5.dp),
-                state = state
-            ) {
 
-                items(items = pagingItems, key = null) { item ->
+    item(span = { GridItemSpan(maxLineSpan) }, key = null){
+        LazyRow(
+            modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(horizontal = 8.dp)
+        ) {
+            if (!isLoading && pagingItems != null) {
+            itemsIndexed(
+                items = pagingItems,
+                itemContent = { index, item ->
                     if (item != null) {
-                        RoundedCornerIconButtonCity(
-                            modifier = Modifier,
-                            item
-                        )
+                        CitiesItem(item=item,  onClick = { clickDetail.invoke(item) } )
                     }
-                }
+            })
             }
         }
     }
+
+//    item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "F") {
+//        //animate slide up
+//        val animatedProgress = remember { Animatable(initialValue = 300f) }
+//        val opacityProgress = remember { Animatable(initialValue = 0f) }
+//        LaunchedEffect(Unit) {
+//            animatedProgress.animateTo(
+//                targetValue = 0f,
+//                animationSpec = tween(300, easing = LinearEasing)
+//            )
+//            opacityProgress.animateTo(
+//                targetValue = 1f,
+//                animationSpec = tween(600)
+//            )
+//        }
+//
+//        val animatedModifier = Modifier
+//            .graphicsLayer(translationY = animatedProgress.value)
+//            .alpha(opacityProgress.value)
+//        Row(
+//            modifier = animatedModifier.padding(
+//                start = 5.dp,
+//                end = 5.dp,
+//                bottom = 10.dp,
+//                top = 10.dp
+//            ),
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            Text(
+//                text = "Cities",
+//                modifier = Modifier.weight(1f),
+//                style = MaterialTheme.typography.h2,
+//                textAlign = TextAlign.Start,
+//                fontSize = 20.sp
+//            )
+//            Text(
+//                modifier = Modifier
+//                    .clickable(onClick = { navigateToCities.invoke() }),
+//                text = "View All",
+//                style = MaterialTheme.typography.subtitle2.copy(color = Color.Gray)
+//            )
+//        }
+//    }
+//    item(span = { GridItemSpan(maxLineSpan) }, key = null) {
+//
+//        if (!isLoading && pagingItems != null) {
+//            //animate slide up
+//            val animatedProgress = remember { Animatable(initialValue = 300f) }
+//            val opacityProgress = remember { Animatable(initialValue = 0f) }
+//            LaunchedEffect(Unit) {
+//                animatedProgress.animateTo(
+//                    targetValue = 0f,
+//                    animationSpec = tween(300, easing = LinearEasing)
+//                )
+//                opacityProgress.animateTo(
+//                    targetValue = 1f,
+//                    animationSpec = tween(600)
+//                )
+//            }
+//
+//            val animatedModifier = Modifier
+//                .graphicsLayer(translationY = animatedProgress.value)
+//                .alpha(opacityProgress.value)
+//
+//            val state = rememberLazyListState()
+//            LazyRow(
+//                modifier = animatedModifier.fillMaxWidth(),
+//                contentPadding = PaddingValues(5.dp),
+//                horizontalArrangement = Arrangement.spacedBy(5.dp),
+//                state = state
+//            ) {
+//                itemsIndexed(
+//                    items = pagingItems,
+//                    itemContent = { index, item ->
+//                    if (item != null) {
+//                        RoundedCornerIconButtonCity(item,clickDetail)
+//                    }
+//                })
+//            }
+//        }
+//    }
 }
 
 private fun LazyGridScope.contentTravelStyle(
@@ -359,8 +440,25 @@ private fun LazyGridScope.contentTravelStyle(
 ) {
 
     item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "F") {
+        //animate slide up
+        val animatedProgress = remember { Animatable(initialValue = 300f) }
+        val opacityProgress = remember { Animatable(initialValue = 0f) }
+        LaunchedEffect(Unit) {
+            animatedProgress.animateTo(
+                targetValue = 0f,
+                animationSpec = tween(300, easing = LinearEasing)
+            )
+            opacityProgress.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(600)
+            )
+        }
+
+        val animatedModifier = Modifier
+            .graphicsLayer(translationY = animatedProgress.value)
+            .alpha(opacityProgress.value)
             Row(
-                Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
+                animatedModifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -380,10 +478,26 @@ private fun LazyGridScope.contentTravelStyle(
         }
 
     item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "J") {
-
         if (!isLoading && pagingItems != null) {
+            //animate slide up
+            val animatedProgress = remember { Animatable(initialValue = 300f) }
+            val opacityProgress = remember { Animatable(initialValue = 0f) }
+            LaunchedEffect(Unit) {
+                animatedProgress.animateTo(
+                    targetValue = 0f,
+                    animationSpec = tween(300, easing = LinearEasing)
+                )
+                opacityProgress.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(600)
+                )
+            }
+
+            val animatedModifier = Modifier
+                .graphicsLayer(translationY = animatedProgress.value)
+                .alpha(opacityProgress.value)
             val state = rememberLazyListState()
-            LazyRow( modifier = Modifier
+            LazyRow( modifier = animatedModifier
                 .fillMaxWidth(),
                 contentPadding = PaddingValues(5.dp),
                 horizontalArrangement= Arrangement.spacedBy(5.dp),
@@ -392,8 +506,9 @@ private fun LazyGridScope.contentTravelStyle(
                 items(items = pagingItems, key = null) { item ->
                     if (item != null) {
                             RoundedCornerIconButtonTravelStyle(
-                                modifier = Modifier,
-                                item
+                                modifier = animatedModifier,
+                                icon =item,
+                                navigateToSearchTravelStyle =clickDetail
                             )
                     }
                 }
@@ -410,8 +525,26 @@ private fun LazyGridScope.contentDestinations(
     clickDetail: (DestinationDto?) -> Unit
 ) {
     item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "F") {
+        //animate slide up
+        val animatedProgress = remember { Animatable(initialValue = 300f) }
+        val opacityProgress = remember { Animatable(initialValue = 0f) }
+        LaunchedEffect(Unit) {
+            animatedProgress.animateTo(
+                targetValue = 0f,
+                animationSpec = tween(300, easing = LinearEasing)
+            )
+            opacityProgress.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(600)
+            )
+        }
+        val animatedModifier = Modifier
+            .graphicsLayer(translationY = animatedProgress.value)
+            .alpha(opacityProgress.value)
             Row(
-                modifier = Modifier.animateContentSize().padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
+                modifier = animatedModifier
+                    .animateContentSize()
+                    .padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -432,9 +565,26 @@ private fun LazyGridScope.contentDestinations(
 
     item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "G") {
         if (!isLoading && pagingItems != null) {
+            //animate slide up
+            val animatedProgress = remember { Animatable(initialValue = 300f) }
+            val opacityProgress = remember { Animatable(initialValue = 0f) }
+            LaunchedEffect(Unit) {
+                animatedProgress.animateTo(
+                    targetValue = 0f,
+                    animationSpec = tween(300, easing = LinearEasing)
+                )
+                opacityProgress.animateTo(
+                    targetValue = 1f,
+                    animationSpec = tween(600)
+                )
+            }
+
+            val animatedModifier = Modifier
+                .graphicsLayer(translationY = animatedProgress.value)
+                .alpha(opacityProgress.value)
             val state = rememberLazyListState()
             LazyRow(
-                modifier = Modifier
+                modifier = animatedModifier
                     .fillMaxWidth(),
                 contentPadding = PaddingValues(5.dp),
                 horizontalArrangement= Arrangement.spacedBy(5.dp),
@@ -442,6 +592,7 @@ private fun LazyGridScope.contentDestinations(
             ) {
                 items(items = pagingItems, key = null) { item ->
                         HobbyHorseToursDestinationsCard(
+                            modifier= animatedModifier,
                             status = Status.Alive,
                             detailClick = {
                                 clickDetail.invoke(item)
@@ -469,8 +620,26 @@ private fun LazyGridScope.contentHotels(
     clickDetail: (HotelDto?) -> Unit
 ) {
     item(span = { GridItemSpan(maxLineSpan) }, key = null, contentType = "F") {
+        //animate slide up
+        val animatedProgress = remember { Animatable(initialValue = 300f) }
+        val opacityProgress = remember { Animatable(initialValue = 0f) }
+        LaunchedEffect(Unit) {
+            animatedProgress.animateTo(
+                targetValue = 0f,
+                animationSpec = tween(300, easing = LinearEasing)
+            )
+            opacityProgress.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(600)
+            )
+        }
+
+        val animatedModifier = Modifier
+            .graphicsLayer(translationY = animatedProgress.value)
+            .alpha(opacityProgress.value)
+
             Row(
-                modifier = Modifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
+                modifier = animatedModifier.padding(start = 5.dp, end = 5.dp, bottom = 10.dp, top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -489,9 +658,30 @@ private fun LazyGridScope.contentHotels(
         }
 
     if (!isLoading && pagingItems != null){
+
         pagingItems.let { item ->
+
             items(item.itemCount, key = null, contentType = {1}) {
+                //animate slide up
+                val animatedProgress = remember { Animatable(initialValue = 300f) }
+                val opacityProgress = remember { Animatable(initialValue = 0f) }
+                LaunchedEffect(Unit) {
+                    animatedProgress.animateTo(
+                        targetValue = 0f,
+                        animationSpec = tween(300, easing = LinearEasing)
+                    )
+                    opacityProgress.animateTo(
+                        targetValue = 1f,
+                        animationSpec = tween(600)
+                    )
+                }
+
+                val animatedModifier = Modifier
+                    .graphicsLayer(translationY = animatedProgress.value)
+                    .alpha(opacityProgress.value)
+
                     HobbyHorseToursHotelsCard(
+                        modifier =animatedModifier,
                         status = Status.Alive,
                         detailClick = {
                             clickDetail.invoke(item[it])
@@ -556,7 +746,7 @@ fun DetailContentItemViewPreview() {
     HomeeScreen(
         homeViewModel = hiltViewModel(),
         navigateToLogin = {},
-        navigateToSearch = {},
+        navigateToSearch = null,
         navigateToCities = {},
         navigateToTravelStyles = {},
         navigateToDestinations = {},

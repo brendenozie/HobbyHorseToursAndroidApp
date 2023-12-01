@@ -43,7 +43,7 @@ fun HobbyHorseToursHotelsCard(
     Card(
         shape = RoundedCornerShape(14.dp),
         backgroundColor = Color.White,
-        modifier = Modifier
+        modifier = modifier
             .padding(5.dp)
             .width(250.dp)
             .height(180.dp)

@@ -492,8 +492,7 @@ private fun ContentCities(
                         items(items = pagingItems!!, key = { item -> item.id as Any }) { item ->
                             if (item != null) {
                                 RoundedCornerIconButtonCity(
-                                    modifier = Modifier,
-                                    item
+                                    item, navigateToSearchCity = {}
                                 )
                             }
                             Spacer(modifier = Modifier.size(10.dp))
@@ -535,7 +534,7 @@ private fun ContentTravelStyle(
                             if (item != null) {
                                 RoundedCornerIconButtonTravelStyle(
                                     modifier = Modifier,
-                                    item
+                                    item, navigateToSearchTravelStyle = {}
                                 )
 
                                 Spacer(modifier = Modifier.size(10.dp))

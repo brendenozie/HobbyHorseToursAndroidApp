@@ -54,6 +54,10 @@ import ke.co.tulivuapps.hobbyhorsetours.R
 @Composable
 fun TopBar(onNavigationIconClick: () -> Unit, isSignedIn: Boolean, visibility: MutableTransitionState<Boolean> = MutableTransitionState(false), username: String?) {
 
+
+    val radius = 24.dp
+    val shape = RoundedCornerShape(radius)
+
     val showDialog = remember { mutableStateOf(false) }
 
     if (showDialog.value) {
@@ -109,21 +113,10 @@ fun TopBar(onNavigationIconClick: () -> Unit, isSignedIn: Boolean, visibility: M
                 }
             },
             navigationIcon = {
-                val radius = 24.dp
-                val shape = RoundedCornerShape(radius)
                     Box(
                         contentAlignment = Alignment.Center,
                         modifier = Modifier
                             .defaultMinSize(minWidth = radius * 2, minHeight = radius * 2)
-                            .background(
-                                color = Color.White, shape = shape
-                            )
-                            .border(
-                                1.dp,
-                                color = if (isSystemInDarkTheme()) Color.White else Color.Black,
-                                shape = RoundedCornerShape(24.dp)
-                            )
-                            .clip(shape)
                             .animateEnterExit(
                                 enter = slideIn(
                                     tween(
@@ -132,7 +125,16 @@ fun TopBar(onNavigationIconClick: () -> Unit, isSignedIn: Boolean, visibility: M
                                         durationMillis = 500
                                     )
                                 ) { IntOffset(0, 120) },
-                    ),
+                            )
+                            .background(
+                                color = Color.White, shape = shape
+                            )
+                            .clip(shape)
+                            .border(
+                                1.dp,
+                                color = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                                shape = RoundedCornerShape(24.dp)
+                            ),
                     ) {
                         Image(
                             modifier = Modifier

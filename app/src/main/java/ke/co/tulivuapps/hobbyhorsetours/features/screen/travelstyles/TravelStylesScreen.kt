@@ -22,17 +22,19 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import ke.co.tulivuapps.hobbyhorsetours.R
-import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.CharacterDto
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.TravelStyleDto
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursCharacterShimmer
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursTopBar
 import ke.co.tulivuapps.hobbyhorsetours.features.component.RoundedCornerIconButtonTravelStyle
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.search.navigation.navigateToSearch
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.rememberFlowWithLifecycle
+import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -42,6 +44,8 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 fun TravelStylesScreen(
     viewModel: TravelStyleViewModel,
+    navigateToSearch: NavController?,
+    navigateToBack: () -> Unit,
     navigateToDetail: (TravelStyleDto?) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -56,7 +60,7 @@ fun TravelStylesScreen(
                 elevation = 10.dp,
                 navigationIcon = {
                     IconButton(onClick = {
-                        //navigateToBack()
+                        navigateToBack.invoke()
                     }) {
                         Image(
                             imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_left),
@@ -74,7 +78,7 @@ fun TravelStylesScreen(
                   viewModel.onTriggerEvent(it)
                 },
                 clickDetail = {
-                    //navigateToDetail.invoke(it)
+                    navigateToSearch?.navigateToSearch(it.toJson(),"")
                 }
             )
         },
@@ -87,7 +91,7 @@ private fun Content(
     isLoading :Boolean = false,
     pagedData: Flow<PagingData<TravelStyleDto>>? = null,
     onTriggerEvent: (TravelStyleViewEvent) -> Unit,
-    clickDetail: (CharacterDto?) -> Unit
+    clickDetail: (TravelStyleDto?) -> Unit
 ) {
     var pagingItems: LazyPagingItems<TravelStyleDto>? = null
     pagedData?.let {
@@ -99,10 +103,6 @@ private fun Content(
             .fillMaxSize()
             .padding(horizontal = 15.dp),
     ) {
-//        LazyColumn(
-//            contentPadding = PaddingValues(vertical = 10.dp),
-//            verticalArrangement = Arrangement.spacedBy(10.dp)
-//        ) {
             if (isLoading) {
                 LazyColumn(
                     contentPadding = PaddingValues(vertical = 10.dp),
@@ -125,21 +125,13 @@ private fun Content(
                             Box(Modifier.padding(2.dp)) {
                                 RoundedCornerIconButtonTravelStyle(
                                     modifier = Modifier,
-                                    it
+                                    it,
+                                    navigateToSearchTravelStyle = clickDetail
                                 )
                             }
                         }
                     }
                 }
-//                items(items = pagingItems!!) { item ->
-//                    if (item != null) {
-//                        RoundedCornerIconButtonTravelStyle(
-//                            modifier = Modifier,
-//                            item
-//                        )
-//                    }
-//                }
-//            }
         }
     }
 }
@@ -155,5 +147,5 @@ private fun Content(
 )
 @Composable
 fun DetailContentItemViewPreview() {
-    TravelStylesScreen(viewModel = hiltViewModel(), navigateToDetail = {})
+    TravelStylesScreen(viewModel = hiltViewModel(),navigateToSearch = null, navigateToBack = {}, navigateToDetail = {})
 }

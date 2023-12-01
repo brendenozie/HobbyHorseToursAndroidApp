@@ -17,6 +17,7 @@ import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursBottom
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursFloatingActionBar
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffold
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.booking.navigation.bookingsScreen
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.bookingdetail.navigation.bookingDetailScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.booknow.navigation.bookNowScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.charactersdetail.navigation.charactersDetailScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.charactersdetail.navigation.navigateCharactersDetail
@@ -95,6 +96,7 @@ fun NavGraph(isOnBoarded: Boolean) {
             charactersDetailScreen { navController.navigateUp() }
             bookingsScreen(navController)
             bookNowScreen(navController)
+            bookingDetailScreen(navController)
             episodesScreen(navController)
             searchScreen(navController)
             profileScreen(navController)

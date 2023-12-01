@@ -27,7 +27,7 @@ fun NavController.navigateToTravelStyle(
 
 fun NavGraphBuilder.travelStylesScreen(navController: NavHostController) {
     composable(travelStyleNavigationRoute,content= {
-        TravelStylesScreen(viewModel = hiltViewModel(), navigateToDetail = {})
+        TravelStylesScreen(viewModel = hiltViewModel(),navigateToSearch = navController, navigateToBack = {navController.navigateUp()}, navigateToDetail = {})
     },
         enterTransition = {
             slideIntoContainer(

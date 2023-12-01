@@ -33,7 +33,7 @@ import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.TravelStyleDto
 
 
 @Composable
-fun RoundedCornerIconButtonTravelStyle(modifier: Modifier, icon: TravelStyleDto) {
+fun RoundedCornerIconButtonTravelStyle(modifier: Modifier, icon: TravelStyleDto, navigateToSearchTravelStyle: (TravelStyleDto?) -> Unit) {
     val painter = rememberAsyncImagePainter(
         ImageRequest.Builder(LocalContext.current).data(data = icon.url).apply(block = fun ImageRequest.Builder.() {
             crossfade(false)
@@ -48,11 +48,11 @@ fun RoundedCornerIconButtonTravelStyle(modifier: Modifier, icon: TravelStyleDto)
                 shape = RoundedCornerShape(10.dp))
     ) {
         IconButton(
-            onClick = { },
-            modifier = Modifier
+            onClick = {navigateToSearchTravelStyle.invoke(icon) },
+            modifier = modifier
                 .align(Alignment.Center)
         ) {
-            Row(modifier = Modifier.align(Alignment.Center).width(130.dp).height(100.dp)) {
+            Row(modifier = modifier.align(Alignment.Center).width(130.dp).height(100.dp)) {
                 Column(modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally

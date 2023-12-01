@@ -23,6 +23,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -33,7 +34,9 @@ import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursScaffo
 import ke.co.tulivuapps.hobbyhorsetours.features.component.HobbyHorseToursTopBar
 import ke.co.tulivuapps.hobbyhorsetours.features.component.RoundedCornerIconButtonCity
 import ke.co.tulivuapps.hobbyhorsetours.features.component.VerticalGrid
+import ke.co.tulivuapps.hobbyhorsetours.features.screen.search.navigation.navigateToSearch
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.rememberFlowWithLifecycle
+import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -43,6 +46,8 @@ import kotlinx.coroutines.flow.Flow
 @Composable
 fun CitiesScreen(
     viewModel: CityViewModel,
+    navigateToSearch: NavController?,
+    navigateToBack: () -> Unit,
     navigateToDetail: (CityDto?) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -57,7 +62,7 @@ fun CitiesScreen(
                 elevation = 10.dp,
                 navigationIcon = {
                     IconButton(onClick = {
-                        //navigateToBack()
+                        navigateToBack.invoke()
                     }) {
                         Image(
                             imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_left),
@@ -75,7 +80,7 @@ fun CitiesScreen(
                   viewModel.onTriggerEvent(it)
                 },
                 clickDetail = {
-                    navigateToDetail.invoke(it)
+                    navigateToSearch?.navigateToSearch("",it.toJson())
                 }
             )
         },
@@ -125,10 +130,7 @@ private fun Content(
                     ) { index ->
                         pagingItems!![index]?.let {
                                Box(Modifier.padding(2.dp)) {
-                                    RoundedCornerIconButtonCity(
-                                        modifier = Modifier,
-                                        it
-                                    )
+                                    RoundedCornerIconButtonCity(icon=it, navigateToSearchCity = clickDetail)
                                 }
                         }
                     }
@@ -145,8 +147,7 @@ fun HomeGridSection(pagingItems: LazyPagingItems<CityDto>) {
         items.forEach {
             if (it != null) {
                 RoundedCornerIconButtonCity(
-                    modifier = Modifier,
-                    icon = it
+                    icon = it, navigateToSearchCity = {}
                 )
             }
         }
@@ -164,5 +165,5 @@ fun HomeGridSection(pagingItems: LazyPagingItems<CityDto>) {
 )
 @Composable
 fun DetailContentItemViewPreview() {
-    CitiesScreen(viewModel = hiltViewModel(), navigateToDetail = {})
+    CitiesScreen(viewModel = hiltViewModel(), navigateToSearch = null, navigateToBack = {},navigateToDetail = {})
 }

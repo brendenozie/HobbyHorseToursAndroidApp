@@ -15,7 +15,6 @@ import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinations.navigation.
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.destinationsdetail.navigation.navigateDestinationsDetail
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.home.HomeScreen
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.hotels.navigation.navigateToHotels
-import ke.co.tulivuapps.hobbyhorsetours.features.screen.search.navigation.navigateToSearch
 import ke.co.tulivuapps.hobbyhorsetours.features.screen.travelstyles.navigation.navigateToTravelStyle
 import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 
@@ -41,7 +40,7 @@ fun NavGraphBuilder.homesScreen(navController: NavHostController) {
             travelstyleviewModel =hiltViewModel(),
             cityviewModel =hiltViewModel(),
             hotelsviewModel =hiltViewModel(),
-            navigateToSearch = {navController.navigateToSearch()},
+            navigateToSearch = {},
             navigateToCities =  {navController.navigateToCities()},
             navigateToTravelStyles= {navController.navigateToTravelStyle()},
             navigateToDestinations= {navController.navigateToDestinations()},

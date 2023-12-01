@@ -29,7 +29,7 @@ fun NavGraphBuilder.citiesScreen(navController: NavHostController) {
     composable(
         citiesNavigationRoute,
         content = {
-                CitiesScreen(viewModel = hiltViewModel(), navigateToDetail = {})
+                CitiesScreen(viewModel = hiltViewModel(), navigateToSearch = navController,navigateToBack= {navController.navigateUp()},navigateToDetail = {})
             },
         enterTransition = {
             slideIntoContainer(

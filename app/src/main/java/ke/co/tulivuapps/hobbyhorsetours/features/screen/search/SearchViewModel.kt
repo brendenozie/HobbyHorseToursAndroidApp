@@ -1,5 +1,6 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.screen.search
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
@@ -29,6 +30,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getHotelsFilterUseCase: GetHotelsFilterUseCase,
     private val getcityUseCase: GetCityUseCase,
     private val getTravelStyleUseCase: GetTravelStyleUseCase,
@@ -41,6 +43,18 @@ class SearchViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
+
+            savedStateHandle.get<String>("travelstyle")?.let {
+                setState { currentState.copy(isLoading = false, selectedTravelStyleData = TravelStyleDto.create(it)) }
+            } ?: kotlin.run {
+                setEvent(SearchViewEvent.SnackBarError("Something went wrong"))
+            }
+
+            savedStateHandle.get<String>("city")?.let {
+                setState { currentState.copy(isLoading = false, selectedCityData = CityDto.create(it)) }
+            } ?: kotlin.run {
+                setEvent(SearchViewEvent.SnackBarError("Something went wrong"))
+            }
 
             val paramsCity = GetCityUseCase.Params(config, hashMapOf())
             val paramsTravelStyle = GetTravelStyleUseCase.Params(config, hashMapOf())
@@ -61,6 +75,7 @@ class SearchViewModel @Inject constructor(
                 )
             }
 
+            onSearch(currentState)
         }
     }
 
@@ -76,6 +91,7 @@ class SearchViewModel @Inject constructor(
                 is SearchViewEvent.UpdateDestinationFavorite -> {
                     updateDestinationFavorite(event.dto)
                 }
+                is SearchViewEvent.SnackBarError -> {}
             }
         }
     }
@@ -155,4 +171,5 @@ sealed class SearchViewEvent : IViewEvent {
     object NewSearchEvent : SearchViewEvent()
     class UpdateHotelFavorite(val dto: HotelDto) : SearchViewEvent()
     class UpdateDestinationFavorite(val dto: DestinationDto) : SearchViewEvent()
+    class SnackBarError(val message: String?) : SearchViewEvent()
 }

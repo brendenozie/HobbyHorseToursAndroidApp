@@ -2,7 +2,6 @@ package ke.co.tulivuapps.hobbyhorsetours.features.screen.main
 
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -12,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,9 +40,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val onBoarded = viewModel.onBoarded
-                    Toast.makeText(this, "$onBoarded", Toast.LENGTH_SHORT).show()
-                    NavGraph(true)
+                    val onBoarded by viewModel.onBoarded.collectAsState()
+                    NavGraph(onBoarded)
                 }
             }
         }

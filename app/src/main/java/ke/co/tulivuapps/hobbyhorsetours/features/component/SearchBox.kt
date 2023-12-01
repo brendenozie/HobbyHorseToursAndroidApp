@@ -1,15 +1,16 @@
 package ke.co.tulivuapps.hobbyhorsetours.features.component
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandIn
 import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ke.co.tulivuapps.hobbyhorsetours.R
@@ -44,13 +46,13 @@ fun SearchBox(
     visibility: MutableTransitionState<Boolean> =MutableTransitionState(false),
     detailClick: () -> Unit) {
 
-//    val animateStateVisibility = remember { MutableTransitionState(false) }
-//
-//    animateStateVisibility.apply { targetState = true }
-
     AnimatedVisibility(
         visibility,
-        enter = EnterTransition.None,
+        enter = expandIn(animationSpec = tween(
+            delayMillis = 300,
+            easing = LinearOutSlowInEasing,
+            durationMillis = 800
+        )) { IntSize(0, 0) },
         exit = ExitTransition.None
     ) {
         Row(
@@ -63,15 +65,14 @@ fun SearchBox(
                 modifier = Modifier
                     .fillMaxWidth()
                     .animateEnterExit(
-                        enter = slideIn(
-                            tween(
-                                delayMillis = 300,
-                                easing = LinearOutSlowInEasing,
-                                durationMillis = 800
-                            )
-                        ) { IntOffset(0, 120) },
+                        enter = expandIn { IntSize(0, 0) }
                     )
                     .height(55.dp)
+                    .border(
+                        1.dp,
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(30.dp)
+                    )
                     .clickable(onClick = detailClick),
                 enabled = false,
                 readOnly = true,
@@ -82,7 +83,7 @@ fun SearchBox(
                     Text(modifier = Modifier
                         .animateEnterExit(enter = slideIn(
                             tween(
-                                delayMillis = 300,
+//                                delayMillis = 300,
                                 easing = LinearOutSlowInEasing,
                                 durationMillis = 800
                             )

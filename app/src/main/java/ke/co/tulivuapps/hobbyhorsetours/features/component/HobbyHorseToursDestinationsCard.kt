@@ -42,7 +42,7 @@ fun HobbyHorseToursDestinationsCard(
     Card(
         shape = RoundedCornerShape(14.dp),
         backgroundColor = Color.White,
-        modifier = Modifier
+        modifier = modifier
             .width(200.dp)
             .clickable { detailClick() },
     ) {

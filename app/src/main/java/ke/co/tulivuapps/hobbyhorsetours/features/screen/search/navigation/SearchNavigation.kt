@@ -22,14 +22,13 @@ import ke.co.tulivuapps.hobbyhorsetours.utils.Utility.toJson
 
 const val searchNavigationRoute = "search_route"
 
-fun NavController.navigateToSearch(
-    navOptions: NavOptions? = null
-) {
-    this.navigate(searchNavigationRoute, navOptions)
+fun NavController.navigateToSearch(travelstyle: String,city: String, navOptions: NavOptions? = null) {
+    this.navigate(searchNavigationRoute.plus("?travelstyle=${travelstyle}&city=${city}"), navOptions)
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.searchScreen(navController: NavHostController) {
-    composable(searchNavigationRoute,content={
+    composable(searchNavigationRoute.plus("?travelstyle={travelstyle}&city={city}"),content={
         SearchScreen(
             hiltViewModel(),
             navigateToHotelDto = {

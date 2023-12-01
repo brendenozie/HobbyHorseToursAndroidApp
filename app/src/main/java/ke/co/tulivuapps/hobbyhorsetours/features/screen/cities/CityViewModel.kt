@@ -26,7 +26,7 @@ class CityViewModel @Inject constructor(
 
     private val config = PagingConfig(pageSize = 2)
     init {
-        //getAllCity()
+        getAllCity()
     }
 
     private fun getAllCity() {

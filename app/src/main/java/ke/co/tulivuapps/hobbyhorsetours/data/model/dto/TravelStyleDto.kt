@@ -1,6 +1,7 @@
 package ke.co.tulivuapps.hobbyhorsetours.data.model.dto
 
 import android.os.Parcelable
+import com.google.gson.Gson
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -31,5 +32,13 @@ data class TravelStyleDto(
             createdAt = "",
             isFavorite = false,
         )
+
+        fun create(jsonString: String): TravelStyleDto? {
+            return try {
+                Gson().fromJson(jsonString, TravelStyleDto::class.java)
+            } catch (e: Exception) {
+                return null
+            }
+        }
     }
 }

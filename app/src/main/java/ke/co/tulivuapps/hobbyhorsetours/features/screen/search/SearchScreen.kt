@@ -189,7 +189,6 @@ private fun Content(
         pagingDestinationItems = Utility.rememberFlowWithLifecycle(it).collectAsLazyPagingItems()
     }
 
-
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Column(
@@ -411,7 +410,7 @@ private fun ContentHotels(
                 items(
                     pagingHotelItems.itemCount
                 ) { index ->
-                    pagingHotelItems?.get(index)?.let {
+                    pagingHotelItems[index]?.let {
                         Box(Modifier.padding(2.dp)) {
                             HobbyHorseToursHotelsCard(
                                 status = Status.Unknown,

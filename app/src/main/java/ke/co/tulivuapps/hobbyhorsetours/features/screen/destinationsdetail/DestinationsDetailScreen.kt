@@ -312,8 +312,7 @@ private fun DetailScreenContent(
         Spacer(modifier = Modifier.size(16.dp))
         Row(
             Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp), verticalAlignment = Alignment.CenterVertically
+                .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
         ) {
             viewState.data?.let { Text(text = it.title, style = MaterialTheme.typography.h5) }
             Spacer(modifier = Modifier.weight(1F))
@@ -333,7 +332,7 @@ private fun DetailScreenContent(
         )}
         Spacer(modifier = Modifier.size(16.dp))
         viewState.data?.let { MoreImages(it.img) }
-        Spacer(modifier = Modifier.weight(1F))
+        Spacer(modifier = Modifier.size(16.dp))
         Row(Modifier.fillMaxWidth()) {
             Column {
                 Text(text = "Total Price", style = MaterialTheme.typography.h6)
