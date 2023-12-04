@@ -18,13 +18,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ke.co.tulivuapps.hobbyhorsetours.data.model.dto.CityDto
+import ke.co.tulivuapps.hobbyhorsetours.features.ui.theme.instagramGradient
 
 @Composable
 fun CitiesItem(
@@ -34,7 +35,14 @@ fun CitiesItem(
     textStyle: TextStyle = MaterialTheme.typography.caption,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
-    val borderColor = SolidColor(Color.LightGray)
+
+//    val borderColor = SolidColor(Color.LightGray)
+
+    val borderColor = Brush.linearGradient(
+        colors = instagramGradient,
+        start = Offset(x = 0f, y = 0f),
+        end = Offset(x = 100f, y = 100f)
+    )
 
     //animate slide up
     val animatedProgress = remember { Animatable(initialValue = 300f) }

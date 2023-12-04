@@ -54,7 +54,7 @@ fun HobbyHorseToursDestinationsCard(
                     imageURL = dto?.img!![0].url,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(120.dp)
+                        .height(100.dp)
                         .clip(shape = RoundedCornerShape(12)),
                     placeholder = R.drawable.ic_place_holder,
                     contentScale = ContentScale.Crop,
